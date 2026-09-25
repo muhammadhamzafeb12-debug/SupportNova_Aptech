@@ -1,0 +1,318 @@
+{
+  "config_version": "1.0",
+  "last_updated": "2026-09-25",
+  "categories": [
+    {
+      "id": "CAT-001",
+      "code": "BILLING",
+      "name": "Billing & Payments",
+      "description": "All issues related to invoices, charges, payments, refunds, and account balances.",
+      "icon": "receipt",
+      "priority_weight": 9,
+      "responsible_department_id": "DEPT-001",
+      "subcategories": [
+        {
+          "id": "SUB-001-01",
+          "code": "BILLING_INCORRECT_CHARGE",
+          "name": "Incorrect Charge on Invoice",
+          "description": "Customer was billed an amount not matching their plan, contract, or prior quote."
+        },
+        {
+          "id": "SUB-001-02",
+          "code": "BILLING_DUPLICATE_CHARGE",
+          "name": "Duplicate Payment Deducted",
+          "description": "Same invoice or transaction was charged more than once in a billing cycle."
+        },
+        {
+          "id": "SUB-001-03",
+          "code": "BILLING_REFUND_DELAY",
+          "name": "Refund Not Received",
+          "description": "Approved refund has not been credited within the committed SLA window."
+        },
+        {
+          "id": "SUB-001-04",
+          "code": "BILLING_PROMO_NOT_APPLIED",
+          "name": "Promotional Discount Not Applied",
+          "description": "An advertised or agent-committed promotional rate was not reflected on the bill."
+        },
+        {
+          "id": "SUB-001-05",
+          "code": "BILLING_EARLY_TERMINATION_FEE",
+          "name": "Early Termination Fee Dispute",
+          "description": "Customer disputes the early termination fee amount or believes it was applied in error."
+        }
+      ]
+    },
+    {
+      "id": "CAT-002",
+      "code": "NETWORK",
+      "name": "Network & Connectivity",
+      "description": "Complaints about signal quality, outages, dropped calls, slow data speeds, and coverage gaps.",
+      "icon": "signal",
+      "priority_weight": 10,
+      "responsible_department_id": "DEPT-002",
+      "subcategories": [
+        {
+          "id": "SUB-002-01",
+          "code": "NETWORK_NO_SIGNAL",
+          "name": "No Signal / Complete Outage",
+          "description": "Customer has zero mobile signal or complete loss of broadband connectivity."
+        },
+        {
+          "id": "SUB-002-02",
+          "code": "NETWORK_SLOW_DATA",
+          "name": "Slow Data Speeds",
+          "description": "Experienced data speeds are significantly below the plan's advertised or contracted speeds."
+        },
+        {
+          "id": "SUB-002-03",
+          "code": "NETWORK_DROPPED_CALLS",
+          "name": "Frequent Dropped Calls",
+          "description": "Voice calls disconnect mid-conversation without user action."
+        },
+        {
+          "id": "SUB-002-04",
+          "code": "NETWORK_INTERMITTENT",
+          "name": "Intermittent Connectivity",
+          "description": "Connection is unstable, cutting in and out repeatedly during active sessions."
+        }
+      ]
+    },
+    {
+      "id": "CAT-003",
+      "code": "DEVICE",
+      "name": "Device & Equipment",
+      "description": "Issues with NexaLink-provided or subsidized devices, routers, set-top boxes, and SIM cards.",
+      "icon": "devices",
+      "priority_weight": 7,
+      "responsible_department_id": "DEPT-003",
+      "subcategories": [
+        {
+          "id": "SUB-003-01",
+          "code": "DEVICE_DEFECTIVE",
+          "name": "Defective Device Received",
+          "description": "Device provided by NexaLink arrived damaged, non-functional, or fails within the warranty period."
+        },
+        {
+          "id": "SUB-003-02",
+          "code": "DEVICE_ROUTER_FAULT",
+          "name": "Router / Mesh Node Malfunction",
+          "description": "NexaDevice Hub unit is not functioning, overheating, or failing to propagate a stable Wi-Fi signal."
+        },
+        {
+          "id": "SUB-003-03",
+          "code": "DEVICE_SIM_ISSUE",
+          "name": "SIM Card Not Working",
+          "description": "Physical or eSIM is not provisioned, rejected by the handset, or lost activation after a plan change."
+        }
+      ]
+    },
+    {
+      "id": "CAT-004",
+      "code": "ACCOUNT",
+      "name": "Account Management",
+      "description": "Problems with account access, plan changes, profile updates, and subscription management.",
+      "icon": "manage_accounts",
+      "priority_weight": 8,
+      "responsible_department_id": "DEPT-004",
+      "subcategories": [
+        {
+          "id": "SUB-004-01",
+          "code": "ACCOUNT_CANT_LOGIN",
+          "name": "Unable to Access Account / Login Failure",
+          "description": "Customer cannot log in to the NexaLink app or web portal using their credentials."
+        },
+        {
+          "id": "SUB-004-02",
+          "code": "ACCOUNT_PLAN_CHANGE_ERROR",
+          "name": "Plan Upgrade / Downgrade Not Applied",
+          "description": "Requested plan change was accepted but the new plan is not active on the account."
+        },
+        {
+          "id": "SUB-004-03",
+          "code": "ACCOUNT_UNAUTHORIZED_CHANGE",
+          "name": "Unauthorized Account Modification",
+          "description": "Changes to the account (plan, address, contacts) were made without the account holder's consent."
+        }
+      ]
+    },
+    {
+      "id": "CAT-005",
+      "code": "SECURITY",
+      "name": "Account Security & Fraud",
+      "description": "Reports of unauthorized access, SIM swapping, identity theft, and fraud on the account.",
+      "icon": "security",
+      "priority_weight": 10,
+      "responsible_department_id": "DEPT-005",
+      "subcategories": [
+        {
+          "id": "SUB-005-01",
+          "code": "SECURITY_SIM_SWAP",
+          "name": "Unauthorized SIM Swap / Port-Out",
+          "description": "Customer's number was transferred to another SIM or carrier without their authorization."
+        },
+        {
+          "id": "SUB-005-02",
+          "code": "SECURITY_ACCOUNT_TAKEOVER",
+          "name": "Account Takeover Suspected",
+          "description": "Third party appears to have gained control of the customer's account."
+        },
+        {
+          "id": "SUB-005-03",
+          "code": "SECURITY_FRAUDULENT_CHARGES",
+          "name": "Fraudulent Charges / Premium SMS Scam",
+          "description": "Charges appearing on the bill are linked to fraudulent premium services the customer did not authorize."
+        }
+      ]
+    },
+    {
+      "id": "CAT-006",
+      "code": "ROAMING",
+      "name": "International Roaming",
+      "description": "Complaints about roaming charges, connectivity abroad, and NexaRoam Global Pass issues.",
+      "icon": "language",
+      "priority_weight": 7,
+      "responsible_department_id": "DEPT-002",
+      "subcategories": [
+        {
+          "id": "SUB-006-01",
+          "code": "ROAMING_UNEXPECTED_CHARGES",
+          "name": "Unexpected Roaming Charges",
+          "description": "Customer incurred roaming charges while abroad despite having an active NexaRoam Global Pass or believing roaming was disabled."
+        },
+        {
+          "id": "SUB-006-02",
+          "code": "ROAMING_NO_SERVICE",
+          "name": "No Service While Roaming",
+          "description": "Device shows no signal or cannot register on a partner network in a listed roaming country."
+        }
+      ]
+    },
+    {
+      "id": "CAT-007",
+      "code": "IPTV",
+      "name": "NexaStream TV & IPTV",
+      "description": "Complaints specifically about the NexaStream IPTV service including channel, streaming, and DVR issues.",
+      "icon": "tv",
+      "priority_weight": 6,
+      "responsible_department_id": "DEPT-006",
+      "subcategories": [
+        {
+          "id": "SUB-007-01",
+          "code": "IPTV_BUFFERING",
+          "name": "Constant Buffering / Poor Stream Quality",
+          "description": "Live or on-demand content buffers excessively or streams at unacceptably low resolution."
+        },
+        {
+          "id": "SUB-007-02",
+          "code": "IPTV_CHANNEL_MISSING",
+          "name": "Subscribed Channel Not Available",
+          "description": "A channel included in the customer's IPTV package is missing or shows an error when accessed."
+        },
+        {
+          "id": "SUB-007-03",
+          "code": "IPTV_DVR_FAILURE",
+          "name": "Cloud DVR Not Recording / Recordings Lost",
+          "description": "Scheduled recordings were not captured, or previously saved recordings have disappeared."
+        }
+      ]
+    },
+    {
+      "id": "CAT-008",
+      "code": "INSTALLATION",
+      "name": "Installation & Field Service",
+      "description": "Issues with technician visits, DSL/fiber installation, equipment setup, and missed appointments.",
+      "icon": "construction",
+      "priority_weight": 8,
+      "responsible_department_id": "DEPT-007",
+      "subcategories": [
+        {
+          "id": "SUB-008-01",
+          "code": "INSTALL_MISSED_APPOINTMENT",
+          "name": "Technician Missed Scheduled Appointment",
+          "description": "A field technician did not arrive during the agreed installation or repair window."
+        },
+        {
+          "id": "SUB-008-02",
+          "code": "INSTALL_INCOMPLETE",
+          "name": "Incomplete or Faulty Installation",
+          "description": "Technician completed the visit but the service is still not fully functional or cabling was left exposed."
+        },
+        {
+          "id": "SUB-008-03",
+          "code": "INSTALL_PROPERTY_DAMAGE",
+          "name": "Property Damage During Installation",
+          "description": "The installation process resulted in damage to the customer's property (walls, furniture, landscaping)."
+        }
+      ]
+    },
+    {
+      "id": "CAT-009",
+      "code": "PORTABILITY",
+      "name": "Number Portability & Transfer",
+      "description": "Requests and complaints about porting a mobile number in or out of NexaLink.",
+      "icon": "swap_horiz",
+      "priority_weight": 7,
+      "responsible_department_id": "DEPT-004",
+      "subcategories": [
+        {
+          "id": "SUB-009-01",
+          "code": "PORT_IN_DELAY",
+          "name": "Number Port-In Taking Too Long",
+          "description": "Customer's number has not been ported from their previous carrier within the regulatory timeframe."
+        },
+        {
+          "id": "SUB-009-02",
+          "code": "PORT_IN_REJECTED",
+          "name": "Port-In Request Rejected",
+          "description": "The porting request was declined and the customer has not received a clear reason."
+        },
+        {
+          "id": "SUB-009-03",
+          "code": "PORT_OUT_BLOCKED",
+          "name": "Port-Out Being Blocked",
+          "description": "Customer believes NexaLink is illegally obstructing or delaying their port-out to another carrier."
+        }
+      ]
+    },
+    {
+      "id": "CAT-010",
+      "code": "COMPLIANCE",
+      "name": "Regulatory & Compliance",
+      "description": "Complaints involving regulatory obligations, consumer rights violations, data privacy, and contract disputes.",
+      "icon": "gavel",
+      "priority_weight": 10,
+      "responsible_department_id": "DEPT-008",
+      "subcategories": [
+        {
+          "id": "SUB-010-01",
+          "code": "COMPLIANCE_DATA_PRIVACY",
+          "name": "Data Privacy Violation",
+          "description": "Customer believes their personal data was shared, misused, or disclosed without consent under applicable privacy law."
+        },
+        {
+          "id": "SUB-010-02",
+          "code": "COMPLIANCE_CONTRACT_DISPUTE",
+          "name": "Contract Terms Dispute",
+          "description": "Customer alleges that NexaLink is not honoring written contract terms or has changed terms without proper notice."
+        },
+        {
+          "id": "SUB-010-03",
+          "code": "COMPLIANCE_HARASSMENT",
+          "name": "Aggressive Collections or Harassment",
+          "description": "Customer reports repeated unwanted contact, threats, or harassment from NexaLink's collections or retention teams."
+        },
+        {
+          "id": "SUB-010-04",
+          "code": "COMPLIANCE_REGULATORY_COMPLAINT",
+          "name": "FCC / State Regulator Referenced Complaint",
+          "description": "Customer has filed or threatens to file a complaint with the FCC, state PUC, or another regulatory authority."
+        }
+      ]
+    }
+  ],
+  "totals": {
+    "categories": 10,
+    "subcategories": 33
+  }
+}
