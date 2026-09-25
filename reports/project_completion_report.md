@@ -12,7 +12,54 @@
 
 ## 1. Fictional Organization Profile: NexaLink Communications
 
-| Parameter | Specification |
+| Parameter | SpImplement Python document parsing and chunking for SupportNova
+(backend/document_processing/ module).
+
+Requirements:
+- Use PyMuPDF or pdfplumber for PDF, python-docx for DOCX.
+- Extract: document title, section headings, page numbers (where
+  available), and body text.
+- Chunk each document into semantically coherent sections (target ~200-400
+  words per chunk, split on heading boundaries where possible). Each chunk
+  must store: chunk_id, document_id, section, heading, page_reference,
+  version.
+- Persist chunks in a `kb_chunks` SQLAlchemy table.
+- Build a semantic retrieval index over chunks using FAISS (or ChromaDB)
+  with sentence-transformer embeddings (e.g. all-MiniLM-L6-v2, local — no
+  extra API cost) or an embeddings API if you prefer. Expose a function
+  `retrieve_relevant_chunks(query: str, top_k: int = 5) -> list[Chunk]`.
+- This pipeline must run automatically as a FastAPI BackgroundTask
+  immediately after a successful upload from Prompt 1.1 (non-blocking —
+  the upload response returns immediately, parsing happens after).
+- Add a `parsing_status` field to kb_documents: "pending", "processing",
+  "completed", "failed" — so the frontend can show parsing progress.
+- GET /admin/knowledge-base/{document_id}/chunks — returns all chunks for
+  a document (for debugging/verification in the UI).
+
+Frontend (React):
+- On the Admin Knowledge Base page (from Prompt 1.1), show the
+  parsing_status as a badge next to each document row (⏳ Pending,
+  🔄 Processing, ✅ Completed, ❌ Failed).
+- Add a "View Chunks" expandable row or modal that calls GET
+  /admin/knowledge-base/{document_id}/chunks and displays each chunk's
+  heading, page reference, and a text preview (first ~150 chars).
+- Poll parsing_status every few seconds while status is "pending" or
+  "processing" (simple setInterval + TanStack Query refetchInterval).
+
+Acceptance criteria:
+1. After uploading a sample policy PDF (from the seeded
+   sample_documents/), chunks appear in kb_chunks with correct
+   section/page metadata within a few seconds, and parsing_status
+   transitions pending → processing → completed.
+2. A test query like "refund eligibility for damaged product" against
+   `retrieve_relevant_chunks` returns the correct chunk in the top 3
+   results — write this as a pytest test using one of the seeded sample
+   documents.
+3. If parsing fails (e.g. corrupted file), parsing_status becomes "failed"
+   and the failure reason is logged, visible in the admin UI.
+4. Add at least 3 pytest tests: successful parse+chunk of a sample PDF,
+   successful parse+chunk of a sample DOCX, and the retrieval relevance
+   test above.ecification |
 |---|---|
 | **Company Name** | NexaLink Communications |
 | **Domain** | Telecommunications (Mobile, Broadband, IPTV, Enterprise Comms) |

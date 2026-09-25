@@ -1,0 +1,48 @@
+NexaLink Communications — Customer Refund & Credit Policy 2026
+
+1. SCOPE AND ELIGIBILITY
+This policy governs all credit and refund requests submitted to NexaLink Communications
+by residential and commercial customers. All eligible customers who experience documented 
+service interruptions, billing errors, or equipment malfunctions are entitled to apply for 
+credits, pro-rated refunds, or service adjustments under the terms described herein.
+
+2. REFUND ELIGIBILITY CRITERIA
+Customers are eligible for refunds or bill credits in the following circumstances:
+- Service outages exceeding four (4) cumulative hours within any 30-day billing cycle.
+- Billing errors such as duplicate charges, incorrect rate application, or unauthorized fees.
+- Failure of leased or purchased equipment during normal operating conditions.
+- Misapplication of promotional discounts that were actively contracted.
+- Damaged product returns where the product failure was due to manufacturing defect.
+
+For physical product damage or damaged product return, the customer must submit a return 
+merchandise authorization (RMA) code within 30 days of identifying the defect. Refund 
+eligibility for damaged product cases is 100% of the purchase price if reported within 7 days,
+50% if reported within 8–30 days.
+
+3. CREDIT AUTHORIZATION LEVELS
+The following authorization matrix governs who may approve bill credits:
+- Credits up to $50: Customer Service Agent (Tier 1)
+- Credits $51–$150: Service Manager or Supervisor
+- Credits $151–$500: Department Director
+- Credits above $500: Chief Customer Officer approval required
+
+4. OUTAGE SLA CREDIT SCHEDULE
+Network outage lasting 0–4 hours: No automatic credit.
+Network outage lasting 4–24 hours: 10% of daily charge per hour beyond 4 hours.
+Network outage lasting more than 24 hours: 100% daily charge credit.
+All outage credits are applied within 1–2 billing cycles.
+
+5. RETURN POLICY FOR EQUIPMENT
+Customers may return leased equipment within 30 days of service discontinuation
+without penalty. Return shipping labels are provided free of charge. Failure to 
+return equipment within 60 days results in a non-return fee per the Equipment Agreement.
+
+6. CLAIMS AND APPEALS PROCESS
+Customers must submit refund claims within 90 days of the incident date.
+Appeals to denied claims must be submitted in writing within 30 days of denial.
+All refund decisions are final once the 30-day appeal window closes.
+
+7. REGULATORY COMPLIANCE
+All refund practices are governed by applicable state and federal telecommunications
+regulations including FCC Part 8 Open Internet Rules and applicable state PUC guidelines.
+Non-compliance escalations are handled by the Legal & Compliance department.

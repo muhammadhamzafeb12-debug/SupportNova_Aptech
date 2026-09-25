@@ -1,0 +1,35 @@
+NexaLink Communications — Billing & Credit Standard Operating Procedure
+
+SECTION 1: PURPOSE
+This SOP defines the step-by-step procedures for Customer Service Agents and Billing
+Specialists to resolve customer billing disputes, credit requests, and payment adjustments
+for NexaLink residential and business accounts.
+
+SECTION 2: BILLING DISPUTE INTAKE
+Step 1: Verify the customer's identity using Name, Account Number, and Last 4 digits 
+of the Social Security Number or Tax ID for business accounts.
+Step 2: Pull the customer's account in the Billing Management System (BMS).
+Step 3: Document the disputed charges including charge date, amount, and type.
+Step 4: Cross-reference the disputed amount against the current rate card and promotional 
+agreement on file.
+
+SECTION 3: AUTO-PAY DISCREPANCY RESOLUTION
+If the customer reports an auto-pay amount discrepancy:
+- Check autopay enrollment status in the BSCS payment system.
+- Verify the bank account or card on file has not expired.
+- Apply a one-time paper bill fee waiver (up to $10) if the disruption was due to a 
+  system error.
+
+SECTION 4: CREDIT ISSUANCE PROCEDURE
+After confirming the billing error:
+1. Enter the adjustment code corresponding to the error type in BMS.
+2. Apply the credit to the next billing cycle unless customer requests immediate reversal.
+3. Document the action in the case management system with agent ID and timestamp.
+4. Notify the customer via email and/or SMS confirmation.
+
+SECTION 5: ESCALATION RULES
+Escalate to Supervisor if:
+- Credit authorization exceeds $150.
+- Customer threatens regulatory action (FCC, BBB, State AG).
+- Customer account is flagged as a VIP or enterprise account.
+- Agent has been unable to resolve after two prior interactions.

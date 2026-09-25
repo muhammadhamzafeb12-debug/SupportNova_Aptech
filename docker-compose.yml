@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: supportnova_postgres
+    environment:
+      POSTGRES_USER: supportnova
+      POSTGRES_PASSWORD: supportnova_password
+      POSTGRES_DB: supportnova_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -u supportnova -d supportnova_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    container_name: supportnova_backend
+    environment:
+      - DATABASE_URL=postgresql://supportnova:supportnova_password@postgres:5432/supportnova_db
+      - JWT_SECRET=supersecretjwtkey_supportnova_2026
+      - ALGORITHM=HS256
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./backend:/app/backend
+      - ./config:/app/config
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: supportnova_frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

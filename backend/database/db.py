@@ -27,7 +27,7 @@ else:
 
 def get_db():
     """Dependency generator for database session."""
-    if not HAS_SQLALCHEMY:
+    if not HAS_SQLALCHEMY or SessionLocal is None:
         yield None
         return
     db = SessionLocal()
@@ -35,3 +35,9 @@ def get_db():
         yield db
     finally:
         db.close()
+
+def init_db():
+    """Initialize database tables."""
+    if HAS_SQLALCHEMY and engine is not None and Base is not None:
+        from backend.database import models  # ensure models are imported
+        Base.metadata.create_all(bind=engine)

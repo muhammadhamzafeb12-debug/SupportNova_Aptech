@@ -1,0 +1,131 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #0a0e14;
+    color: #f8fafc;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    @apply antialiased selection:bg-brand-500 selection:text-white;
+  }
+}
+
+/* ── Custom Scrollbars ──────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0e14;
+}
+::-webkit-scrollbar-thumb {
+  background: #232b3a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6;
+}
+
+/* ── Premium Glassmorphism & Surface Utility Classes ───────────────────────── */
+.glass-panel {
+  background: rgba(20, 26, 36, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid #232b3a;
+}
+
+.glass-card {
+  background: rgba(20, 26, 36, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid #232b3a;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card-hover {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.glass-card-hover:hover {
+  transform: translateY(-2px);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 10px 30px -5px rgba(59, 130, 246, 0.2);
+}
+
+.glass-modal {
+  background: rgba(10, 14, 20, 0.85);
+  backdrop-filter: blur(20px);
+}
+
+/* ── Button Shimmer & Glow Animations ───────────────────────────────────────── */
+.btn-brand-glow {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-brand-glow:hover {
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+.btn-brand-glow::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  transform: rotate(30deg);
+  transition: all 0.6s ease;
+  opacity: 0;
+}
+.btn-brand-glow:hover::after {
+  left: 100%;
+  opacity: 1;
+}
+
+/* ── Status Glow Badges ──────────────────────────────────────────────────────── */
+.badge-active-glow {
+  background: rgba(16, 185, 129, 0.1);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.35);
+  animation: pulse-glow 2.5s infinite ease-in-out;
+}
+
+.badge-draft-glow {
+  background: rgba(245, 158, 11, 0.1);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.3);
+}
+
+.badge-superseded {
+  background: rgba(100, 116, 139, 0.15);
+  color: #94a3b8;
+  border: 1px solid rgba(100, 116, 139, 0.25);
+}
+
+.badge-expired-glow {
+  background: rgba(239, 68, 68, 0.12);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  box-shadow: 0 0 14px rgba(239, 68, 68, 0.4);
+}
+
+/* ── Skeleton Loader Shimmer ─────────────────────────────────────────────────── */
+.skeleton-shimmer {
+  background: linear-gradient(90deg, #141a24 25%, #232b3a 50%, #141a24 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* ── Sequential Timeline Animation Stagger ───────────────────────────────────── */
+.timeline-item-stagger {
+  opacity: 0;
+  animation: fade-slide-up 0.35s ease-out forwards;
+}
+.timeline-item-stagger:nth-child(1) { animation-delay: 0.05s; }
+.timeline-item-stagger:nth-child(2) { animation-delay: 0.13s; }
+.timeline-item-stagger:nth-child(3) { animation-delay: 0.21s; }
+.timeline-item-stagger:nth-child(4) { animation-delay: 0.29s; }
+.timeline-item-stagger:nth-child(5) { animation-delay: 0.37s; }
