@@ -77,6 +77,7 @@ class ComplaintResponse(BaseModel):
     requested_credit: Optional[float] = 0.0
     approved_credit: Optional[float] = 0.0
     resolution_notes: Optional[str] = ""
+    security_flags: Optional[List[str]] = []
     created_at: datetime
     updated_at: datetime
 

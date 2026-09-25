@@ -140,6 +140,15 @@ async def upload_kb_document(
     new_id = max([d.get("id", 0) for d in KNOWLEDGE_BASE_STORE] or [0]) + 1
     doc_id = f"KB-DOC-{1000 + new_id}"
 
+    # Scan document text for prompt injection / adversarial patterns
+    from backend.security.injection_detector import detect_injection_attempt
+    try:
+        text_content = content.decode('utf-8', errors='ignore')
+        scan_res = detect_injection_attempt(f"{title} {text_content[:2000]}")
+        doc_security_flags = scan_res.matched_patterns if scan_res.detected else []
+    except Exception:
+        doc_security_flags = []
+
     doc_record = {
         "id": new_id,
         "document_id": doc_id,
@@ -155,6 +164,7 @@ async def upload_kb_document(
         "parsing_status": "pending",
         "parsing_error": None,
         "chunk_count": 0,
+        "security_flags": doc_security_flags,
         "created_at": datetime.utcnow().isoformat()
     }
 

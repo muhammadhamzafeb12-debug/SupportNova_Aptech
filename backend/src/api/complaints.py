@@ -4,9 +4,10 @@ Complaints API Router
 import random
 from datetime import datetime
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, status, Query
+from fastapi import APIRouter, Depends, HTTPException, Request, status, Query
 from backend.schemas.schemas import ComplaintCreate, ComplaintUpdate, ComplaintResponse
 from backend.security.jwt_auth import get_current_user, require_role
+from backend.security.rate_limiter import rate_limit_complaints
 from backend.src.store import COMPLAINTS_STORE, AUDIT_LOGS_STORE, RULE_MATRIX_STORE
 
 router = APIRouter(prefix="/complaints", tags=["Complaints"])
@@ -46,7 +47,9 @@ def list_complaints(
 @router.post("", response_model=ComplaintResponse, status_code=status.HTTP_201_CREATED)
 def create_complaint(
     payload: ComplaintCreate,
-    current_user: dict = Depends(get_current_user)
+    request: Request,
+    current_user: dict = Depends(get_current_user),
+    _rl: None = Depends(rate_limit_complaints)
 ):
     new_id = max([c["id"] for c in COMPLAINTS_STORE] or [0]) + 1
     complaint_number = f"CMP-2026-{1000 + new_id}"
@@ -62,6 +65,11 @@ def create_complaint(
     sentiment = max(0.05, min(0.95, round(1.0 - (len(payload.description) / 500.0), 2)))
     summary = f"Summary: {payload.title}. {payload.description[:100]}..."
     suggested_resp = f"Dear {payload.customer_name}, Thank you for contacting NexaLink Communications. We are looking into your complaint regarding {payload.category}."
+
+    # Scan for prompt injection or adversarial patterns
+    from backend.security.injection_detector import detect_injection_attempt
+    scan_res = detect_injection_attempt(f"{payload.title} {payload.description}")
+    security_flags = scan_res.matched_patterns if scan_res.detected else []
 
     complaint_dict = {
         "id": new_id,
@@ -88,18 +96,23 @@ def create_complaint(
         "requested_credit": payload.requested_credit or 0.0,
         "approved_credit": 0.0,
         "resolution_notes": None,
+        "security_flags": security_flags,
         "created_at": datetime.utcnow().isoformat(),
         "updated_at": datetime.utcnow().isoformat()
     }
 
     COMPLAINTS_STORE.insert(0, complaint_dict)
 
+    audit_details = f"Created via API by {current_user['full_name']}"
+    if security_flags:
+        audit_details += f" [SECURITY WARNING: Prompt Injection Patterns Detected: {', '.join(security_flags)}]"
+
     AUDIT_LOGS_STORE.append({
         "id": len(AUDIT_LOGS_STORE) + 1,
         "complaint_number": complaint_number,
         "action": "Complaint Submitted",
         "performed_by": current_user["username"],
-        "details": f"Created via API by {current_user['full_name']}",
+        "details": audit_details,
         "timestamp": datetime.utcnow().isoformat()
     })
 

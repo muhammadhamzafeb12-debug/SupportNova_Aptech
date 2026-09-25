@@ -1,8 +1,9 @@
 """
 Authentication API Router
 """
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from backend.schemas.schemas import UserRegister, UserLogin, TokenResponse, TokenRefreshRequest, UserProfile
+from backend.security.rate_limiter import rate_limit_login
 from backend.security.auth import verify_password, get_hash
 from backend.security.jwt_auth import (
     USER_DB,
@@ -52,7 +53,7 @@ def register_user(payload: UserRegister):
     }
 
 @router.post("/login", response_model=TokenResponse)
-def login_user(payload: UserLogin):
+def login_user(payload: UserLogin, request: Request, _rl: None = Depends(rate_limit_login)):
     username_clean = payload.username.lower().strip()
     user = USER_DB.get(username_clean)
     if not user or not verify_password(payload.password, user["password_hash"]):
