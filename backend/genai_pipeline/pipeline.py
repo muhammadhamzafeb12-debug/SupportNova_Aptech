@@ -326,32 +326,49 @@ async def analyze_complaint(
             elif api_key and api_key != "your_anthropic_api_key_here":
                 # Live Anthropic API call via httpx
                 logger.info(f"[Pipeline 1 API Call] Invoking Anthropic API ({model_name}) for complaint {complaint_id_str}...")
-                async with httpx.AsyncClient(timeout=30.0) as client:
-                    resp = await client.post(
-                        ANTHROPIC_API_URL,
-                        headers={
-                            "x-api-key": api_key,
-                            "anthropic-version": "2023-06-01",
-                            "content-type": "application/json"
-                        },
-                        json={
-                            "model": model_name,
-                            "max_tokens": 2048,
-                            "messages": [{"role": "user", "content": current_prompt}]
-                        }
+                try:
+                    async with httpx.AsyncClient(timeout=30.0) as client:
+                        resp = await client.post(
+                            ANTHROPIC_API_URL,
+                            headers={
+                                "x-api-key": api_key,
+                                "anthropic-version": "2023-06-01",
+                                "content-type": "application/json"
+                            },
+                            json={
+                                "model": model_name,
+                                "max_tokens": 2048,
+                                "messages": [{"role": "user", "content": current_prompt}]
+                            }
+                        )
+
+                        if resp.status_code == 200:
+                            data = resp.json()
+                            raw_response_text = data["content"][0]["text"]
+                            logger.info(f"[Pipeline 1 API Response] Complaint {complaint_id_str} -> HTTP 200 OK ({model_name})")
+                        else:
+                            # Non-200 (401 auth, 429 rate-limit, 500 server error, etc.)
+                            # → fall back to local grounded generator; don't hard-fail the whole pipeline
+                            error_body = resp.text[:120]
+                            logger.warning(
+                                f"[Pipeline 1 API] HTTP {resp.status_code} from Anthropic for complaint "
+                                f"{complaint_id_str}: {error_body}. Falling back to local grounded generator."
+                            )
+                            fallback_dict = _generate_fallback_json(complaint, kb_ids, rule_ids)
+                            raw_response_text = json.dumps(fallback_dict)
+                except (httpx.ConnectTimeout, httpx.ConnectError, httpx.RequestError) as net_err:
+                    logger.warning(
+                        f"[Pipeline 1 Network] Anthropic API unreachable ({str(net_err)}) "
+                        f"for complaint {complaint_id_str}. Falling back to local grounded generator."
                     )
-
-                    if resp.status_code != 200:
-                        raise RuntimeError(f"Anthropic API returned HTTP {resp.status_code}: {resp.text}")
-
-                    data = resp.json()
-                    raw_response_text = data["content"][0]["text"]
-                    logger.info(f"[Pipeline 1 API Response] Complaint {complaint_id_str} -> HTTP 200 OK ({model_name})")
+                    fallback_dict = _generate_fallback_json(complaint, kb_ids, rule_ids)
+                    raw_response_text = json.dumps(fallback_dict)
             else:
                 # No API key & no mock client -> standard fallback generator
                 logger.info(f"[Pipeline 1 Mode] No valid ANTHROPIC_API_KEY found, using local fallback generator for complaint {complaint_id_str}")
                 fallback_dict = _generate_fallback_json(complaint, kb_ids, rule_ids)
                 raw_response_text = json.dumps(fallback_dict)
+
 
             resp_time = datetime.now(timezone.utc).isoformat()
 
