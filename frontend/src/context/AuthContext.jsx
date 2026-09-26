@@ -2,12 +2,47 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AuthContext = createContext(null);
 
-const DEMO_CREDENTIALS = {
+export const DEMO_CREDENTIALS = {
   CUSTOMER: { username: 'customer', password: 'customer123' },
   AGENT: { username: 'agent', password: 'agent123' },
   REVIEWER: { username: 'reviewer', password: 'reviewer123' },
   MANAGER: { username: 'manager', password: 'manager123' },
   ADMIN: { username: 'admin', password: 'admin123' }
+};
+
+// Robust helper function to safely parse API responses (JSON or plain text/HTML)
+export const parseApiResponse = async (res, defaultErrorMsg = 'Operation failed. Please try again.') => {
+  const contentType = res.headers.get('content-type') || '';
+  let data = null;
+
+  try {
+    if (contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      if (text && text.trim().startsWith('{')) {
+        try { data = JSON.parse(text); } catch (e) { data = { detail: text }; }
+      } else {
+        data = { detail: text || res.statusText };
+      }
+    }
+  } catch (err) {
+    data = { detail: defaultErrorMsg };
+  }
+
+  if (!res.ok) {
+    let message = data?.detail || data?.message || defaultErrorMsg;
+    if (typeof message === 'object') {
+      message = JSON.stringify(message);
+    }
+    // Clean up raw HTML stacktraces or unhandled server crash messages
+    if (typeof message === 'string' && (message.includes('<!DOCTYPE') || message.includes('Traceback') || message.includes('Internal Server Error'))) {
+      message = 'Server response error (500). Please ensure backend service is active or try again.';
+    }
+    throw new Error(message);
+  }
+
+  return data;
 };
 
 export const AuthProvider = ({ children }) => {
@@ -16,7 +51,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Restore persistent session from localStorage on client side
     if (typeof window !== 'undefined') {
       const savedUser = localStorage.getItem('supportnova_user');
       const savedToken = localStorage.getItem('supportnova_token');
@@ -34,47 +68,27 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (username_or_email, password, remember_me = false) => {
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username: username_or_email, password })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        const userObj = data.user || {
-          username: data.username || username_or_email,
-          email: data.email || username_or_email,
-          role: (data.role || 'ADMIN').toUpperCase(),
-          full_name: data.full_name || username_or_email,
-          is_active: true
-        };
-        userObj.role = userObj.role.toUpperCase();
-        const tokenVal = data.access_token || 'demo-token';
-        setToken(tokenVal);
-        setUser(userObj);
-        localStorage.setItem('supportnova_token', tokenVal);
-        localStorage.setItem('supportnova_user', JSON.stringify(userObj));
-        return userObj;
-      }
-    } catch (err) {
-      console.warn('Backend authentication endpoint failed, falling back to local demo auth:', err);
-    }
+    const res = await fetch('/api/auth/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username_or_email, password, remember_me })
+    });
 
-    const roleUpper = (username_or_email || 'ADMIN').toUpperCase();
-    const demoUser = {
-      username: username_or_email || 'admin',
-      email: `${username_or_email || 'admin'}@supportnova.io`,
-      role: ['ADMIN', 'MANAGER', 'REVIEWER', 'AGENT', 'CUSTOMER'].includes(roleUpper) ? roleUpper : 'ADMIN',
-      full_name: `${(username_or_email || 'Admin').toUpperCase()} Executive`,
-      is_active: true
+    const data = await parseApiResponse(res, 'Authentication failed. Please check your credentials.');
+
+    const userObj = {
+      username: data.username,
+      email: data.email,
+      role: data.role,
+      full_name: data.full_name,
+      is_active: data.is_active
     };
-    const demoToken = 'demo-jwt-token-supportnova-2026';
-    setToken(demoToken);
-    setUser(demoUser);
-    localStorage.setItem('supportnova_token', demoToken);
-    localStorage.setItem('supportnova_user', JSON.stringify(demoUser));
-    return demoUser;
+
+    setToken(data.access_token);
+    setUser(userObj);
+    localStorage.setItem('supportnova_token', data.access_token);
+    localStorage.setItem('supportnova_user', JSON.stringify(userObj));
+    return userObj;
   };
 
   const register = async (username, email, full_name, password, role = 'CUSTOMER') => {
@@ -83,16 +97,12 @@ export const AuthProvider = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ username, email, full_name, password, role })
     });
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.detail || 'Registration failed');
-    }
-    return await res.json();
+    return await parseApiResponse(res, 'Registration failed. Please check your inputs.');
   };
 
   const quickDemoLogin = async (roleName) => {
     const creds = DEMO_CREDENTIALS[roleName];
-    if (!creds) throw new Error(`Unknown role: ${roleName}`);
+    if (!creds) throw new Error(`Unknown role profile: ${roleName}`);
     return await login(creds.username, creds.password, true);
   };
 
@@ -104,7 +114,7 @@ export const AuthProvider = ({ children }) => {
           headers: { 'Authorization': `Bearer ${token}` }
         });
       } catch (err) {
-        console.error('Logout error:', err);
+        console.error('Logout notice:', err);
       }
     }
     setUser(null);
@@ -119,11 +129,7 @@ export const AuthProvider = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email_or_username })
     });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || 'Request failed');
-    }
-    return await res.json();
+    return await parseApiResponse(res, 'Password reset request failed.');
   };
 
   const resetPassword = async (token_or_username, new_password) => {
@@ -132,11 +138,7 @@ export const AuthProvider = ({ children }) => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ token_or_username, new_password })
     });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.detail || 'Reset failed');
-    }
-    return await res.json();
+    return await parseApiResponse(res, 'Password update failed.');
   };
 
   return (

@@ -1,44 +1,72 @@
-"""
-conftest.py — pytest configuration for SupportNova test suite.
-Patches slow imports (sentence_transformers, faiss) for unit tests.
-"""
-import sys
-from unittest.mock import MagicMock, patch
-
-# ── Patch slow/optional heavy ML libraries so tests don't hang ────────────────
-# sentence_transformers
-if "sentence_transformers" not in sys.modules:
-    st_mock = MagicMock()
-    mock_model = MagicMock()
-    mock_model.encode.return_value = [[0.1, 0.2, 0.3]] * 10
-    st_mock.SentenceTransformer.return_value = mock_model
-    sys.modules["sentence_transformers"] = st_mock
-
-# faiss
-if "faiss" not in sys.modules:
-    faiss_mock = MagicMock()
-    index_mock = MagicMock()
-    index_mock.ntotal = 0
-    index_mock.search.return_value = ([[]], [[]])
-    faiss_mock.IndexFlatIP.return_value = index_mock
-    sys.modules["faiss"] = faiss_mock
-
-# PyMuPDF
-if "fitz" not in sys.modules:
-    sys.modules["fitz"] = MagicMock()
-
-# pdfplumber
-if "pdfplumber" not in sys.modules:
-    sys.modules["pdfplumber"] = MagicMock()
-
-# python-docx
-if "docx" not in sys.modules:
-    sys.modules["docx"] = MagicMock()
-
+import os
 import pytest
-from backend.security.rate_limiter import reset_rate_limits
+from fastapi.testclient import TestClient
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
-@pytest.fixture(autouse=True)
-def _clear_rate_limits_before_test():
-    reset_rate_limits()
+from backend.main import app
+from backend.database import Base, get_db
+from backend.auth.auth import get_password_hash
+from backend.models import User, UserRole
+from backend.database_seed import seed_database
 
+TEST_DB_FILE = "./test_runner_unified.db"
+SQLALCHEMY_TEST_DATABASE_URL = f"sqlite:///{TEST_DB_FILE}"
+
+engine = create_engine(SQLALCHEMY_TEST_DATABASE_URL, connect_args={"check_same_thread": False})
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+def override_get_db():
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+app.dependency_overrides[get_db] = override_get_db
+
+@pytest.fixture(scope="session", autouse=True)
+def init_test_db():
+    Base.metadata.drop_all(bind=engine)
+    Base.metadata.create_all(bind=engine)
+    
+    db = TestingSessionLocal()
+    # Seed default base dataset
+    seed_database(db=db)
+    
+    # Seed test-specific accounts for authentication test suite
+    auth_test_users = [
+        ("admin_user", "admin_test@novacart.com", "Admin Test", "pass123", UserRole.ADMIN.value, True),
+        ("manager_user", "manager_test@novacart.com", "Manager Test", "pass123", UserRole.MANAGER.value, True),
+        ("reviewer_user", "reviewer_test@novacart.com", "Reviewer Test", "pass123", UserRole.REVIEWER.value, True),
+        ("agent_user", "agent_test@novacart.com", "Agent Test", "pass123", UserRole.AGENT.value, True),
+        ("customer_user", "customer_test@gmail.com", "Customer Test", "pass123", UserRole.CUSTOMER.value, True),
+        ("disabled_user", "disabled_test@novacart.com", "Disabled Test", "pass123", UserRole.CUSTOMER.value, False),
+        ("testadmin", "testadmin@novacart.com", "Test Admin", "admin123", UserRole.ADMIN.value, True)
+    ]
+    for username, email, full_name, pwd, role, is_act in auth_test_users:
+        if not db.query(User).filter(User.username == username).first():
+            u = User(
+                username=username,
+                email=email,
+                full_name=full_name,
+                hashed_password=get_password_hash(pwd),
+                role=role,
+                is_active=is_act
+            )
+            db.add(u)
+    db.commit()
+    db.close()
+    yield
+
+@pytest.fixture
+def client():
+    return TestClient(app)
+
+@pytest.fixture
+def db_session():
+    db = TestingSessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()

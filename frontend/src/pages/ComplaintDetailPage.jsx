@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useAuth } from '../context/AuthContext';
 import {
   ArrowLeft, RefreshCw, CheckCircle2, AlertTriangle, Clock,
-  FileText, ShieldCheck, User, Calendar, Tag, ShieldAlert
+  FileText, ShieldCheck, User, Calendar, Tag, ShieldAlert, Cpu, Scale, History, Check, ArrowRight
 } from 'lucide-react';
 
 export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
-  const { user } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
@@ -14,25 +12,15 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
   const [reviewComments, setReviewComments] = useState('');
   const [reviewSubmitting, setReviewSubmitting] = useState(false);
 
-  const isCustomer = user?.role?.toUpperCase() === 'CUSTOMER';
-
   useEffect(() => {
     fetchDetails();
-  }, [complaintId, user]);
+  }, [complaintId]);
 
   const fetchDetails = async () => {
     try {
       setLoading(true);
-      const url = isCustomer ? `/api/complaints/${complaintId}/customer-view` : `/api/complaints/${complaintId}`;
-      const res = await fetch(url);
-      if (res.ok) {
-        const json = await res.json();
-        if (isCustomer) {
-          setData({ complaint: json, isCustomerView: true });
-        } else {
-          setData(json);
-        }
-      }
+      const res = await fetch(`/api/complaints/${complaintId}`);
+      if (res.ok) setData(await res.json());
     } catch (err) {
       console.error(err);
     } finally {
@@ -78,160 +66,53 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
   };
 
   if (loading || !data) {
-    return (
-      <div className="p-12 space-y-4 max-w-4xl mx-auto">
-        <div className="h-8 bg-[#151B28] rounded animate-pulse w-1/3"></div>
-        <div className="h-32 bg-[#151B28] rounded animate-pulse w-full"></div>
-        <div className="h-48 bg-[#151B28] rounded animate-pulse w-full"></div>
-      </div>
-    );
-  }
-
-  // Handle Customer View rendering (Restricted, Customer-Safe Info Only)
-  if (data.isCustomerView || isCustomer) {
-    const c = data.isCustomerView ? data.complaint : data.complaint || data;
-    return (
-      <div className="space-y-6 max-w-4xl mx-auto">
-        {/* Back Button */}
-        <div className="pb-2 border-b border-[#202838]">
-          <button
-            onClick={onBack}
-            className="text-xs font-medium text-[#98A2B3] hover:text-[#F4F6FA] flex items-center gap-1.5 bg-[#151B28] px-3 py-1.5 rounded-md border border-[#202838] transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to My Complaints
-          </button>
-        </div>
-
-        {/* Header Card */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-            <div className="flex items-center gap-3">
-              <span className="font-mono text-xs font-bold text-[#635BFF] bg-[#151B28] px-2.5 py-1 rounded border border-[#202838]">
-                {c.complaint_number}
-              </span>
-              <h1 className="text-lg font-bold text-[#F4F6FA]">{c.title}</h1>
-            </div>
-            <span className="text-xs px-2.5 py-1 rounded font-semibold bg-[#151B28] text-[#22C55E] border border-[#202838]">
-              Status: {c.status}
-            </span>
-          </div>
-
-          <p className="text-xs text-[#98A2B3] bg-[#151B28] p-3 rounded border border-[#202838] leading-relaxed">
-            "{c.description}"
-          </p>
-
-          <div className="flex items-center gap-4 text-xs text-[#98A2B3] pt-1">
-            <span>Category: <strong className="text-[#F4F6FA]">{c.category}</strong></span>
-            {c.assigned_department && <span>Department: <strong className="text-[#F4F6FA]">{c.assigned_department}</strong></span>}
-            <span>Submitted: <strong className="text-[#F4F6FA]">{c.created_at ? new Date(c.created_at).toLocaleDateString() : 'Recent'}</strong></span>
-          </div>
-        </div>
-
-        {/* Repeat Complaint Chain Indicator */}
-        {c.repeat_complaint_chain && c.repeat_complaint_chain.length > 0 && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 flex items-center gap-3 text-amber-400">
-            <AlertTriangle className="w-5 h-5 shrink-0" />
-            <div className="text-xs">
-              <div className="font-bold">Repeat Complaint History Detected</div>
-              <p className="mt-0.5">Linked previous ticket IDs: {c.repeat_complaint_chain.join(', ')}</p>
-            </div>
-          </div>
-        )}
-
-        {/* Official Resolution Response */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-3">
-          <h2 className="text-sm font-bold text-[#F4F6FA] flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-[#635BFF]" />
-            Official Response & Resolution Update
-          </h2>
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-4 text-xs text-[#F4F6FA] leading-relaxed">
-            {c.professional_response || c.resolution_notes || 'Your complaint has been logged and is currently being processed by our support specialists.'}
-          </div>
-        </div>
-
-        {/* Status Timeline */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-          <h2 className="text-xs font-semibold uppercase tracking-wider text-[#98A2B3]">Resolution Timeline</h2>
-          <div className="space-y-4 border-l border-[#202838] pl-4 ml-2">
-            {(c.status_timeline || []).map((t, idx) => (
-              <div key={idx} className="relative">
-                <div className="w-2.5 h-2.5 bg-[#635BFF] rounded-full absolute -left-[21px] top-1"></div>
-                <div className="text-xs font-semibold text-[#F4F6FA]">{t.status}</div>
-                <div className="text-[11px] text-[#98A2B3]">{t.description}</div>
-                <div className="text-[10px] text-[#98A2B3] mt-0.5">{t.timestamp ? new Date(t.timestamp).toLocaleString() : ''}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Follow-Up Updates */}
-        {c.follow_ups && c.follow_ups.length > 0 && (
-          <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-3">
-            <h2 className="text-xs font-semibold uppercase tracking-wider text-[#98A2B3]">Follow-Up Tasks & Messages</h2>
-            <div className="space-y-2">
-              {c.follow_ups.map((f, idx) => (
-                <div key={idx} className="bg-[#151B28] border border-[#202838] rounded p-3 text-xs flex justify-between items-center">
-                  <div>
-                    <div className="font-medium text-[#F4F6FA]">{f.task_description}</div>
-                    <div className="text-[11px] text-[#98A2B3]">Type: {f.type}</div>
-                  </div>
-                  <span className={`px-2 py-0.5 rounded text-[10px] ${f.is_completed ? 'bg-emerald-500/10 text-emerald-400' : 'bg-amber-500/10 text-amber-400'}`}>
-                    {f.is_completed ? 'Completed' : 'Pending'}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-      </div>
-    );
+    return <div className="p-12 text-center text-slate-400 font-medium">Loading complaint details...</div>;
   }
 
   const { complaint: c, genai_analysis: genai, python_validation: py_val, comparison: comp, manual_reviews: reviews, sla } = data;
-  const cObj = c || data;
 
   const isMatch = comp?.overall_status === 'MATCH';
   const isMismatch = comp?.overall_status === 'REVIEW REQUIRED' || comp?.overall_status === 'MISMATCH';
 
   return (
-    <div className="space-y-6">
-      {/* Back Button & Run Pipeline Action */}
-      <div className="flex items-center justify-between pb-2 border-b border-[#202838]">
+    <div className="space-y-6 animate-fade-in">
+      {/* Top Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2 border-b border-slate-800">
         <button
           onClick={onBack}
-          className="text-xs font-medium text-[#98A2B3] hover:text-[#F4F6FA] flex items-center gap-1.5 bg-[#151B28] px-3 py-1.5 rounded-md border border-[#202838] transition-colors"
+          className="text-xs font-bold text-slate-300 hover:text-white flex items-center gap-2 bg-slate-900 px-3.5 py-1.5 rounded-lg border border-slate-800 hover:border-slate-700 transition-all self-start"
         >
-          <ArrowLeft className="w-3.5 h-3.5" /> Back to Complaints
+          <ArrowLeft className="w-4 h-4 text-blue-400" /> Back to Complaints List
         </button>
 
         <button
           onClick={handleRunAnalysis}
           disabled={analyzing}
-          className="px-3.5 py-1.5 bg-[#635BFF] hover:bg-[#5249E6] text-white rounded-md text-xs font-medium flex items-center gap-2 transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-xs font-bold flex items-center gap-2 transition-all shadow-lg shadow-blue-500/20 disabled:opacity-50"
         >
           <RefreshCw className={`w-3.5 h-3.5 ${analyzing ? 'animate-spin' : ''}`} />
           <span>{analyzing ? 'Executing Pipelines...' : 'Run Dual-Pipeline Analysis'}</span>
         </button>
       </div>
 
-      {/* COMPLAINT HEADER */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+      {/* COMPLAINT HEADER CARD */}
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 sm:p-6 space-y-4 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <span className="font-mono text-xs font-bold text-[#635BFF] bg-[#151B28] px-2.5 py-1 rounded border border-[#202838]">
+            <span className="font-mono text-xs font-extrabold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-md border border-blue-500/20">
               {c.complaint_code}
             </span>
-            <h1 className="text-lg font-bold text-[#F4F6FA]">{c.title}</h1>
+            <h1 className="text-lg sm:text-xl font-bold text-white">{c.title}</h1>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs px-2.5 py-0.5 rounded font-medium bg-[#151B28] text-[#F4F6FA] border border-[#202838]">
+            <span className="text-xs px-3 py-1 rounded-md font-semibold bg-slate-900 text-slate-200 border border-slate-800">
               Status: {c.status}
             </span>
             <span
-              className={`text-xs px-2.5 py-0.5 rounded font-semibold border ${
+              className={`text-xs px-3 py-1 rounded-md font-bold border ${
                 c.priority?.includes('P0')
-                  ? 'bg-red-500/10 text-red-400 border-red-500/20'
-                  : 'bg-[#151B28] text-[#98A2B3] border-[#202838]'
+                  ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
+                  : 'bg-slate-900 text-slate-300 border-slate-800'
               }`}
             >
               {c.priority || 'P2 – Medium'}
@@ -239,98 +120,100 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
           </div>
         </div>
 
-        <p className="text-xs text-[#98A2B3] bg-[#151B28] p-3 rounded border border-[#202838] leading-relaxed font-mono">
+        <p className="text-xs sm:text-sm text-slate-300 bg-slate-900/90 p-4 rounded-xl border border-slate-800/80 leading-relaxed font-mono">
           "{c.description}"
         </p>
       </div>
 
-      {/* CUSTOMER INFORMATION */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-4 space-y-3">
-        <h2 className="text-xs font-semibold uppercase tracking-wider text-[#98A2B3]">Customer Information</h2>
+      {/* CUSTOMER INFORMATION GRID */}
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-3 shadow-xl">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-400">Customer & Context Info</h2>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
           <div>
-            <span className="text-[#98A2B3] block">Customer Type</span>
-            <span className="font-medium text-[#F4F6FA]">{c.customer_type || 'Regular'}</span>
+            <span className="text-slate-400 block mb-0.5">Customer Type</span>
+            <span className="font-bold text-white">{c.customer_type || 'Regular Customer'}</span>
           </div>
           <div>
-            <span className="text-[#98A2B3] block">Channel</span>
-            <span className="font-medium text-[#F4F6FA]">{c.channel || 'Web Form'}</span>
+            <span className="text-slate-400 block mb-0.5">Submission Channel</span>
+            <span className="font-bold text-white">{c.channel || 'Web Form'}</span>
           </div>
           <div>
-            <span className="text-[#98A2B3] block">Submitted Date</span>
-            <span className="font-medium text-[#F4F6FA]">{c.submitted_at ? new Date(c.submitted_at).toLocaleDateString() : 'Today'}</span>
+            <span className="text-slate-400 block mb-0.5">Submitted Date</span>
+            <span className="font-bold text-white">{c.submitted_at ? new Date(c.submitted_at).toLocaleDateString() : 'Today'}</span>
           </div>
           <div>
-            <span className="text-[#98A2B3] block">Category</span>
-            <span className="font-medium text-[#F4F6FA]">{c.category || genai?.category || 'Service Quality'}</span>
+            <span className="text-slate-400 block mb-0.5">Category</span>
+            <span className="font-bold text-white">{c.category || genai?.category || 'Service Quality'}</span>
           </div>
         </div>
       </div>
 
       {/* VERIFICATION RESULT BANNER */}
       <div
-        className={`border rounded-lg p-4 flex items-center justify-between ${
+        className={`border rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xl ${
           isMatch
-            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
+            ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300'
             : isMismatch
-            ? 'bg-amber-500/10 border-amber-500/30 text-amber-400'
-            : 'bg-[#151B28] border-[#202838] text-[#98A2B3]'
+            ? 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+            : 'bg-slate-900 border-slate-800 text-slate-300'
         }`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-start sm:items-center gap-3">
           {isMatch ? (
-            <CheckCircle2 className="w-5 h-5 shrink-0 text-emerald-400" />
+            <CheckCircle2 className="w-6 h-6 shrink-0 text-emerald-400" />
           ) : (
-            <AlertTriangle className="w-5 h-5 shrink-0 text-amber-400" />
+            <AlertTriangle className="w-6 h-6 shrink-0 text-amber-400" />
           )}
           <div>
-            <div className="text-xs font-bold uppercase tracking-wider">
-              Verification Result: {comp?.overall_status || 'UNANALYZED'} ({comp?.overall_verification_score || 0}% Score)
+            <div className="text-xs font-extrabold uppercase tracking-wider">
+              Dual-Pipeline Status: {comp?.overall_status || 'UNANALYZED'} ({comp?.overall_verification_score || 0}% Score)
             </div>
-            <p className="text-xs mt-0.5">
+            <p className="text-xs mt-0.5 opacity-90">
               {isMatch
-                ? 'AI decision agrees with independent rule validation.'
-                : 'AI decision differs from independent rule validation. Manual review required.'}
+                ? 'AI decision matches independent Ground-Truth rule validation perfectly.'
+                : 'AI decision differs from independent rule validation. Requires Reviewer sign-off.'}
             </p>
           </div>
         </div>
-        <span className="text-xs font-mono font-bold uppercase px-3 py-1 bg-[#101521] rounded border border-[#202838]">
+        <span className="text-xs font-mono font-bold uppercase px-3.5 py-1.5 bg-[#060911] rounded-lg border border-slate-800 self-start sm:self-auto">
           {comp?.overall_status || 'PENDING'}
         </span>
       </div>
 
-      {/* TWO-COLUMN VERIFICATION SECTION */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* COLUMN 1: AI ANALYSIS */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#202838] pb-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-[#635BFF]">AI Analysis (Pipeline 1)</h3>
-            <span className="text-[11px] text-[#98A2B3]">Google Gemini Model</span>
+      {/* TWO-COLUMN DUAL PIPELINE BREAKDOWN */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* PIPELINE 1: AI ANALYSIS */}
+        <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-blue-400 flex items-center gap-2">
+              <Cpu className="w-4 h-4" /> Pipeline 1 — AI Generative Analysis
+            </h3>
+            <span className="text-[11px] font-semibold text-slate-400">Google Gemini Model</span>
           </div>
 
           <div className="space-y-3 text-xs">
             <div>
-              <span className="text-[#98A2B3] block">Category & Subcategory</span>
-              <span className="font-medium text-[#F4F6FA]">
+              <span className="text-slate-400 block mb-0.5">Category & Subcategory</span>
+              <span className="font-bold text-white">
                 {genai?.category || 'Service Quality'} → {genai?.subcategory || 'General Inquiry'}
               </span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Priority & Urgency</span>
-              <span className="font-medium text-[#F4F6FA]">
+              <span className="text-slate-400 block mb-0.5">Priority & Urgency Detection</span>
+              <span className="font-bold text-white">
                 {genai?.priority || 'P2 – Medium'} ({genai?.urgency || 'Medium'})
               </span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Recommended Department</span>
-              <span className="font-medium text-[#F4F6FA]">{genai?.department || 'Customer Relations'}</span>
+              <span className="text-slate-400 block mb-0.5">Recommended Department Routing</span>
+              <span className="font-bold text-white">{genai?.department || 'Customer Relations'}</span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Suggested Resolution Steps</span>
-              <ul className="list-disc list-inside space-y-1 text-[#F4F6FA] mt-1">
+              <span className="text-slate-400 block mb-1">Suggested Resolution Steps</span>
+              <ul className="list-disc list-inside space-y-1 text-slate-200 bg-slate-900 p-3 rounded-lg border border-slate-800">
                 {(genai?.resolution_steps || ['Verify order reference.', 'Escalate to supervisor if required.']).map((step, idx) => (
                   <li key={idx}>{step}</li>
                 ))}
@@ -338,56 +221,60 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Customer Response Draft</span>
-              <p className="text-[11px] text-[#98A2B3] bg-[#151B28] p-2.5 rounded border border-[#202838] mt-1 font-mono">
+              <span className="text-slate-400 block mb-1">Customer Response Draft</span>
+              <p className="text-xs text-slate-300 bg-slate-900 p-3 rounded-lg border border-slate-800 font-mono">
                 {genai?.customer_response || 'Standard response update.'}
               </p>
             </div>
           </div>
         </div>
 
-        {/* COLUMN 2: RULE VALIDATION */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#202838] pb-2">
-            <h3 className="text-xs font-semibold uppercase tracking-wider text-emerald-400">Rule Validation (Pipeline 2)</h3>
-            <span className="text-[11px] text-[#98A2B3]">Python Ground-Truth Engine</span>
+        {/* PIPELINE 2: GROUND-TRUTH PYTHON VALIDATION */}
+        <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+          <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+            <h3 className="text-xs font-extrabold uppercase tracking-wider text-cyan-400 flex items-center gap-2">
+              <Scale className="w-4 h-4" /> Pipeline 2 — Python Ground-Truth Rules
+            </h3>
+            <span className="text-[11px] font-semibold text-slate-400">Rule Matrix Engine</span>
           </div>
 
           <div className="space-y-3 text-xs">
             <div>
-              <span className="text-[#98A2B3] block">Verified Category & Department</span>
-              <span className="font-medium text-[#F4F6FA]">
+              <span className="text-slate-400 block mb-0.5">Verified Category & Department</span>
+              <span className="font-bold text-white">
                 {py_val?.verified_category || 'Service Quality'} → {py_val?.verified_department || 'Customer Relations'}
               </span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Matched Rule Matrix ID</span>
-              <span className="font-mono font-bold text-[#635BFF]">{py_val?.rule_id_matched || 'R-001'}</span>
+              <span className="text-slate-400 block mb-0.5">Matched Rule Matrix ID</span>
+              <span className="font-mono font-bold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                {py_val?.rule_id_matched || 'R-001'}
+              </span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Eligibility Determinations</span>
-              <div className="flex gap-2 mt-1">
-                <span className={`px-2 py-0.5 rounded text-[10px] ${py_val?.verified_refund_eligible ? 'bg-emerald-500/10 text-emerald-400' : 'bg-[#151B28] text-[#98A2B3]'}`}>
-                  Refund: {py_val?.verified_refund_eligible ? 'Yes' : 'No'}
+              <span className="text-slate-400 block mb-1">Eligibility Determinations</span>
+              <div className="flex gap-2">
+                <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold border ${py_val?.verified_refund_eligible ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-slate-900 text-slate-400 border-slate-800'}`}>
+                  Refund: {py_val?.verified_refund_eligible ? 'ELIGIBLE' : 'INELIGIBLE'}
                 </span>
-                <span className={`px-2 py-0.5 rounded text-[10px] ${py_val?.verified_replacement_eligible ? 'bg-emerald-500/10 text-emerald-400' : 'bg-[#151B28] text-[#98A2B3]'}`}>
-                  Replacement: {py_val?.verified_replacement_eligible ? 'Yes' : 'No'}
+                <span className={`px-2.5 py-1 rounded-md text-[10px] font-bold border ${py_val?.verified_replacement_eligible ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30' : 'bg-slate-900 text-slate-400 border-slate-800'}`}>
+                  Replacement: {py_val?.verified_replacement_eligible ? 'ELIGIBLE' : 'INELIGIBLE'}
                 </span>
               </div>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Policy Grounding Status</span>
-              <span className={`font-medium ${py_val?.policy_grounding_valid ? 'text-emerald-400' : 'text-amber-400'}`}>
-                {py_val?.policy_grounding_valid ? 'Fully Grounded in Active Policy' : 'Requires Policy Grounding Check'}
+              <span className="text-slate-400 block mb-0.5">Policy Grounding Status</span>
+              <span className={`font-bold ${py_val?.policy_grounding_valid ? 'text-emerald-400' : 'text-amber-400'}`}>
+                {py_val?.policy_grounding_valid ? 'Fully Grounded in Active Policy' : 'Policy Grounding Check Needed'}
               </span>
             </div>
 
             <div>
-              <span className="text-[#98A2B3] block">Mandatory Actions</span>
-              <ul className="list-disc list-inside space-y-1 text-[#F4F6FA] mt-1">
+              <span className="text-slate-400 block mb-1">Mandatory Actions</span>
+              <ul className="list-disc list-inside space-y-1 text-slate-200 bg-slate-900 p-3 rounded-lg border border-slate-800">
                 {(py_val?.mandatory_actions || ['Confirm account transaction.']).map((act, idx) => (
                   <li key={idx}>{act}</li>
                 ))}
@@ -398,43 +285,45 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
       </div>
 
       {/* AUDIT TRAIL TIMELINE */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#98A2B3]">Audit Trail & Decision Timeline</h3>
-        <div className="space-y-3 relative border-l border-[#202838] pl-4 ml-2">
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+        <h3 className="text-xs font-extrabold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+          <History className="w-4 h-4 text-blue-400" /> Complete Decision Audit Timeline
+        </h3>
+        <div className="space-y-4 relative border-l border-slate-800 pl-5 ml-2">
           <div className="relative">
-            <div className="w-2.5 h-2.5 bg-[#635BFF] rounded-full absolute -left-[21px] top-1"></div>
-            <div className="text-xs font-medium text-[#F4F6FA]">Complaint Submitted</div>
-            <div className="text-[11px] text-[#98A2B3]">Customer input sanitized and injection checked</div>
+            <div className="w-2.5 h-2.5 bg-blue-500 rounded-full absolute -left-[25px] top-1 shadow-md shadow-blue-500/50"></div>
+            <div className="text-xs font-bold text-white">Complaint Submitted & Sanitized</div>
+            <div className="text-[11px] text-slate-400">Customer input passed prompt injection and duplicate filters.</div>
           </div>
           <div className="relative">
-            <div className="w-2.5 h-2.5 bg-[#635BFF] rounded-full absolute -left-[21px] top-1"></div>
-            <div className="text-xs font-medium text-[#F4F6FA]">AI Analysis Completed</div>
-            <div className="text-[11px] text-[#98A2B3]">Google Gemini API returned structured JSON</div>
+            <div className="w-2.5 h-2.5 bg-blue-500 rounded-full absolute -left-[25px] top-1 shadow-md shadow-blue-500/50"></div>
+            <div className="text-xs font-bold text-white">Pipeline 1 (GenAI Analysis) Triggered</div>
+            <div className="text-[11px] text-slate-400">Extracted primary issue, sentiment, and draft response.</div>
           </div>
           <div className="relative">
-            <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full absolute -left-[21px] top-1"></div>
-            <div className="text-xs font-medium text-[#F4F6FA]">Rule Validation Completed</div>
-            <div className="text-[11px] text-[#98A2B3]">Python engine evaluated against 100+ rule matrix</div>
+            <div className="w-2.5 h-2.5 bg-cyan-400 rounded-full absolute -left-[25px] top-1 shadow-md shadow-cyan-400/50"></div>
+            <div className="text-xs font-bold text-white">Pipeline 2 (Python Ground-Truth) Executed</div>
+            <div className="text-[11px] text-slate-400">Evaluated conditions against 100+ business rules matrix.</div>
           </div>
           <div className="relative">
-            <div className="w-2.5 h-2.5 bg-purple-400 rounded-full absolute -left-[21px] top-1"></div>
-            <div className="text-xs font-medium text-[#F4F6FA]">Decision Verification Finalized</div>
-            <div className="text-[11px] text-[#98A2B3]">Verification score computed: {comp?.overall_verification_score || 100}%</div>
+            <div className="w-2.5 h-2.5 bg-emerald-400 rounded-full absolute -left-[25px] top-1 shadow-md shadow-emerald-400/50"></div>
+            <div className="text-xs font-bold text-white">Compliance Scorecard Computed</div>
+            <div className="text-[11px] text-slate-400">Overall Verification Score: {comp?.overall_verification_score || 100}%</div>
           </div>
         </div>
       </div>
 
-      {/* REVIEWER OVERRIDE FORM */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[#F4F6FA]">Reviewer Action & Manual Override</h3>
-        <form onSubmit={handleReviewSubmit} className="space-y-3">
+      {/* REVIEWER DECISION & OVERRIDE FORM */}
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+        <h3 className="text-xs font-extrabold uppercase tracking-wider text-white">Reviewer Action & Override Control</h3>
+        <form onSubmit={handleReviewSubmit} className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div>
-              <label className="text-xs text-[#98A2B3] block mb-1">Reviewer Action</label>
+              <label className="text-xs text-slate-400 font-semibold block mb-1">Decision Action</label>
               <select
                 value={reviewAction}
                 onChange={(e) => setReviewAction(e.target.value)}
-                className="w-full bg-[#151B28] border border-[#202838] rounded px-3 py-1.5 text-xs text-[#F4F6FA] focus:outline-none focus:border-[#635BFF]"
+                className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-blue-500"
               >
                 <option value="APPROVE">APPROVE Decision</option>
                 <option value="MODIFY">MODIFY Categorisation</option>
@@ -444,19 +333,19 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
             </div>
           </div>
           <div>
-            <label className="text-xs text-[#98A2B3] block mb-1">Review Comments</label>
+            <label className="text-xs text-slate-400 font-semibold block mb-1">Review Audit Notes</label>
             <textarea
-              rows="2"
+              rows="3"
               value={reviewComments}
               onChange={(e) => setReviewComments(e.target.value)}
-              placeholder="Enter reviewer audit trail notes..."
-              className="w-full bg-[#151B28] border border-[#202838] rounded p-2.5 text-xs text-[#F4F6FA] focus:outline-none focus:border-[#635BFF]"
+              placeholder="Enter audit trail reviewer notes..."
+              className="w-full bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-white focus:outline-none focus:border-blue-500"
             ></textarea>
           </div>
           <button
             type="submit"
             disabled={reviewSubmitting}
-            className="px-4 py-2 bg-[#635BFF] hover:bg-[#5249E6] text-white text-xs font-medium rounded transition-colors"
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all shadow-md shadow-blue-500/20"
           >
             {reviewSubmitting ? 'Recording...' : 'Submit Reviewer Decision'}
           </button>

@@ -13,35 +13,35 @@ export const PromptManagementPage = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Page Header */}
-      <div className="pb-2 border-b border-[#202838]">
-        <h1 className="text-2xl lg:text-3xl font-bold text-[#F4F6FA] tracking-tight">
-          Prompt Management & Versioning
+      <div className="pb-2 border-b border-slate-800">
+        <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
+          Prompt Management & Guardrails
         </h1>
-        <p className="text-xs lg:text-sm text-[#98A2B3] mt-1">
-          Centralized repository for system instructions, versioning, and injection guardrails
+        <p className="text-xs lg:text-sm text-slate-400 mt-1">
+          Centralized repository for system prompts, versioning, and anti-injection guardrails.
         </p>
       </div>
 
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 sm:p-6 space-y-4 shadow-xl">
         {loading ? (
-          <div className="p-12 text-center text-xs text-[#98A2B3]">Loading prompt templates...</div>
+          <div className="p-12 text-center text-xs text-slate-400 font-medium">Loading prompt templates...</div>
         ) : (
           <div className="space-y-4">
             {prompts.map((p) => (
-              <div key={p.id} className="bg-[#151B28] border border-[#202838] rounded-md p-4 space-y-2">
-                <div className="flex items-center justify-between border-b border-[#202838] pb-2">
+              <div key={p.id} className="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-2">
+                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
                   <div className="flex items-center gap-2">
-                    <Terminal className="w-4 h-4 text-[#635BFF]" />
-                    <span className="font-mono text-xs font-bold text-[#635BFF]">{p.prompt_code}</span>
-                    <span className="text-xs text-[#F4F6FA] font-medium">{p.name}</span>
+                    <Terminal className="w-4 h-4 text-blue-400" />
+                    <span className="font-mono text-xs font-bold text-blue-400">{p.prompt_code}</span>
+                    <span className="text-xs text-white font-bold">{p.name}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                  <span className="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded border border-emerald-500/30">
                     v{p.version} ({p.status})
                   </span>
                 </div>
-                <div className="text-xs text-[#98A2B3] font-mono bg-[#101521] p-3 rounded border border-[#202838] leading-relaxed">
+                <div className="text-xs text-slate-300 font-mono bg-[#060911] p-3.5 rounded-lg border border-slate-800 leading-relaxed">
                   {p.system_instruction}
                 </div>
               </div>

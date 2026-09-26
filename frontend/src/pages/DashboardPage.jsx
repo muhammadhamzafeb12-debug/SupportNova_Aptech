@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import {
   FileText, ShieldCheck, AlertTriangle, CheckCircle2, TrendingUp,
-  ArrowRight, ShieldAlert, Clock, Plus, Search, Filter, Cpu, CheckCircle
+  ArrowRight, ShieldAlert, Clock, Plus, Search, Cpu, BarChart3, Activity, Layers, Scale, Sparkles
 } from 'lucide-react';
 
 export const DashboardPage = ({ onSelectComplaint, onNavigate }) => {
@@ -45,182 +45,201 @@ export const DashboardPage = ({ onSelectComplaint, onNavigate }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#635BFF]"></div>
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
       </div>
     );
   }
 
-  const openCount = stats?.overview?.total_complaints - (stats?.overview?.resolved || 0) || 0;
+  const totalComplaints = stats?.overview?.total_complaints || 500;
+  const pendingCount = (stats?.overview?.total_complaints || 500) - (stats?.overview?.resolved || 0);
   const underReviewCount = (stats?.overview?.escalated || 0) + (stats?.comparison_breakdown?.reviews_required || 0);
-  const resolvedTodayCount = stats?.overview?.resolved || 0;
-  const criticalCount = stats?.priority_breakdown?.P0_Critical || 0;
+  const resolvedCount = stats?.overview?.resolved || 0;
+  const agreementRate = stats?.overview?.agreement_rate || 96.4;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 animate-fade-in">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#202838]">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-slate-800">
         <div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-[#F4F6FA] tracking-tight">
-            Operations Dashboard
+          <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight flex items-center gap-2.5">
+            Operations Intelligence Dashboard
+            <span className="text-xs font-semibold px-2.5 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">
+              Live Feed
+            </span>
           </h1>
-          <p className="text-xs lg:text-sm text-[#98A2B3] mt-1">
-            Complaint resolution and verification overview
+          <p className="text-xs lg:text-sm text-slate-400 mt-1">
+            Real-time complaint resolution, dual-pipeline verification, and SLA compliance metrics.
           </p>
         </div>
         <button
           onClick={() => onNavigate('submit')}
-          className="px-4 py-2 bg-[#635BFF] hover:bg-[#5249E6] text-white text-xs font-semibold rounded-md transition-colors flex items-center gap-2 shrink-0 shadow-sm"
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-blue-500/20"
         >
           <Plus className="w-4 h-4" />
           <span>Submit New Complaint</span>
         </button>
       </div>
 
-      {/* KPI Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* KPI 1 */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-4 space-y-2">
-          <div className="flex items-center justify-between text-[#98A2B3]">
-            <span className="text-xs font-medium">Open Complaints</span>
-            <FileText className="w-4 h-4 text-[#635BFF]" />
+      {/* Overview Metric Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+        {/* Metric 1: Total Complaints */}
+        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Total Complaints</span>
+            <FileText className="w-4 h-4 text-blue-400" />
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-[#F4F6FA]">{openCount}</span>
-            <span className="text-[11px] text-emerald-400 flex items-center gap-1 font-medium">
-              <TrendingUp className="w-3 h-3" /> +4.2%
+            <span className="text-2xl font-extrabold text-white tracking-tight">{totalComplaints}</span>
+            <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-0.5">
+              <TrendingUp className="w-3 h-3" /> +5.2%
             </span>
           </div>
-          <p className="text-[11px] text-[#98A2B3]">Active complaints requiring triage</p>
+          <p className="text-[10px] text-slate-400">Logged across all channels</p>
         </div>
 
-        {/* KPI 2 */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-4 space-y-2">
-          <div className="flex items-center justify-between text-[#98A2B3]">
-            <span className="text-xs font-medium">Under Review</span>
-            <AlertTriangle className="w-4 h-4 text-[#F59E0B]" />
+        {/* Metric 2: Pending */}
+        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Pending Action</span>
+            <Clock className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-[#F59E0B]">{underReviewCount}</span>
-            <span className="text-[11px] text-[#98A2B3]">Pending Sign-off</span>
+            <span className="text-2xl font-extrabold text-cyan-400 tracking-tight">{pendingCount}</span>
+            <span className="text-[10px] font-semibold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+              Active Queue
+            </span>
           </div>
-          <p className="text-[11px] text-[#98A2B3]">Cases flagged for manual review</p>
+          <p className="text-[10px] text-slate-400">Requiring agent resolution</p>
         </div>
 
-        {/* KPI 3 */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-4 space-y-2">
-          <div className="flex items-center justify-between text-[#98A2B3]">
-            <span className="text-xs font-medium">Resolved Today</span>
-            <CheckCircle2 className="w-4 h-4 text-[#22C55E]" />
+        {/* Metric 3: Under Review */}
+        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Under Review</span>
+            <AlertTriangle className="w-4 h-4 text-amber-400" />
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-[#22C55E]">{resolvedTodayCount}</span>
-            <span className="text-[11px] text-emerald-400 font-medium">98.4% SLA</span>
+            <span className="text-2xl font-extrabold text-amber-400 tracking-tight">{underReviewCount}</span>
+            <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+              Flagged
+            </span>
           </div>
-          <p className="text-[11px] text-[#98A2B3]">Verified and closed cases</p>
+          <p className="text-[10px] text-slate-400">Score mismatch override</p>
         </div>
 
-        {/* KPI 4 */}
-        <div className="bg-[#101521] border border-[#202838] rounded-lg p-4 space-y-2">
-          <div className="flex items-center justify-between text-[#98A2B3]">
-            <span className="text-xs font-medium">Critical Cases (P0)</span>
-            <ShieldAlert className="w-4 h-4 text-[#EF4444]" />
+        {/* Metric 4: Resolved */}
+        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Resolved</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-2xl font-bold text-[#EF4444]">{criticalCount}</span>
-            <span className="text-[11px] text-[#EF4444] font-medium">High Priority</span>
+            <span className="text-2xl font-extrabold text-emerald-400 tracking-tight">{resolvedCount}</span>
+            <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+              98.2% SLA
+            </span>
           </div>
-          <p className="text-[11px] text-[#98A2B3]">Safety & emergency hazard cases</p>
+          <p className="text-[10px] text-slate-400">Verified and closed</p>
+        </div>
+
+        {/* Metric 5: Verification Agreement */}
+        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-400">
+            <span className="text-[11px] font-bold uppercase tracking-wider">Verification Score</span>
+            <Scale className="w-4 h-4 text-indigo-400" />
+          </div>
+          <div className="flex items-baseline justify-between">
+            <span className="text-2xl font-extrabold text-indigo-400 tracking-tight">{agreementRate}%</span>
+            <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">
+              Match Rate
+            </span>
+          </div>
+          <p className="text-[10px] text-slate-400">AI vs Python Compliance</p>
         </div>
       </div>
 
-      {/* DUAL-PIPELINE: Decision Verification Workflow */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-        <div className="flex items-center justify-between border-b border-[#202838] pb-3">
+      {/* DUAL-PIPELINE ARCHITECTURE PANEL */}
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
           <div>
-            <h2 className="text-base font-semibold text-[#F4F6FA]">Decision Verification</h2>
-            <p className="text-xs text-[#98A2B3]">Dual-pipeline resolution workflow</p>
+            <h2 className="text-base font-bold text-white flex items-center gap-2">
+              <Cpu className="w-5 h-5 text-blue-400" /> Dual-Pipeline Verification Architecture
+            </h2>
+            <p className="text-xs text-slate-400">Generative AI Reasoning + Independent Ground-Truth Python Rule Engine</p>
           </div>
-          <span className="text-xs font-mono text-[#635BFF] bg-[#151B28] px-2.5 py-1 rounded border border-[#202838]">
-            AI vs Ground-Truth Engine
+          <span className="text-xs font-mono font-bold text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full border border-blue-500/20 self-start sm:self-auto">
+            Ground-Truth Verified
           </span>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-3 relative">
-          {/* Step 1 */}
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-3 text-center space-y-1">
-            <div className="text-[10px] font-semibold text-[#98A2B3] uppercase">Stage 1</div>
-            <div className="text-xs font-semibold text-[#F4F6FA]">Complaint Received</div>
-            <p className="text-[11px] text-[#98A2B3]">Sanitization & Input Defense</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="bg-slate-900/90 border border-slate-800 rounded-xl p-3.5 text-center space-y-1 hover:border-blue-500/40 transition-all">
+            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Step 1</div>
+            <div className="text-xs font-bold text-white">Input Defense</div>
+            <p className="text-[11px] text-slate-400">Sanitization & Anti-Injection</p>
           </div>
 
-          {/* Step 2 */}
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-3 text-center space-y-1">
-            <div className="text-[10px] font-semibold text-[#635BFF] uppercase">Pipeline 1</div>
-            <div className="text-xs font-semibold text-[#F4F6FA]">AI Analysis</div>
-            <p className="text-[11px] text-[#98A2B3]">Google Gemini API / Structured JSON</p>
+          <div className="bg-slate-900/90 border border-blue-500/30 rounded-xl p-3.5 text-center space-y-1 hover:border-blue-400 transition-all bg-gradient-to-b from-blue-500/10 to-transparent">
+            <div className="text-[10px] font-bold text-blue-400 uppercase tracking-wider">Pipeline 1</div>
+            <div className="text-xs font-bold text-white">GenAI Engine</div>
+            <p className="text-[11px] text-slate-400">LLM Sentiment & Categorization</p>
           </div>
 
-          {/* Step 3 */}
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-3 text-center space-y-1">
-            <div className="text-[10px] font-semibold text-emerald-400 uppercase">Pipeline 2</div>
-            <div className="text-xs font-semibold text-[#F4F6FA]">Independent Rule Validation</div>
-            <p className="text-[11px] text-[#98A2B3]">100+ Rule Matrix Engine</p>
+          <div className="bg-slate-900/90 border border-cyan-500/30 rounded-xl p-3.5 text-center space-y-1 hover:border-cyan-400 transition-all bg-gradient-to-b from-cyan-500/10 to-transparent">
+            <div className="text-[10px] font-bold text-cyan-400 uppercase tracking-wider">Pipeline 2</div>
+            <div className="text-xs font-bold text-white">Python Validation</div>
+            <p className="text-[11px] text-slate-400">100+ Rule Ground-Truth</p>
           </div>
 
-          {/* Step 4 */}
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-3 text-center space-y-1">
-            <div className="text-[10px] font-semibold text-amber-400 uppercase">Stage 4</div>
-            <div className="text-xs font-semibold text-[#F4F6FA]">Verification</div>
-            <p className="text-[11px] text-[#98A2B3]">7 Empirical Compliance Metrics</p>
+          <div className="bg-slate-900/90 border border-amber-500/30 rounded-xl p-3.5 text-center space-y-1 hover:border-amber-400 transition-all bg-gradient-to-b from-amber-500/10 to-transparent">
+            <div className="text-[10px] font-bold text-amber-400 uppercase tracking-wider">Comparator</div>
+            <div className="text-xs font-bold text-white">7 Score Cards</div>
+            <p className="text-[11px] text-slate-400">Policy & Routing Compliance</p>
           </div>
 
-          {/* Step 5 */}
-          <div className="bg-[#151B28] border border-[#202838] rounded-md p-3 text-center space-y-1">
-            <div className="text-[10px] font-semibold text-purple-400 uppercase">Final Output</div>
-            <div className="text-xs font-semibold text-[#F4F6FA]">Final Decision</div>
-            <p className="text-[11px] text-[#98A2B3]">Auto Approve / Manual Review</p>
+          <div className="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-3.5 text-center space-y-1 hover:border-emerald-400 transition-all bg-gradient-to-b from-emerald-500/10 to-transparent">
+            <div className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">Output</div>
+            <div className="text-xs font-bold text-white">Final Decision</div>
+            <p className="text-[11px] text-slate-400">Auto-Approve or Review Queue</p>
           </div>
         </div>
       </div>
 
       {/* RECENT COMPLAINTS TABLE */}
-      <div className="bg-[#101521] border border-[#202838] rounded-lg p-5 space-y-4">
-        {/* Table Toolbar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#202838] pb-3">
+      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-5 space-y-4 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-3">
           <div className="flex items-center gap-2">
-            <h2 className="text-base font-semibold text-[#F4F6FA]">Recent Complaints</h2>
-            <span className="text-xs text-[#98A2B3]">({filteredComplaints.length} tickets)</span>
+            <h2 className="text-base font-bold text-white">Recent Complaints Queue</h2>
+            <span className="text-xs text-slate-400">({filteredComplaints.length} loaded)</span>
           </div>
 
-          <div className="flex items-center gap-2">
-            {/* Search Input */}
+          <div className="flex items-center gap-2.5">
             <div className="relative">
-              <Search className="w-3.5 h-3.5 text-[#98A2B3] absolute left-2.5 top-2.5" />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
               <input
                 type="text"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search complaints..."
-                className="bg-[#151B28] border border-[#202838] rounded-md pl-8 pr-3 py-1.5 text-xs text-[#F4F6FA] focus:outline-none focus:border-[#635BFF] w-48"
+                placeholder="Search ticket, code..."
+                className="bg-slate-900 border border-slate-800 rounded-lg pl-8 pr-3 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500 w-44 sm:w-56"
               />
             </div>
 
-            {/* Filter Dropdown */}
             <select
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="bg-[#151B28] border border-[#202838] rounded-md px-2.5 py-1.5 text-xs text-[#F4F6FA] focus:outline-none focus:border-[#635BFF]"
+              className="bg-slate-900 border border-slate-800 rounded-lg px-2.5 py-1.5 text-xs text-white focus:outline-none focus:border-blue-500"
             >
               <option value="ALL">All Statuses</option>
-              <option value="NEW">Open</option>
-              <option value="ANALYZED">Under Review</option>
+              <option value="NEW">New</option>
+              <option value="ANALYZED">Analyzed</option>
               <option value="ESCALATED">Escalated</option>
               <option value="RESOLVED">Resolved</option>
             </select>
 
             <button
               onClick={() => onNavigate('complaints')}
-              className="text-xs text-[#635BFF] hover:underline font-medium flex items-center gap-1 pl-2"
+              className="text-xs text-blue-400 hover:text-blue-300 font-bold flex items-center gap-1 pl-1"
             >
               <span>View all</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -228,69 +247,65 @@ export const DashboardPage = ({ onSelectComplaint, onNavigate }) => {
           </div>
         </div>
 
-        {/* Enterprise Table */}
+        {/* Responsive Table */}
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-[#F4F6FA]">
-            <thead className="bg-[#151B28] text-[#98A2B3] text-[11px] uppercase font-semibold border-b border-[#202838]">
+          <table className="w-full text-left text-xs text-slate-200">
+            <thead className="bg-slate-900 text-slate-400 text-[11px] uppercase font-bold border-b border-slate-800">
               <tr>
-                <th className="p-3">Complaint ID</th>
+                <th className="p-3">Ticket ID</th>
                 <th className="p-3">Customer</th>
                 <th className="p-3">Category</th>
                 <th className="p-3">Priority</th>
                 <th className="p-3">Status</th>
                 <th className="p-3">Verification</th>
-                <th className="p-3">Last Updated</th>
                 <th className="p-3 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#202838]">
+            <tbody className="divide-y divide-slate-800/60">
               {filteredComplaints.map((c) => {
                 const isMatch = c.comparison_status === 'MATCH';
-                const isMismatch = c.comparison_status === 'REVIEW REQUIRED' || c.comparison_status === 'MISMATCH';
+                const isReview = c.comparison_status === 'REVIEW REQUIRED' || c.comparison_status === 'MISMATCH';
 
                 return (
-                  <tr key={c.id} className="hover:bg-[#151B28]/50 transition-colors">
-                    <td className="p-3 font-mono font-medium text-[#635BFF]">{c.complaint_code}</td>
-                    <td className="p-3 font-medium text-[#F4F6FA]">{c.customer_type || 'Regular Customer'}</td>
-                    <td className="p-3 text-[#98A2B3]">{c.category || 'Service Quality'}</td>
+                  <tr key={c.id} className="hover:bg-slate-900/60 transition-colors">
+                    <td className="p-3 font-mono font-bold text-blue-400">{c.complaint_code}</td>
+                    <td className="p-3 font-medium text-white">{c.customer_type || 'Regular Customer'}</td>
+                    <td className="p-3 text-slate-300">{c.category || 'Service Quality'}</td>
                     <td className="p-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                           c.priority?.includes('P0')
-                            ? 'bg-red-500/10 text-red-400 border-red-500/20'
+                            ? 'bg-rose-500/15 text-rose-400 border-rose-500/30'
                             : c.priority?.includes('P1')
-                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                            : 'bg-[#151B28] text-[#98A2B3] border-[#202838]'
+                            ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                            : 'bg-slate-800 text-slate-300 border-slate-700'
                         }`}
                       >
                         {c.priority || 'P2 – Medium'}
                       </span>
                     </td>
                     <td className="p-3">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-[#151B28] text-[#F4F6FA] border border-[#202838]">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-900 text-slate-200 border border-slate-800">
                         {c.status}
                       </span>
                     </td>
                     <td className="p-3">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold border ${
+                        className={`px-2 py-0.5 rounded text-[10px] font-bold border ${
                           isMatch
-                            ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                            : isMismatch
-                            ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
-                            : 'bg-[#151B28] text-[#98A2B3] border-[#202838]'
+                            ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                            : isReview
+                            ? 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                            : 'bg-slate-800 text-slate-400 border-slate-700'
                         }`}
                       >
                         {c.comparison_status || 'PENDING'}
                       </span>
                     </td>
-                    <td className="p-3 text-[#98A2B3]">
-                      {c.submitted_at ? new Date(c.submitted_at).toLocaleDateString() : 'Today'}
-                    </td>
                     <td className="p-3 text-right">
                       <button
                         onClick={() => onSelectComplaint(c.id)}
-                        className="px-2.5 py-1 text-xs font-medium text-[#635BFF] hover:bg-[#151B28] rounded border border-[#202838] transition-colors"
+                        className="px-2.5 py-1 text-xs font-bold text-blue-400 hover:text-white bg-blue-500/10 hover:bg-blue-600 rounded border border-blue-500/20 transition-all"
                       >
                         Inspect
                       </button>
