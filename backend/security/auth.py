@@ -64,13 +64,13 @@ MOCK_USERS = {
     },
     # Aliases for compatibility
     "customer@nexalink.com": {
-        "username": "customer@velvocart.com",
+        "username": "customer@nexalink.com",
         "full_name": "Sarah Jenkins",
         "role": "Customer",
         "password_hash": get_hash("password123")
     },
     "admin@nexalink.com": {
-        "username": "admin@velvocart.com",
+        "username": "admin@nexalink.com",
         "full_name": "System Administrator",
         "role": "Admin",
         "password_hash": get_hash("password123")

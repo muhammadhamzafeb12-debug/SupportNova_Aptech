@@ -14,6 +14,8 @@ except ImportError:
 
 if HAS_SQLALCHEMY:
     DB_URL = os.getenv("DATABASE_URL", "sqlite:///supportnova_dev.db")
+    if DB_URL.startswith("postgres://"):
+        DB_URL = DB_URL.replace("postgres://", "postgresql://", 1)
     engine = create_engine(
         DB_URL,
         connect_args={"check_same_thread": False} if DB_URL.startswith("sqlite") else {}

@@ -90,12 +90,21 @@ class RuleMatrixEngine:
             matched_count = 0
 
             for cond_key, cond_val in conditions.items():
-                if cond_key not in features:
-                    # Missing feature required by rule condition
-                    rule_matches = False
-                    break
+                feature_val = features.get(cond_key)
+                if feature_val is None:
+                    # Strip common condition prefixes/suffixes if exact key not in features
+                    base_key = cond_key
+                    for suffix in ("_min", "_max"):
+                        if base_key.endswith(suffix):
+                            base_key = base_key[:-len(suffix)]
+                    for prefix in ("min_", "max_", "gte_", "lte_"):
+                        if base_key.startswith(prefix):
+                            base_key = base_key[len(prefix):]
+                    feature_val = features.get(base_key)
 
-                feature_val = features[cond_key]
+                if feature_val is None:
+                    # Feature not provided in input features — skip checking this optional condition
+                    continue
 
                 # Evaluate condition based on type and operator naming
                 if not self._evaluate_single_condition(cond_key, cond_val, feature_val):

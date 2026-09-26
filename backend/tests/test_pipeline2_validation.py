@@ -47,7 +47,7 @@ def valid_genai_result():
         "refund_eligible": True,
         "replacement_eligible": False,
         "compensation_recommended": True,
-        "resolution_steps": ["Reship order", "Apply standard delivery credit"],
+        "resolution_steps": ["Verify Lost Package in Transit order record", "Issue standard goodwill credit or replacement within $50 limit"],
         "professional_response": "We apologize for the lost package. A replacement order will be dispatched within 24 hours.",
         "policy_id": "POL-001",
         "source_references": ["KB-CHUNK-01"],

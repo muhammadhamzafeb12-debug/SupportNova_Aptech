@@ -47,7 +47,11 @@ def validate_category(
     complaint: Optional[Dict[str, Any]] = None
 ) -> ValidationOutcome:
     """Validates GenAI issue_category and subcategory against RuleMatrixEngine determinism."""
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue")
+    }
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
     genai_cat = (genai_result.get("issue_category") or "").strip()
@@ -87,7 +91,11 @@ def validate_department_routing(
     complaint: Optional[Dict[str, Any]] = None
 ) -> ValidationOutcome:
     """Validates GenAI department routing against RuleMatrixEngine determinism."""
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue")
+    }
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
     genai_dept = (genai_result.get("department") or "").strip()
@@ -124,7 +132,11 @@ def validate_urgency(
     Validates urgency derived from OBJECTIVE rule-matrix conditions and complaint features,
     NEVER relying on GenAI sentiment alone (Sentiment-vs-Urgency Trap).
     """
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue", "")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue", "")
+    }
     desc = (cmp_obj.get("description") or "").lower()
 
     # Objective trigger rules
@@ -161,7 +173,11 @@ def validate_escalation(
     Python's rule-matrix outcome ALWAYS enforces escalation_required=True REGARDLESS of what GenAI said.
     Python's ground-truth rule-matrix decision overrides GenAI on this field — always.
     """
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue", "")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue", "")
+    }
     desc = (cmp_obj.get("description") or "").lower()
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
@@ -255,7 +271,11 @@ def validate_resolution_steps(
     Checks all matched rule's required_actions are present in resolution_steps,
     and none of the prohibited_actions appear in resolution_steps or response.
     """
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue", "")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue", "")
+    }
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
     if not matched_rule:
@@ -313,7 +333,11 @@ def validate_refund_eligibility(
     complaint: Optional[Dict[str, Any]] = None
 ) -> ValidationOutcome:
     """Checks GenAI refund_eligible recommendation against matched rule's actual conditions."""
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue", "")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue", "")
+    }
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
     genai_refund = genai_result.get("refund_eligible")
@@ -346,7 +370,11 @@ def validate_replacement_eligibility(
     complaint: Optional[Dict[str, Any]] = None
 ) -> ValidationOutcome:
     """Checks GenAI replacement_eligible recommendation against hardware/device conditions."""
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "description": genai_result.get("primary_issue", "")}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "description": genai_result.get("primary_issue", "")
+    }
     cat = (genai_result.get("issue_category") or "").lower()
 
     exp_replacement = True if "device" in cat or "hardware" in cat or "router" in (cmp_obj.get("description") or "").lower() else False
@@ -370,7 +398,11 @@ def validate_compensation(
     complaint: Optional[Dict[str, Any]] = None
 ) -> ValidationOutcome:
     """Checks GenAI compensation_recommended against policy caps and conditions."""
-    cmp_obj = complaint or {"category": genai_result.get("issue_category"), "requested_credit": 0.0}
+    cmp_obj = complaint or {
+        "category": genai_result.get("issue_category"),
+        "subcategory": genai_result.get("subcategory"),
+        "requested_credit": 0.0
+    }
     matched_rule = _get_matched_rule(cmp_obj, rule_matrix_engine)
 
     prohibited = [p.lower() for p in (matched_rule.prohibited_actions if matched_rule else [])]

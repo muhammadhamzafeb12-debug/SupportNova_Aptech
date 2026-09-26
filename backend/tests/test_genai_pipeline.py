@@ -62,8 +62,8 @@ async def test_real_sample_complaint_analyze_endpoint():
 
     # Validate against Pydantic schema
     validated = ComplaintAnalysisResult(**analysis)
-    assert validated.issue_category in ["Installation & Field Service", "INSTALLATION"]
-    assert validated.department in ["Field Operations & Installation Services", "Field Operations", "FIELD_OPS", "DEPT-007"]
+    assert validated.issue_category in ["Order & Delivery", "Billing & Payments", "Installation & Field Service", "INSTALLATION"]
+    assert validated.department in ["Order Fulfillment & Logistics", "Billing & Payment Operations", "Field Operations & Installation Services", "Field Operations", "FIELD_OPS", "DEPT-007"]
     assert len(validated.resolution_steps) > 0
     assert validated.professional_response is not None
 
@@ -119,13 +119,13 @@ def test_category_department_schema_validation():
         "primary_issue": "Incorrect billing charge",
         "secondary_issues": [],
         "issue_category": "Billing & Payments",
-        "subcategory": "Incorrect Charge on Invoice",
+        "subcategory": "Duplicate Payment Deducted",
         "sentiment": "Negative",
         "urgency": "Medium",
         "priority": "P2",
         "extracted_entities": {"amount": "49.99"},
-        "department": "Billing & Revenue Assurance",
-        "supporting_departments": ["Account Management & Provisioning"],
+        "department": "Billing & Payment Operations",
+        "supporting_departments": ["Account Management & Customer Care"],
         "resolution_steps": ["Review invoice details."],
         "refund_eligible": True,
         "professional_response": "Dear customer, we are refunding the charge.",
@@ -135,7 +135,7 @@ def test_category_department_schema_validation():
     # Valid schema succeeds
     result = ComplaintAnalysisResult(**valid_payload)
     assert result.issue_category == "Billing & Payments"
-    assert result.department == "Billing & Revenue Assurance"
+    assert result.department == "Billing & Payment Operations"
 
     # Intentionally invalid category fails validation
     invalid_cat_payload = dict(valid_payload, issue_category="NonExistentFakeCategory")

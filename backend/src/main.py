@@ -29,7 +29,9 @@ from backend.src.api import (
     admin_analytics,
 )
 
-enable_docs = os.getenv("ENABLE_DOCS", "true").lower() == "true"
+env_name = os.getenv("ENVIRONMENT", "development").lower()
+default_docs = "true" if env_name not in ("production", "prod") else "false"
+enable_docs = os.getenv("ENABLE_DOCS", default_docs).lower() == "true"
 
 app = FastAPI(
     title="SupportNova API",
@@ -40,12 +42,20 @@ app = FastAPI(
 )
 
 # CORS Configuration
-origins = [
+cors_env = os.getenv("CORS_ALLOWED_ORIGINS", "")
+raw_origins = [o.strip() for o in cors_env.split(",") if o.strip()]
+
+default_origins = [
     "http://localhost:5173",
     "http://127.0.0.1:5173",
     "http://localhost:3000",
-    "*"
+    "http://127.0.0.1:3000",
 ]
+
+if raw_origins:
+    origins = list(set(raw_origins + default_origins))
+else:
+    origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,

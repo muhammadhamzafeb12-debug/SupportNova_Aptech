@@ -71,8 +71,14 @@ def _generate_fallback_json(complaint: Dict[str, Any], kb_ids: List[str], rule_i
     Generates a deterministic fallback JSON structure when no Anthropic API key is provided
     and no mock client is supplied, ensuring local dev and tests execute properly.
     """
-    cat = complaint.get("category", "Billing & Payments")
-    subcat = complaint.get("sub_category") or complaint.get("subcategory") or "Incorrect Charge on Invoice"
+    from backend.schemas.complaint_analysis import VALID_CATEGORIES, VALID_SUBCATEGORIES
+
+    raw_cat = complaint.get("category", "Billing & Payments")
+    raw_subcat = complaint.get("sub_category") or complaint.get("subcategory") or "Duplicate Payment Deducted"
+
+    cat = raw_cat if raw_cat and raw_cat.strip().lower() in VALID_CATEGORIES else "Billing & Payments"
+    subcat = raw_subcat if raw_subcat and raw_subcat.strip().lower() in VALID_SUBCATEGORIES else "Duplicate Payment Deducted"
+
     cid = str(complaint.get("complaint_number") or complaint.get("id") or "CMP-2026-TEMP")
     desc = complaint.get("description", "")
     customer_name = complaint.get("customer_name", "Customer")
@@ -83,28 +89,31 @@ def _generate_fallback_json(complaint: Dict[str, Any], kb_ids: List[str], rule_i
     priority = "P0" if is_urgent else "P2"
     escalation_req = is_urgent or "fcc" in desc.lower()
 
-    dept = "Billing & Revenue Assurance"
-    if "network" in cat.lower() or "outage" in desc.lower():
-        dept = "Network Operations & Engineering"
-    elif "device" in cat.lower() or "router" in desc.lower():
-        dept = "Device & Warranty Services"
-    elif "install" in cat.lower() or "field" in cat.lower() or "technician" in desc.lower():
-        dept = "Field Operations & Installation Services"
-    elif "compliance" in cat.lower() or "fcc" in desc.lower():
-        dept = "Regulatory Affairs & Legal Compliance"
-    elif "security" in cat.lower() or "fraud" in cat.lower():
-        dept = "Account Security & Fraud Prevention"
-    elif "account" in cat.lower() or "login" in desc.lower():
-        dept = "Account Management & Provisioning"
-    elif "tv" in cat.lower() or "iptv" in cat.lower():
-        dept = "Content & Streaming Services"
+    dept = "Billing & Payment Operations"
+    cat_lower = raw_cat.lower()
+    desc_lower = desc.lower()
+
+    if "order" in cat_lower or "delivery" in cat_lower or "logistics" in desc_lower or "installation" in cat_lower or "technician" in desc_lower:
+        dept = "Order Fulfillment & Logistics"
+    elif "return" in cat_lower or "refund" in cat_lower:
+        dept = "Returns & Reverse Logistics"
+    elif "product" in cat_lower or "quality" in cat_lower or "defective" in desc_lower:
+        dept = "Product Quality & Vendor Assurance"
+    elif "security" in cat_lower or "fraud" in cat_lower or "unauthorized" in desc_lower:
+        dept = "Trust & Safety (Fraud & Security)"
+    elif "marketplace" in cat_lower or "seller" in desc_lower:
+        dept = "Marketplace & Seller Operations"
+    elif "legal" in cat_lower or "compliance" in cat_lower or "privacy" in desc_lower:
+        dept = "Compliance & Legal Affairs"
+    elif "account" in cat_lower or "login" in desc_lower:
+        dept = "Account Management & Customer Care"
 
     return {
         "complaint_id": cid,
         "primary_issue": title or f"Issue regarding {cat}",
         "secondary_issues": [f"Subcategory detail: {subcat}"] if subcat else [],
-        "issue_category": cat if cat else "Billing & Payments",
-        "subcategory": subcat if subcat else "Incorrect Charge on Invoice",
+        "issue_category": cat,
+        "subcategory": subcat,
         "sentiment": "Strongly Negative" if is_urgent else "Negative",
         "urgency": urgency,
         "priority": priority,
