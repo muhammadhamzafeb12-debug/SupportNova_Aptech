@@ -15,6 +15,9 @@ from datetime import datetime, timezone
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
+from dotenv import load_dotenv
+load_dotenv()
+
 from backend.genai_pipeline.pipeline import analyze_complaint
 from backend.comparison_engine.engine import compare_and_verify
 from backend.src.store import KNOWLEDGE_BASE_STORE

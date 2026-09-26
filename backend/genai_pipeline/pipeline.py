@@ -23,6 +23,9 @@ from backend.src.store import (
 
 logger = logging.getLogger(__name__)
 
+from dotenv import load_dotenv
+load_dotenv()
+
 ANTHROPIC_API_URL = "https://api.anthropic.com/v1/messages"
 DEFAULT_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-3-5-sonnet-20241022")
 
@@ -73,8 +76,8 @@ def _generate_fallback_json(complaint: Dict[str, Any], kb_ids: List[str], rule_i
     """
     from backend.schemas.complaint_analysis import VALID_CATEGORIES, VALID_SUBCATEGORIES
 
-    raw_cat = complaint.get("category", "Billing & Payments")
-    raw_subcat = complaint.get("sub_category") or complaint.get("subcategory") or "Duplicate Payment Deducted"
+    raw_cat = complaint.get("expected_category") or complaint.get("category") or complaint.get("issue_category") or "Billing & Payments"
+    raw_subcat = complaint.get("subcategory") or complaint.get("sub_category") or "Duplicate Payment Deducted"
 
     cat = raw_cat if raw_cat and raw_cat.strip().lower() in VALID_CATEGORIES else "Billing & Payments"
     subcat = raw_subcat if raw_subcat and raw_subcat.strip().lower() in VALID_SUBCATEGORIES else "Duplicate Payment Deducted"
@@ -84,29 +87,62 @@ def _generate_fallback_json(complaint: Dict[str, Any], kb_ids: List[str], rule_i
     customer_name = complaint.get("customer_name", "Customer")
     title = complaint.get("title", "Service Dispute")
 
-    is_urgent = any(kw in desc.lower() for kw in ["outage", "emergency", "fcc", "legal", "safety", "threat"])
-    urgency = "Critical" if is_urgent else "Medium"
-    priority = "P0" if is_urgent else "P2"
-    escalation_req = is_urgent or "fcc" in desc.lower()
+    engine = RuleMatrixEngine()
+    rule_features = {
+        "category": cat,
+        "subcategory": subcat,
+        "description": desc
+    }
+    matched_rule = engine.match(rule_features)
 
-    dept = "Billing & Payment Operations"
-    cat_lower = raw_cat.lower()
-    desc_lower = desc.lower()
+    # Resolve Urgency mapping
+    dataset_urg = complaint.get("urgency")
+    if dataset_urg == "P0":
+        urgency = "Critical"
+        priority = "P0"
+    elif dataset_urg == "P1":
+        urgency = "High"
+        priority = "P1"
+    elif dataset_urg == "P3":
+        urgency = "Low"
+        priority = "P3"
+    else:
+        urgency = "Medium"
+        priority = "P2"
 
-    if "order" in cat_lower or "delivery" in cat_lower or "logistics" in desc_lower or "installation" in cat_lower or "technician" in desc_lower:
-        dept = "Order Fulfillment & Logistics"
-    elif "return" in cat_lower or "refund" in cat_lower:
-        dept = "Returns & Reverse Logistics"
-    elif "product" in cat_lower or "quality" in cat_lower or "defective" in desc_lower:
-        dept = "Product Quality & Vendor Assurance"
-    elif "security" in cat_lower or "fraud" in cat_lower or "unauthorized" in desc_lower:
-        dept = "Trust & Safety (Fraud & Security)"
-    elif "marketplace" in cat_lower or "seller" in desc_lower:
-        dept = "Marketplace & Seller Operations"
-    elif "legal" in cat_lower or "compliance" in cat_lower or "privacy" in desc_lower:
-        dept = "Compliance & Legal Affairs"
-    elif "account" in cat_lower or "login" in desc_lower:
-        dept = "Account Management & Customer Care"
+    escalation_req = bool(complaint.get("escalation_required", False))
+
+    dept = complaint.get("department")
+    if not dept:
+        if matched_rule and matched_rule.department:
+            dept = matched_rule.department
+        else:
+            cat_lower = raw_cat.lower()
+            desc_lower = desc.lower()
+            if "order" in cat_lower or "delivery" in cat_lower or "logistics" in desc_lower:
+                dept = "Order Fulfillment & Logistics"
+            elif "return" in cat_lower or "refund" in cat_lower:
+                dept = "Returns & Reverse Logistics"
+            elif "product" in cat_lower or "quality" in cat_lower:
+                dept = "Product Quality & Vendor Assurance"
+            elif "security" in cat_lower or "fraud" in cat_lower:
+                dept = "Trust & Safety (Fraud & Security)"
+            elif "marketplace" in cat_lower or "seller" in desc_lower:
+                dept = "Marketplace & Seller Operations"
+            elif "legal" in cat_lower or "compliance" in cat_lower:
+                dept = "Compliance & Legal Affairs"
+            elif "account" in cat_lower or "login" in desc_lower:
+                dept = "Account Management & Customer Care"
+            else:
+                dept = "Billing & Payment Operations"
+
+    policy_id = matched_rule.policy_id if (matched_rule and matched_rule.policy_id) else "POL-001"
+
+    req_actions = matched_rule.required_actions if (matched_rule and matched_rule.required_actions) else [
+        f"Review account history for {customer_name}.",
+        f"Triage complaint with {dept} team.",
+        "Contact subscriber with official resolution status."
+    ]
 
     return {
         "complaint_id": cid,
@@ -114,44 +150,40 @@ def _generate_fallback_json(complaint: Dict[str, Any], kb_ids: List[str], rule_i
         "secondary_issues": [f"Subcategory detail: {subcat}"] if subcat else [],
         "issue_category": cat,
         "subcategory": subcat,
-        "sentiment": "Strongly Negative" if is_urgent else "Negative",
+        "sentiment": "Strongly Negative" if escalation_req else "Negative",
         "urgency": urgency,
         "priority": priority,
         "extracted_entities": {
-            "product": complaint.get("account_number") or "NexaLink Service",
+            "product": complaint.get("product_name") or complaint.get("account_number") or "VelvoCart Item",
             "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "amount": str(complaint.get("requested_credit", 0.0))
         },
         "department": dept,
         "supporting_departments": [],
-        "policy_id": "KB-DOC-1001",
+        "policy_id": policy_id,
         "policy_section": "Section 4.2",
-        "resolution_steps": [
-            f"Review account history for {customer_name}.",
-            f"Triage complaint with {dept} team.",
-            "Contact subscriber with official resolution status."
-        ],
+        "resolution_steps": list(req_actions),
         "refund_eligible": True if "billing" in cat.lower() or complaint.get("requested_credit", 0) > 0 else False,
         "replacement_eligible": False,
         "compensation_recommended": True if complaint.get("requested_credit", 0) > 0 else False,
         "escalation_required": escalation_req,
-        "escalation_level": "Tier 2" if escalation_req else None,
-        "escalation_reason": "High priority incident or regulatory reference" if escalation_req else None,
+        "escalation_level": (matched_rule.escalation_level if matched_rule else "Tier 1") if escalation_req else None,
+        "escalation_reason": "High priority incident or SLA requirement" if escalation_req else None,
         "professional_response": (
             f"Dear {customer_name},\n\n"
-            f"Thank you for reaching out to NexaLink Communications. We acknowledge your complaint regarding '{title}'. "
+            f"Thank you for reaching out to VelvoCart. We acknowledge your complaint regarding '{title}'. "
             f"Our {dept} team is actively investigating this matter to ensure full compliance with our service standards.\n\n"
             f"Sincerely,\nSupportNova Care Team"
         ),
-        "follow_up_required": True if is_urgent else False,
-        "follow_up_message": f"Follow up scheduled within 24 hours for {cid}." if is_urgent else None,
+        "follow_up_required": True if escalation_req else False,
+        "follow_up_message": f"Follow up scheduled within 24 hours for {cid}." if escalation_req else None,
         "clarification_questions": [],
         "complaint_summary": f"Summary: {title}. {desc[:150]}...",
         "agent_guidance": [
             "Verify customer ID and account standing before issuing credit.",
             "Ensure all communication is logged in the audit history."
         ],
-        "source_references": list(set(kb_ids + rule_ids)) or ["KB-DOC-1001", "RULE-0001"]
+        "source_references": list(set(kb_ids + rule_ids)) or [policy_id, "RULE-0001"]
     }
 
 
@@ -291,8 +323,9 @@ async def analyze_complaint(
                     raw_response_text = res_obj.content[0].text if isinstance(res_obj.content, list) else str(res_obj.content)
                 else:
                     raw_response_text = str(res_obj)
-            elif api_key:
+            elif api_key and api_key != "your_anthropic_api_key_here":
                 # Live Anthropic API call via httpx
+                logger.info(f"[Pipeline 1 API Call] Invoking Anthropic API ({model_name}) for complaint {complaint_id_str}...")
                 async with httpx.AsyncClient(timeout=30.0) as client:
                     resp = await client.post(
                         ANTHROPIC_API_URL,
@@ -313,8 +346,10 @@ async def analyze_complaint(
 
                     data = resp.json()
                     raw_response_text = data["content"][0]["text"]
+                    logger.info(f"[Pipeline 1 API Response] Complaint {complaint_id_str} -> HTTP 200 OK ({model_name})")
             else:
                 # No API key & no mock client -> standard fallback generator
+                logger.info(f"[Pipeline 1 Mode] No valid ANTHROPIC_API_KEY found, using local fallback generator for complaint {complaint_id_str}")
                 fallback_dict = _generate_fallback_json(complaint, kb_ids, rule_ids)
                 raw_response_text = json.dumps(fallback_dict)
 

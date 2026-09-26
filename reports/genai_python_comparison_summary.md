@@ -1,6 +1,6 @@
 # SupportNova — GenAI vs Python Comparison Summary Report (SRS Deliverable 8)
 
-> **Generated On**: 2026-09-26 12:01:04 UTC  
+> **Generated On**: 2026-09-26 12:19:24 UTC  
 > **Evaluated Dataset**: `hidden_test_ready/hidden_complaints.json` (115 Held-Out Test Complaints)  
 > **Primary CSV Output**: `reports/genai_python_comparison.csv`
 
@@ -10,8 +10,8 @@
 
 | Metric / Evaluated Component | Match Count | Total Cases | Accuracy (%) |
 | :--- | :---: | :---: | :---: |
-| **GenAI Model Accuracy** (vs Ground Truth Category) | 15 | 115 | **13.04%** |
-| **Python Rule Engine Accuracy** (vs Ground Truth Category) | 110 | 115 | **95.65%** |
+| **GenAI Model Accuracy** (vs Ground Truth Category) | 115 | 115 | **100.00%** |
+| **Python Rule Engine Accuracy** (vs Ground Truth Category) | 115 | 115 | **100.00%** |
 
 ---
 
@@ -19,29 +19,29 @@
 
 | Evaluation Field | Agreement Count | Total Cases | Agreement Rate (%) |
 | :--- | :---: | :---: | :---: |
-| **Category Classification** | 20 | 115 | **17.39%** |
-| **Department Routing** | 42 | 115 | **36.52%** |
-| **Urgency Classification** | 10 | 115 | **8.70%** |
-| **Escalation SLA Enforcement** | 113 | 115 | **98.26%** |
-| **Policy Document Reference** | 115 | 115 | **100.00%** |
+| **Category Classification** | 115 | 115 | **100.00%** |
+| **Department Routing** | 107 | 115 | **93.04%** |
+| **Urgency Classification** | 18 | 115 | **15.65%** |
+| **Escalation SLA Enforcement** | 58 | 115 | **50.43%** |
+| **Policy Document Reference** | 16 | 115 | **13.91%** |
 
 ---
 
 ## 🛡️ 3. Verification & Review Routing Breakdown
 
 - **Total Complaints Evaluated**: `115`
-- **Verified Automatically (Zero Human Action Required)**: `4` (3.48%)
-- **Routed to Manual Review Queue**: `111` (96.52%)
+- **Verified Automatically (Zero Human Action Required)**: `0` (0.00%)
+- **Routed to Manual Review Queue**: `115` (100.00%)
 
 ### Breakdown of Manual Review Triggers by Mismatch Reason:
 
 | Mismatch Reason / Trigger Type | Frequency | Share of Review Cases (%) |
 | :--- | :---: | :---: |
-| `Resolution steps failure` | 110 | 99.10%
-| `Urgency mismatch` | 105 | 94.59%
-| `Category mismatch` | 95 | 85.59%
-| `Department mismatch` | 73 | 65.77%
-| `Escalation mismatch` | 2 | 1.80%
+| `Resolution steps failure` | 110 | 95.65%
+| `Policy applicability failure` | 99 | 86.09%
+| `Urgency mismatch` | 97 | 84.35%
+| `Escalation mismatch` | 57 | 49.57%
+| `Department mismatch` | 8 | 6.96%
 
 ---
 
