@@ -397,8 +397,8 @@ def main():
     random.seed(123)
     random.shuffle(all_complaints)
 
-    hidden_set = all_complaints[:75]
-    main_set = all_complaints[75:]
+    hidden_set = all_complaints[:115]
+    main_set = all_complaints[115:]
 
     # 1. Save sample_complaints/complaints_dataset.json
     main_json_path = OUTPUT_DIR / "complaints_dataset.json"
