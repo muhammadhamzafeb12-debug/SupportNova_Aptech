@@ -33,8 +33,8 @@ def test_escalation_trap_adversarial_precedence():
     security_rule = MatchedRule(
         rule_id="RULE-SEC-001",
         category="Account Security & Fraud",
-        subcategory="Unauthorized SIM Swap / Port-Out",
-        department="Account Security & Fraud Prevention",
+        subcategory="Unauthorized Order / Credit Card Fraud",
+        department="Trust & Safety (Fraud & Security)",
         supporting_departments=[],
         urgency="Critical",
         priority="P0",
@@ -44,7 +44,7 @@ def test_escalation_trap_adversarial_precedence():
         required_actions=["Lock account", "Initiate identity verification"],
         prohibited_actions=["Unlock without ID verification"],
         follow_up_required=True,
-        conditions={"keywords": ["sim swap", "unauthorized", "takeover"]}
+        conditions={"keywords": ["account takeover", "unauthorized", "stolen"]}
     )
     mock_engine.match.return_value = security_rule
 
@@ -52,10 +52,10 @@ def test_escalation_trap_adversarial_precedence():
     complaint_record = {
         "id": 9999,
         "complaint_number": "CMP-TRAP-9999",
-        "title": "My SIM card was swapped without authorization",
-        "description": "I suddenly lost signal and received an email saying my SIM was swapped. Someone is trying an account takeover!",
+        "title": "Unauthorized purchase on my VelvoCart account",
+        "description": "I noticed unauthorized orders placed on my account totaling $890. Someone accessed my account and made these purchases without my knowledge.",
         "category": "Account Security & Fraud",
-        "sub_category": "Unauthorized SIM Swap / Port-Out",
+        "sub_category": "Unauthorized Order / Credit Card Fraud",
         "requested_credit": 0.0,
         "escalation_required": False,  # Initial raw state
         "status": "Submitted",
@@ -66,27 +66,27 @@ def test_escalation_trap_adversarial_precedence():
     # Step 3: Mock Pipeline 1 GenAI response — simulating GenAI MISSING the escalation trigger
     mocked_genai_result = {
         "complaint_id": "9999",
-        "primary_issue": "SIM card swap reported",
+        "primary_issue": "Unauthorized purchase on VelvoCart account",
         "secondary_issues": [],
         "issue_category": "Account Security & Fraud",
-        "subcategory": "Unauthorized SIM Swap / Port-Out",
+        "subcategory": "Unauthorized Order / Credit Card Fraud",
         "sentiment": "Strongly Negative",
         "urgency": "Critical",
         "priority": "P0",
-        "department": "Account Security & Fraud Prevention",
+        "department": "Trust & Safety (Fraud & Security)",
         "supporting_departments": [],
-        "extracted_entities": {"account_number": "ACC-88219"},
+        "extracted_entities": {"account_number": "ACC-88219", "amount": 890.0},
         "escalation_required": False,  # REALISTIC FAILURE MODE: GenAI missed escalation!
         "escalation_reason": None,
         "escalation_level": None,
         "refund_eligible": False,
-        "replacement_eligible": True,
+        "replacement_eligible": False,
         "compensation_recommended": False,
-        "resolution_steps": ["Verify customer identity"],
-        "professional_response": "We have received your request regarding your SIM card change.",
+        "resolution_steps": ["Review account activity"],
+        "professional_response": "We have received your request regarding the unauthorized purchases on your account.",
         "policy_id": "POL-SEC-2026",
         "source_references": ["KB-SEC-01"],
-        "complaint_summary": "Customer reported SIM swap."
+        "complaint_summary": "Customer reported unauthorized purchases on VelvoCart account."
     }
 
     # Step 4: Run Pipeline 2 validate_escalation() function directly

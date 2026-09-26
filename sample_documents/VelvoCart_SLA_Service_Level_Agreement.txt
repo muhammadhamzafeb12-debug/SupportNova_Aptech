@@ -1,0 +1,7 @@
+# VelvoCart SLA Policy
+
+1. SLA TARGET RESOLUTION TIMES
+- P0 Critical (Security/Fraud/Safety): Response 1 hour, Resolution 12 hours.
+- P1 High (Order Lost/Damaged Electronics): Response 4 hours, Resolution 24 hours.
+- P2 Medium (Standard Returns/Billing): Response 8 hours, Resolution 48 hours.
+- P3 Low (General Inquiry/Promo Code): Response 24 hours, Resolution 72 hours.

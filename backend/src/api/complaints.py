@@ -5,10 +5,11 @@ import random
 from datetime import datetime
 from typing import List, Optional
 from fastapi import APIRouter, Depends, HTTPException, Request, status, Query
-from backend.schemas.schemas import ComplaintCreate, ComplaintUpdate, ComplaintResponse
+from backend.schemas.schemas import ComplaintCreate, ComplaintUpdate, ComplaintResponse, CustomerComplaintResponse
 from backend.security.jwt_auth import get_current_user, require_role
 from backend.security.rate_limiter import rate_limit_complaints
 from backend.src.store import COMPLAINTS_STORE, AUDIT_LOGS_STORE, RULE_MATRIX_STORE
+from backend.complaint_processing.state_machine import assert_valid_transition
 
 router = APIRouter(prefix="/complaints", tags=["Complaints"])
 
@@ -118,6 +119,85 @@ def create_complaint(
 
     return complaint_dict
 
+def _build_customer_view(c: dict) -> dict:
+    customer_email = (c.get("customer_email") or "").lower().strip()
+    repeat_chain = [
+        comp["complaint_number"]
+        for comp in COMPLAINTS_STORE
+        if (comp.get("customer_email") or "").lower().strip() == customer_email and comp["id"] != c["id"]
+    ]
+    
+    from backend.src.api.reviewer import FOLLOW_UPS_STORE
+    cid_str = str(c["id"])
+    c_follow_ups = [f for f in FOLLOW_UPS_STORE if str(f.get("complaint_id")) == cid_str]
+
+    timeline = [
+        {
+            "status": "New",
+            "timestamp": c.get("created_at"),
+            "description": "Complaint submitted"
+        }
+    ]
+    if c.get("updated_at") and c.get("updated_at") != c.get("created_at"):
+        timeline.append({
+            "status": c.get("status"),
+            "timestamp": c.get("updated_at"),
+            "description": f"Status updated to {c.get('status')}"
+        })
+
+    prof_resp = (c.get("genai_analysis_result") or {}).get("professional_response") or c.get("genai_suggested_response", "")
+
+    return {
+        "id": c["id"],
+        "complaint_number": c["complaint_number"],
+        "customer_email": c.get("customer_email", ""),
+        "customer_name": c.get("customer_name", ""),
+        "title": c.get("title", ""),
+        "category": c.get("category", ""),
+        "sub_category": c.get("sub_category", ""),
+        "description": c.get("description", ""),
+        "status": c.get("status", "New"),
+        "assigned_department": c.get("assigned_department", ""),
+        "professional_response": prof_resp,
+        "resolution_notes": c.get("resolution_notes", ""),
+        "repeat_complaint_chain": repeat_chain,
+        "follow_ups": c_follow_ups,
+        "status_timeline": timeline,
+        "created_at": c.get("created_at"),
+        "updated_at": c.get("updated_at") or c.get("created_at"),
+    }
+
+
+@router.get("/my", response_model=List[CustomerComplaintResponse])
+def get_my_complaints(current_user: dict = Depends(get_current_user)):
+    user_email = (current_user.get("email") or current_user.get("username") or "").lower().strip()
+    my_complaints = [
+        c for c in COMPLAINTS_STORE 
+        if (c.get("customer_email") or "").lower().strip() == user_email
+    ]
+    return [_build_customer_view(c) for c in my_complaints]
+
+
+@router.get("/{identifier}/customer-view", response_model=CustomerComplaintResponse)
+def get_complaint_customer_view(identifier: str, current_user: dict = Depends(get_current_user)):
+    target = None
+    for c in COMPLAINTS_STORE:
+        if str(c["id"]) == identifier or c["complaint_number"].lower() == identifier.lower():
+            target = c
+            break
+
+    if not target:
+        raise HTTPException(status_code=404, detail="Complaint not found")
+
+    user_role = (current_user.get("role") or "").lower().strip()
+    user_email = (current_user.get("email") or current_user.get("username") or "").lower().strip()
+
+    if user_role == "customer" and (target.get("customer_email") or "").lower().strip() != user_email:
+        raise HTTPException(status_code=403, detail="Forbidden access to another customer's complaint")
+
+    return _build_customer_view(target)
+
+
 @router.get("/{identifier}", response_model=ComplaintResponse)
 def get_complaint(identifier: str, current_user: dict = Depends(get_current_user)):
     target = None
@@ -129,10 +209,10 @@ def get_complaint(identifier: str, current_user: dict = Depends(get_current_user
     if not target:
         raise HTTPException(status_code=404, detail="Complaint not found")
 
-    # Role permission check
-    user_role = current_user.get("role", "").lower().strip()
-    if user_role == "customer" and target["customer_email"].lower() != current_user["username"].lower():
-        raise HTTPException(status_code=403, detail="Forbidden access to this complaint")
+    user_role = (current_user.get("role") or "").lower().strip()
+    user_email = (current_user.get("email") or current_user.get("username") or "").lower().strip()
+    if user_role == "customer" and (target.get("customer_email") or "").lower().strip() != user_email:
+        raise HTTPException(status_code=403, detail="Forbidden access to another customer's complaint")
 
     return target
 
@@ -152,6 +232,10 @@ def update_complaint(
         raise HTTPException(status_code=404, detail="Complaint not found")
 
     if payload.status:
+        try:
+            assert_valid_transition(target["status"], payload.status)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail=str(exc))
         target["status"] = payload.status
     if payload.priority:
         target["priority"] = payload.priority

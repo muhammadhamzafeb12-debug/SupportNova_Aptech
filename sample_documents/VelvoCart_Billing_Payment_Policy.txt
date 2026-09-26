@@ -1,0 +1,7 @@
+# VelvoCart Billing and Payment Policy
+
+1. PAYMENT AUTHORIZATION
+All checkouts require valid payment authorization. VelvoCart accepts credit cards, debit cards, VelvoPay Digital Wallet balances, and official VelvoCart Gift Cards.
+
+2. DUPLICATE & INCORRECT CHARGES
+In the event of duplicate billing or checkout price mismatch, customers must report the billing anomaly within 30 days of invoice date to receive instant full credit adjustment.

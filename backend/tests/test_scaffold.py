@@ -9,11 +9,11 @@ def test_config_loader():
     cats = load_categories_config()
     depts = load_departments_config()
     
-    assert org.get("organization", {}).get("name") == "NexaLink Communications"
+    assert "VelvoCart" in org.get("organization", {}).get("name")
     assert len(cats.get("categories", [])) == 10
     assert len(depts.get("departments", [])) == 9
 
 def test_auth_scaffold():
-    user = authenticate_user("admin@nexalink.com", "password123")
+    user = authenticate_user("admin@velvocart.com", "password123")
     assert user is not None
     assert user["role"] == "Admin"

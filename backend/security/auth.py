@@ -32,32 +32,45 @@ def get_hash(password: str) -> str:
 
 # Mock user database for development/scaffolding
 MOCK_USERS = {
-    "customer@nexalink.com": {
-        "username": "customer@nexalink.com",
+    "customer@velvocart.com": {
+        "username": "customer@velvocart.com",
         "full_name": "Sarah Jenkins",
         "role": "Customer",
         "password_hash": get_hash("password123")
     },
-    "agent@nexalink.com": {
-        "username": "agent@nexalink.com",
+    "agent@velvocart.com": {
+        "username": "agent@velvocart.com",
         "full_name": "Marcus Vance",
         "role": "Agent",
         "password_hash": get_hash("password123")
     },
-    "reviewer@nexalink.com": {
-        "username": "reviewer@nexalink.com",
+    "reviewer@velvocart.com": {
+        "username": "reviewer@velvocart.com",
         "full_name": "Elena Rostova",
         "role": "Reviewer",
         "password_hash": get_hash("password123")
     },
-    "manager@nexalink.com": {
-        "username": "manager@nexalink.com",
+    "manager@velvocart.com": {
+        "username": "manager@velvocart.com",
         "full_name": "David Sterling",
         "role": "Manager",
         "password_hash": get_hash("password123")
     },
+    "admin@velvocart.com": {
+        "username": "admin@velvocart.com",
+        "full_name": "System Administrator",
+        "role": "Admin",
+        "password_hash": get_hash("password123")
+    },
+    # Aliases for compatibility
+    "customer@nexalink.com": {
+        "username": "customer@velvocart.com",
+        "full_name": "Sarah Jenkins",
+        "role": "Customer",
+        "password_hash": get_hash("password123")
+    },
     "admin@nexalink.com": {
-        "username": "admin@nexalink.com",
+        "username": "admin@velvocart.com",
         "full_name": "System Administrator",
         "role": "Admin",
         "password_hash": get_hash("password123")

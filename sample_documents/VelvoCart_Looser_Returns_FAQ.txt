@@ -1,0 +1,6 @@
+# VelvoCart Marketing FAQ (Looser Return Claims)
+
+Q: What is VelvoCart's holiday return window?
+A: During promotional events, VelvoCart offers a loose 60-day hassle-free return window on all orders!
+
+(NOTE: Contradicts official Active Policy KB-DOC-1001 30-day window; ground truth policy KB-DOC-1001 takes legal precedence over promotional marketing FAQ).

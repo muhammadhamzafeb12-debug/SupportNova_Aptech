@@ -1,0 +1,7 @@
+# VelvoCart Complaint Handling SOP
+
+1. COMPLAINT INTAKE & LOGGING
+Every customer interaction must record: Order ID, Buyer Email, Primary Category, Priority Level, and Resolution Action Taken.
+
+2. EMPOWERMENT LIMITS
+Customer Service Agents are authorized to issue bill credits or refunds up to $50 without supervisor approval. Requests between $51 and $200 require Tier 2 Manager sign-off.

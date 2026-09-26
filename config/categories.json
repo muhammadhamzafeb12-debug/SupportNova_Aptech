@@ -1,318 +1,348 @@
 {
-  "config_version": "1.0",
-  "last_updated": "2026-09-25",
+  "config_version": "2.0",
+  "last_updated": "2026-09-26",
   "categories": [
     {
       "id": "CAT-001",
-      "code": "BILLING",
-      "name": "Billing & Payments",
-      "description": "All issues related to invoices, charges, payments, refunds, and account balances.",
-      "icon": "receipt",
+      "code": "ORDER",
+      "name": "Order & Delivery",
+      "description": "Fulfillment delays, package tracking errors, damaged shipments, missing items, and address issues.",
+      "icon": "truck",
       "priority_weight": 9,
       "responsible_department_id": "DEPT-001",
       "subcategories": [
         {
           "id": "SUB-001-01",
-          "code": "BILLING_INCORRECT_CHARGE",
-          "name": "Incorrect Charge on Invoice",
-          "description": "Customer was billed an amount not matching their plan, contract, or prior quote."
+          "code": "ORDER_DELAYED",
+          "name": "Delayed Delivery",
+          "description": "Order missed promised delivery date or has been stuck in carrier transit."
         },
         {
           "id": "SUB-001-02",
-          "code": "BILLING_DUPLICATE_CHARGE",
-          "name": "Duplicate Payment Deducted",
-          "description": "Same invoice or transaction was charged more than once in a billing cycle."
+          "code": "ORDER_LOST_PACKAGE",
+          "name": "Lost Package in Transit",
+          "description": "Carrier marked package delivered but customer did not receive it, or tracking stopped updating."
         },
         {
           "id": "SUB-001-03",
-          "code": "BILLING_REFUND_DELAY",
-          "name": "Refund Not Received",
-          "description": "Approved refund has not been credited within the committed SLA window."
+          "code": "ORDER_WRONG_ITEM",
+          "name": "Wrong Item Delivered",
+          "description": "Package arrived containing an incorrect item, wrong size, or wrong color variant."
         },
         {
           "id": "SUB-001-04",
-          "code": "BILLING_PROMO_NOT_APPLIED",
-          "name": "Promotional Discount Not Applied",
-          "description": "An advertised or agent-committed promotional rate was not reflected on the bill."
+          "code": "ORDER_DAMAGED",
+          "name": "Item Damaged in Transit",
+          "description": "Product package arrived broken, crushed, or physically torn during transit."
         },
         {
           "id": "SUB-001-05",
-          "code": "BILLING_EARLY_TERMINATION_FEE",
-          "name": "Early Termination Fee Dispute",
-          "description": "Customer disputes the early termination fee amount or believes it was applied in error."
+          "code": "ORDER_ADDRESS_ISSUE",
+          "name": "Delivery Address Issue",
+          "description": "Package dispatched to wrong address or courier reported invalid shipping address."
         }
       ]
     },
     {
       "id": "CAT-002",
-      "code": "NETWORK",
-      "name": "Network & Connectivity",
-      "description": "Complaints about signal quality, outages, dropped calls, slow data speeds, and coverage gaps.",
-      "icon": "signal",
-      "priority_weight": 10,
+      "code": "BILLING",
+      "name": "Billing & Payments",
+      "description": "Invoice discrepancies, duplicate charges, payment gateway failures, and VelvoPay disputes.",
+      "icon": "credit-card",
+      "priority_weight": 9,
       "responsible_department_id": "DEPT-002",
       "subcategories": [
         {
           "id": "SUB-002-01",
-          "code": "NETWORK_NO_SIGNAL",
-          "name": "No Signal / Complete Outage",
-          "description": "Customer has zero mobile signal or complete loss of broadband connectivity."
+          "code": "BILLING_DUPLICATE",
+          "name": "Duplicate Payment Deducted",
+          "description": "Customer credit card or VelvoPay wallet charged multiple times for a single checkout."
         },
         {
           "id": "SUB-002-02",
-          "code": "NETWORK_SLOW_DATA",
-          "name": "Slow Data Speeds",
-          "description": "Experienced data speeds are significantly below the plan's advertised or contracted speeds."
+          "code": "BILLING_INCORRECT",
+          "name": "Incorrect Charge on Checkout",
+          "description": "Billed price differs from item display price or checkout subtotal."
         },
         {
           "id": "SUB-002-03",
-          "code": "NETWORK_DROPPED_CALLS",
-          "name": "Frequent Dropped Calls",
-          "description": "Voice calls disconnect mid-conversation without user action."
+          "code": "BILLING_REFUND_FAILED",
+          "name": "Refund Not Processed / Delayed",
+          "description": "Approved refund amount failed to post to bank or VelvoPay account."
         },
         {
           "id": "SUB-002-04",
-          "code": "NETWORK_INTERMITTENT",
-          "name": "Intermittent Connectivity",
-          "description": "Connection is unstable, cutting in and out repeatedly during active sessions."
+          "code": "BILLING_PAYMENT_FAILED",
+          "name": "Failed Payment Transaction",
+          "description": "Payment failed at gateway but funds were debited from customer account."
+        },
+        {
+          "id": "SUB-002-05",
+          "code": "BILLING_GIFT_CARD",
+          "name": "Gift Card / Voucher Application Error",
+          "description": "VelvoCart gift card code rejected or balance not applied to order total."
         }
       ]
     },
     {
       "id": "CAT-003",
-      "code": "DEVICE",
-      "name": "Device & Equipment",
-      "description": "Issues with NexaLink-provided or subsidized devices, routers, set-top boxes, and SIM cards.",
-      "icon": "devices",
-      "priority_weight": 7,
+      "code": "RETURNS",
+      "name": "Returns & Refunds",
+      "description": "Return authorization disputes, return label issues, item rejection at Return Hub, and refund adjustments.",
+      "icon": "rotate-ccw",
+      "priority_weight": 8,
       "responsible_department_id": "DEPT-003",
       "subcategories": [
         {
           "id": "SUB-003-01",
-          "code": "DEVICE_DEFECTIVE",
-          "name": "Defective Device Received",
-          "description": "Device provided by NexaLink arrived damaged, non-functional, or fails within the warranty period."
+          "code": "RETURNS_DENIED",
+          "name": "Return Request Denied",
+          "description": "System or automated portal declined return request for an eligible product."
         },
         {
           "id": "SUB-003-02",
-          "code": "DEVICE_ROUTER_FAULT",
-          "name": "Router / Mesh Node Malfunction",
-          "description": "NexaDevice Hub unit is not functioning, overheating, or failing to propagate a stable Wi-Fi signal."
+          "code": "RETURNS_REFUND_DELAY",
+          "name": "Return Refund Processing Delay",
+          "description": "Item received at Return Hub but refund status remains pending beyond SLA."
         },
         {
           "id": "SUB-003-03",
-          "code": "DEVICE_SIM_ISSUE",
-          "name": "SIM Card Not Working",
-          "description": "Physical or eSIM is not provisioned, rejected by the handset, or lost activation after a plan change."
+          "code": "RETURNS_SHIPPING_DISPUTE",
+          "name": "Return Shipping Fee Dispute",
+          "description": "Customer charged return shipping fee for a seller fault or defective item."
+        },
+        {
+          "id": "SUB-003-04",
+          "code": "RETURNS_CENTER_REJECTION",
+          "name": "Item Rejected at Return Hub",
+          "description": "Drop-off facility refused return item due to packaging or tag inspection dispute."
         }
       ]
     },
     {
       "id": "CAT-004",
-      "code": "ACCOUNT",
-      "name": "Account Management",
-      "description": "Problems with account access, plan changes, profile updates, and subscription management.",
-      "icon": "manage_accounts",
-      "priority_weight": 8,
+      "code": "PRODUCT",
+      "name": "Product Quality & Authenticity",
+      "description": "Defective electronics, counterfeit goods, safety hazards, missing parts, and inaccurate descriptions.",
+      "icon": "shield-check",
+      "priority_weight": 9,
       "responsible_department_id": "DEPT-004",
       "subcategories": [
         {
           "id": "SUB-004-01",
-          "code": "ACCOUNT_CANT_LOGIN",
-          "name": "Unable to Access Account / Login Failure",
-          "description": "Customer cannot log in to the NexaLink app or web portal using their credentials."
+          "code": "PRODUCT_DEFECTIVE",
+          "name": "Defective or Malfunctioning Product",
+          "description": "Product does not power on, has hardware failure, or stops working shortly after arrival."
         },
         {
           "id": "SUB-004-02",
-          "code": "ACCOUNT_PLAN_CHANGE_ERROR",
-          "name": "Plan Upgrade / Downgrade Not Applied",
-          "description": "Requested plan change was accepted but the new plan is not active on the account."
+          "code": "PRODUCT_COUNTERFEIT",
+          "name": "Counterfeit / Fake Item Delivered",
+          "description": "Received item is knockoff, unbranded copy, or fake replica of brand name product."
         },
         {
           "id": "SUB-004-03",
-          "code": "ACCOUNT_UNAUTHORIZED_CHANGE",
-          "name": "Unauthorized Account Modification",
-          "description": "Changes to the account (plan, address, contacts) were made without the account holder's consent."
+          "code": "PRODUCT_MISREPRESENTED",
+          "name": "Item Not as Described",
+          "description": "Product specifications, size, color, or features differ significantly from product listing."
+        },
+        {
+          "id": "SUB-004-04",
+          "code": "PRODUCT_MISSING_PARTS",
+          "name": "Missing Accessories or Components",
+          "description": "Product arrived missing key power cords, user manuals, assembly hardware, or accessories."
         }
       ]
     },
     {
       "id": "CAT-005",
-      "code": "SECURITY",
-      "name": "Account Security & Fraud",
-      "description": "Reports of unauthorized access, SIM swapping, identity theft, and fraud on the account.",
-      "icon": "security",
-      "priority_weight": 10,
+      "code": "ACCOUNT",
+      "name": "Account Management",
+      "description": "Account login problems, password reset, account lockouts, VelvoCart Prime subscription cancellation.",
+      "icon": "user",
+      "priority_weight": 7,
       "responsible_department_id": "DEPT-005",
       "subcategories": [
         {
           "id": "SUB-005-01",
-          "code": "SECURITY_SIM_SWAP",
-          "name": "Unauthorized SIM Swap / Port-Out",
-          "description": "Customer's number was transferred to another SIM or carrier without their authorization."
+          "code": "ACCOUNT_LOGIN_FAILURE",
+          "name": "Unable to Login / Password Reset Error",
+          "description": "Customer locked out of account or authentication codes fail to deliver."
         },
         {
           "id": "SUB-005-02",
-          "code": "SECURITY_ACCOUNT_TAKEOVER",
-          "name": "Account Takeover Suspected",
-          "description": "Third party appears to have gained control of the customer's account."
+          "code": "ACCOUNT_SUSPENDED",
+          "name": "Account Suspended or Restricted",
+          "description": "Account temporarily or permanently blocked by automated risk system."
         },
         {
           "id": "SUB-005-03",
-          "code": "SECURITY_FRAUDULENT_CHARGES",
-          "name": "Fraudulent Charges / Premium SMS Scam",
-          "description": "Charges appearing on the bill are linked to fraudulent premium services the customer did not authorize."
+          "code": "ACCOUNT_PROFILE_ERROR",
+          "name": "Profile / Address Update Failure",
+          "description": "Saved credit cards, shipping address, or phone number fail to update."
+        },
+        {
+          "id": "SUB-005-04",
+          "code": "ACCOUNT_PRIME_CANCEL",
+          "name": "VelvoCart Prime Renewal / Cancellation Issue",
+          "description": "Prime membership charged after cancellation or auto-renew failed to apply discount."
         }
       ]
     },
     {
       "id": "CAT-006",
-      "code": "ROAMING",
-      "name": "International Roaming",
-      "description": "Complaints about roaming charges, connectivity abroad, and NexaRoam Global Pass issues.",
-      "icon": "language",
-      "priority_weight": 7,
-      "responsible_department_id": "DEPT-002",
+      "code": "SECURITY",
+      "name": "Account Security & Fraud",
+      "description": "Unauthorized orders, stolen credentials, stolen payment methods, account takeovers, and scam reports.",
+      "icon": "lock",
+      "priority_weight": 10,
+      "responsible_department_id": "DEPT-006",
       "subcategories": [
         {
           "id": "SUB-006-01",
-          "code": "ROAMING_UNEXPECTED_CHARGES",
-          "name": "Unexpected Roaming Charges",
-          "description": "Customer incurred roaming charges while abroad despite having an active NexaRoam Global Pass or believing roaming was disabled."
+          "code": "SECURITY_UNAUTHORIZED_PURCHASE",
+          "name": "Unauthorized Order / Credit Card Fraud",
+          "description": "Order placed on customer account without their knowledge or authorization."
         },
         {
           "id": "SUB-006-02",
-          "code": "ROAMING_NO_SERVICE",
-          "name": "No Service While Roaming",
-          "description": "Device shows no signal or cannot register on a partner network in a listed roaming country."
+          "code": "SECURITY_ACCOUNT_TAKEOVER",
+          "name": "Account Takeover Suspected",
+          "description": "Credentials compromised, email changed, or unauthorized password change detected."
+        },
+        {
+          "id": "SUB-006-03",
+          "code": "SECURITY_PHISHING",
+          "name": "Phishing / Scam Seller Report",
+          "description": "Customer received suspicious SMS/email pretending to be VelvoCart asking for credentials."
+        },
+        {
+          "id": "SUB-006-04",
+          "code": "SECURITY_DATA_BREACH",
+          "name": "Data Privacy / Security Incident Concern",
+          "description": "Report of potential customer data leak or exposed personal information."
         }
       ]
     },
     {
       "id": "CAT-007",
-      "code": "IPTV",
-      "name": "NexaStream TV & IPTV",
-      "description": "Complaints specifically about the NexaStream IPTV service including channel, streaming, and DVR issues.",
-      "icon": "tv",
-      "priority_weight": 6,
-      "responsible_department_id": "DEPT-006",
+      "code": "MARKETPLACE",
+      "name": "Marketplace & Seller Operations",
+      "description": "Third-party seller disputes, unresponsive merchants, shipping delays from marketplace vendors.",
+      "icon": "store",
+      "priority_weight": 8,
+      "responsible_department_id": "DEPT-007",
       "subcategories": [
         {
           "id": "SUB-007-01",
-          "code": "IPTV_BUFFERING",
-          "name": "Constant Buffering / Poor Stream Quality",
-          "description": "Live or on-demand content buffers excessively or streams at unacceptably low resolution."
+          "code": "MARKETPLACE_SELLER_NO_RESPONSE",
+          "name": "3rd-Party Seller Non-Response",
+          "description": "Marketplace seller failed to reply to buyer inquiry or return request within 48 hours."
         },
         {
           "id": "SUB-007-02",
-          "code": "IPTV_CHANNEL_MISSING",
-          "name": "Subscribed Channel Not Available",
-          "description": "A channel included in the customer's IPTV package is missing or shows an error when accessed."
+          "code": "MARKETPLACE_FAKE_LISTING",
+          "name": "Fraudulent Seller Listing",
+          "description": "Third-party seller listing suspected of ghost stock or deceptive marketing."
         },
         {
           "id": "SUB-007-03",
-          "code": "IPTV_DVR_FAILURE",
-          "name": "Cloud DVR Not Recording / Recordings Lost",
-          "description": "Scheduled recordings were not captured, or previously saved recordings have disappeared."
+          "code": "MARKETPLACE_SELLER_VIOLATION",
+          "name": "Seller Policy Violation",
+          "description": "Seller included unauthorized external payment links or requested offline money transfer."
         }
       ]
     },
     {
       "id": "CAT-008",
-      "code": "INSTALLATION",
-      "name": "Installation & Field Service",
-      "description": "Issues with technician visits, DSL/fiber installation, equipment setup, and missed appointments.",
-      "icon": "construction",
-      "priority_weight": 8,
-      "responsible_department_id": "DEPT-007",
+      "code": "SERVICE",
+      "name": "Customer Service Experience",
+      "description": "Support agent misconduct, excessive hold times, bot loop frustration, and unfulfilled agent promises.",
+      "icon": "headphones",
+      "priority_weight": 7,
+      "responsible_department_id": "DEPT-005",
       "subcategories": [
         {
           "id": "SUB-008-01",
-          "code": "INSTALL_MISSED_APPOINTMENT",
-          "name": "Technician Missed Scheduled Appointment",
-          "description": "A field technician did not arrive during the agreed installation or repair window."
+          "code": "SERVICE_RUDE_AGENT",
+          "name": "Unprofessional Agent Conduct",
+          "description": "Customer reports rude, dismissive, or abusive behavior by support staff or chat agent."
         },
         {
           "id": "SUB-008-02",
-          "code": "INSTALL_INCOMPLETE",
-          "name": "Incomplete or Faulty Installation",
-          "description": "Technician completed the visit but the service is still not fully functional or cabling was left exposed."
+          "code": "SERVICE_LONG_WAIT",
+          "name": "Extended Support Hold Time",
+          "description": "Waited over 45 minutes on phone or live chat queue without reaching representative."
         },
         {
           "id": "SUB-008-03",
-          "code": "INSTALL_PROPERTY_DAMAGE",
-          "name": "Property Damage During Installation",
-          "description": "The installation process resulted in damage to the customer's property (walls, furniture, landscaping)."
+          "code": "SERVICE_UNRESOLVED_REPEAT",
+          "name": "Repeated Unresolved Issue",
+          "description": "Issue remains unresolved after 3 or more support interactions."
         }
       ]
     },
     {
       "id": "CAT-009",
-      "code": "PORTABILITY",
-      "name": "Number Portability & Transfer",
-      "description": "Requests and complaints about porting a mobile number in or out of NexaLink.",
-      "icon": "swap_horiz",
-      "priority_weight": 7,
-      "responsible_department_id": "DEPT-004",
+      "code": "PROMO",
+      "name": "Promotions & Pricing",
+      "description": "Promo codes failing to apply, misleading price discounts, flash sale pricing glitches.",
+      "icon": "tag",
+      "priority_weight": 6,
+      "responsible_department_id": "DEPT-002",
       "subcategories": [
         {
           "id": "SUB-009-01",
-          "code": "PORT_IN_DELAY",
-          "name": "Number Port-In Taking Too Long",
-          "description": "Customer's number has not been ported from their previous carrier within the regulatory timeframe."
+          "code": "PROMO_COUPON_NOT_APPLIED",
+          "name": "Promo Code / Discount Rejected",
+          "description": "Valid promotional coupon code failed to apply discount during checkout."
         },
         {
           "id": "SUB-009-02",
-          "code": "PORT_IN_REJECTED",
-          "name": "Port-In Request Rejected",
-          "description": "The porting request was declined and the customer has not received a clear reason."
+          "code": "PROMO_PRICE_MISMATCH",
+          "name": "Checkout Price Higher than Advertised",
+          "description": "Final checkout total exceeded product page advertised promotional price."
         },
         {
           "id": "SUB-009-03",
-          "code": "PORT_OUT_BLOCKED",
-          "name": "Port-Out Being Blocked",
-          "description": "Customer believes NexaLink is illegally obstructing or delaying their port-out to another carrier."
+          "code": "PROMO_MISLEADING_OFFER",
+          "name": "Misleading Deal / Flash Sale Dispute",
+          "description": "Promotional terms were deceptive or stock ran out instantaneously."
         }
       ]
     },
     {
       "id": "CAT-010",
       "code": "COMPLIANCE",
-      "name": "Regulatory & Compliance",
-      "description": "Complaints involving regulatory obligations, consumer rights violations, data privacy, and contract disputes.",
-      "icon": "gavel",
+      "name": "Regulatory & Legal Compliance",
+      "description": "Consumer rights violations, data privacy access/deletion (CCPA/GDPR), legal notices, regulator filings.",
+      "icon": "file-text",
       "priority_weight": 10,
       "responsible_department_id": "DEPT-008",
       "subcategories": [
         {
           "id": "SUB-010-01",
-          "code": "COMPLIANCE_DATA_PRIVACY",
-          "name": "Data Privacy Violation",
-          "description": "Customer believes their personal data was shared, misused, or disclosed without consent under applicable privacy law."
+          "code": "COMPLIANCE_PRIVACY_VIOLATION",
+          "name": "Data Privacy Law Violation",
+          "description": "Customer personal data shared or processed without consent under statutory privacy laws."
         },
         {
           "id": "SUB-010-02",
-          "code": "COMPLIANCE_CONTRACT_DISPUTE",
-          "name": "Contract Terms Dispute",
-          "description": "Customer alleges that NexaLink is not honoring written contract terms or has changed terms without proper notice."
+          "code": "COMPLIANCE_CONSUMER_RIGHTS",
+          "name": "Statutory Consumer Rights Infringement",
+          "description": "Allegation that VelvoCart terms breach statutory warranty or consumer protection acts."
         },
         {
           "id": "SUB-010-03",
-          "code": "COMPLIANCE_HARASSMENT",
-          "name": "Aggressive Collections or Harassment",
-          "description": "Customer reports repeated unwanted contact, threats, or harassment from NexaLink's collections or retention teams."
-        },
-        {
-          "id": "SUB-010-04",
-          "code": "COMPLIANCE_REGULATORY_COMPLAINT",
-          "name": "FCC / State Regulator Referenced Complaint",
-          "description": "Customer has filed or threatens to file a complaint with the FCC, state PUC, or another regulatory authority."
+          "code": "COMPLIANCE_LEGAL_NOTICE",
+          "name": "Formal Legal Notice / Attorney Involvement",
+          "description": "Complaint submitted by attorney or referencing FTC, Attorney General, or BBB lawsuit."
         }
       ]
     }
   ],
   "totals": {
     "categories": 10,
-    "subcategories": 33
+    "subcategories": 38
   }
 }

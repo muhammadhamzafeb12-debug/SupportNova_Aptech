@@ -1,7 +1,7 @@
 """
 Pytest Test Suite for Document Processing Pipeline:
-- Successful parse + chunk of a sample TXT (used as stand-in for PDF until pdfplumber is installed)
-- Successful parse + chunk of a DOCX-style plain text file
+- Successful parse + chunk of a sample TXT
+- Successful parse + chunk of a Billing Policy
 - Retrieval relevance test: query "refund eligibility damaged product" returns correct chunk
 - Backend API tests: upload triggers BackgroundTask, status updates, chunks endpoint
 """
@@ -16,7 +16,7 @@ client = TestClient(app)
 # ─── Helpers ────────────────────────────────────────────────────────────────
 
 def get_admin_headers():
-    resp = client.post("/auth/login", json={"username": "admin@nexalink.com", "password": "password123"})
+    resp = client.post("/auth/login", json={"username": "admin@velvocart.com", "password": "password123"})
     return {"Authorization": f"Bearer {resp.json()['access_token']}"}
 
 SAMPLE_DOCS_DIR = Path(__file__).resolve().parent.parent.parent / "sample_documents"
@@ -24,11 +24,11 @@ SAMPLE_DOCS_DIR = Path(__file__).resolve().parent.parent.parent / "sample_docume
 # ─── Test 1: Parse + Chunk a Plain-Text Policy Document ─────────────────────
 
 def test_parse_and_chunk_text_document():
-    """Parse the NexaLink Refund Policy .txt and verify chunk metadata."""
+    """Parse the VelvoCart Return Policy .txt and verify chunk metadata."""
     from backend.document_processing.parser import parse_document
     from backend.document_processing.chunker import chunk_sections
 
-    txt_path = str(SAMPLE_DOCS_DIR / "NexaLink_Refund_Policy_2026.txt")
+    txt_path = str(SAMPLE_DOCS_DIR / "VelvoCart_Return_Policy_2026.txt")
     assert Path(txt_path).exists(), f"Sample file missing: {txt_path}"
 
     sections = parse_document(txt_path)
@@ -57,26 +57,26 @@ def test_parse_and_chunk_text_document():
         assert len(chunk["text"].split()) >= 1
 
 
-# ─── Test 2: Parse + Chunk a Billing SOP (Text-based DOCX) ─────────────────
+# ─── Test 2: Parse + Chunk a Billing Policy ─────────────────
 
 def test_parse_and_chunk_billing_sop():
-    """Parse the NexaLink Billing SOP .txt and verify chunking."""
+    """Parse the VelvoCart Billing Policy .txt and verify chunking."""
     from backend.document_processing.parser import parse_document
     from backend.document_processing.chunker import chunk_sections
 
-    txt_path = str(SAMPLE_DOCS_DIR / "NexaLink_Billing_Policy.txt")
+    txt_path = str(SAMPLE_DOCS_DIR / "VelvoCart_Billing_Payment_Policy.txt")
     assert Path(txt_path).exists(), f"Sample file missing: {txt_path}"
 
     sections = parse_document(txt_path)
     assert len(sections) >= 1
 
     chunks = chunk_sections(sections, document_id="KB-DOC-TEST-002", version="2.1")
-    assert len(chunks) >= 1, "Billing SOP should produce chunks"
+    assert len(chunks) >= 1, "Billing policy should produce chunks"
 
     # Verify billing-specific content appears in chunks
     all_text = " ".join(c["text"] for c in chunks).lower()
-    assert any(keyword in all_text for keyword in ["billing", "credit", "autopay", "dispute", "escalat"]), \
-        "Billing SOP chunks should contain billing-domain keywords"
+    assert any(keyword in all_text for keyword in ["billing", "payment", "card", "charge", "credit"]), \
+        "Billing policy chunks should contain billing-domain keywords"
 
 
 # ─── Test 3: Retrieval Relevance Test ───────────────────────────────────────
@@ -90,7 +90,7 @@ def test_retrieval_relevance_damaged_product_query():
     from backend.document_processing.chunker import chunk_sections
     from backend.document_processing.retriever import add_chunks_to_index, retrieve_relevant_chunks
 
-    txt_path = str(SAMPLE_DOCS_DIR / "NexaLink_Refund_Policy_2026.txt")
+    txt_path = str(SAMPLE_DOCS_DIR / "VelvoCart_Return_Policy_2026.txt")
     sections = parse_document(txt_path)
     chunks = chunk_sections(sections, document_id="KB-DOC-RETRIEVAL-TEST", version="1.0")
 
@@ -161,17 +161,17 @@ def test_chunks_endpoint_returns_chunks():
     """After a successful upload+parse, GET /{doc_id}/chunks should return chunks."""
     headers = get_admin_headers()
     content = (
-        b"NexaLink Network Outage Credit Policy 2026.\n"
-        b"Section 1: Eligibility. Customers experiencing outages over 4 hours qualify for credits.\n"
-        b"Section 2: Credit Amount. Ten percent of daily bill for each additional hour.\n"
+        b"VelvoCart Delivery Policy 2026.\n"
+        b"Section 1: Eligibility. Customers experiencing delivery delays qualify for credits.\n"
+        b"Section 2: Credit Amount. Ten percent of order value for each additional day.\n"
         b"Section 3: Approval. Agents may approve up to fifty dollars automatically.\n"
-        b"Section 4: Appeals. Submit appeals within 30 days to the billing department.\n"
-        b"Section 5: Regulatory Compliance. FCC regulations apply to all credit determinations."
+        b"Section 4: Appeals. Submit appeals within 30 days to the fulfillment department.\n"
+        b"Section 5: Regulatory Compliance. Consumer protection laws apply to all determinations."
     )
     file = ("chunks_test_policy.txt", io.BytesIO(content), "text/plain")
 
     data = {
-        "title": "Chunks Test Outage Policy",
+        "title": "Chunks Test Delivery Policy",
         "category": "policy",
         "version": "1.0",
         "effective_date": "2026-05-01",
@@ -208,7 +208,6 @@ def test_corrupted_file_sets_failed_status():
     parsing_status = 'failed' after the pipeline runs.
     """
     headers = get_admin_headers()
-    # Valid extension, but gibberish binary content
     content = b"\x00\x01CORRUPT\xff\xfe" * 100
     file = ("corrupted_report.txt", io.BytesIO(content), "text/plain")
 
@@ -223,8 +222,6 @@ def test_corrupted_file_sets_failed_status():
     assert resp.status_code == 201
     doc_id = resp.json()["document_id"]
 
-    # The pipeline will attempt to parse — binary garbage with UTF-8 errors should
-    # still produce some output or fail gracefully
     for _ in range(10):
         time.sleep(1)
         sr = client.get(f"/admin/knowledge-base/{doc_id}/status", headers=headers)
@@ -232,6 +229,5 @@ def test_corrupted_file_sets_failed_status():
             break
 
     final_status = sr.json().get("parsing_status")
-    # Both completed (empty content) and failed are acceptable — the key is it doesn't hang
     assert final_status in ("completed", "failed"), \
         f"Status should be terminal, got: {final_status}"

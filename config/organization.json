@@ -1,123 +1,123 @@
 {
   "organization": {
-    "id": "ORG-NEXALINK-001",
-    "name": "NexaLink Communications",
-    "tagline": "Connecting Every Horizon",
-    "domain": "Telecommunications",
-    "founded": "2009",
-    "headquarters": "Austin, Texas, USA",
-    "description": "NexaLink Communications is a mid-tier telecommunications provider offering mobile voice and data plans, home broadband, enterprise fiber solutions, and IPTV streaming packages to over 4.2 million subscribers across 29 states. The company is known for its aggressive 5G rollout program and its NexaCloud unified communications platform aimed at small and medium-sized businesses.",
-    "website": "https://www.nexalink.com",
-    "support_email": "support@nexalink.com",
-    "support_phone": "1-800-NEX-LINK",
+    "id": "ORG-VELVOCART-001",
+    "name": "VelvoCart Online Marketplace",
+    "tagline": "Every Choice, Delivered Fast",
+    "domain": "E-Commerce & Online Retail Marketplace",
+    "founded": "2015",
+    "headquarters": "Seattle, Washington, USA",
+    "description": "VelvoCart is a premier e-commerce marketplace offering over 15 million products across consumer electronics, fashion, home & living, pantry groceries, and third-party merchant goods. VelvoCart serves over 18 million active shoppers across North America with same-day express delivery, VelvoCart Prime subscriptions, and integrated VelvoPay digital wallet services.",
+    "website": "https://www.velvocart.com",
+    "support_email": "support@velvocart.com",
+    "support_phone": "1-800-VELVO-CART",
     "social_handles": {
-      "twitter": "@NexaLinkComms",
-      "linkedin": "nexalink-communications",
-      "facebook": "NexaLinkOfficial"
+      "twitter": "@VelvoCartShop",
+      "linkedin": "velvocart-inc",
+      "facebook": "VelvoCartOfficial"
     }
   },
   "product_catalog": [
     {
       "id": "PROD-001",
-      "name": "NexaMobile Lite",
-      "type": "Mobile Plan",
-      "description": "Prepaid mobile plan with 5 GB data, unlimited SMS, and 200 minutes of voice calls per month.",
-      "monthly_price_usd": 19.99,
-      "category": "Mobile"
+      "name": "VelvoCart Prime",
+      "type": "Subscription",
+      "description": "Annual premium membership providing free same-day shipping, exclusive deals, and VelvoStream entertainment perks.",
+      "monthly_price_usd": 12.99,
+      "category": "Membership"
     },
     {
       "id": "PROD-002",
-      "name": "NexaMobile Unlimited",
-      "type": "Mobile Plan",
-      "description": "Postpaid unlimited voice, SMS, and data plan with 30 GB high-speed 5G data before throttling.",
-      "monthly_price_usd": 49.99,
-      "category": "Mobile"
+      "name": "Electronics Store",
+      "type": "Product Category",
+      "description": "Smartphones, laptops, 4K TVs, audio equipment, and smart home appliances.",
+      "monthly_price_usd": 0.0,
+      "category": "Electronics"
     },
     {
       "id": "PROD-003",
-      "name": "NexaMobile Family Pack",
-      "type": "Mobile Plan",
-      "description": "Shared postpaid plan for up to 5 lines with 25 GB high-speed data per line and international roaming add-ons.",
-      "monthly_price_usd": 119.99,
-      "category": "Mobile"
+      "name": "Fashion & Apparel",
+      "type": "Product Category",
+      "description": "Men's, women's, and children's clothing, footwear, luxury accessories, and jewelry.",
+      "monthly_price_usd": 0.0,
+      "category": "Fashion"
     },
     {
       "id": "PROD-004",
-      "name": "NexaFiber Home 300",
-      "type": "Home Broadband",
-      "description": "Residential fiber-optic internet with symmetrical 300 Mbps download and upload speeds.",
-      "monthly_price_usd": 39.99,
-      "category": "Broadband"
+      "name": "Home & Kitchen",
+      "type": "Product Category",
+      "description": "Furniture, cookware, bedding, home decor, and major household appliances.",
+      "monthly_price_usd": 0.0,
+      "category": "Home"
     },
     {
       "id": "PROD-005",
-      "name": "NexaFiber Home 1Gig",
-      "type": "Home Broadband",
-      "description": "Residential fiber-optic internet with symmetrical 1 Gbps speeds, ideal for smart homes and remote workers.",
-      "monthly_price_usd": 69.99,
-      "category": "Broadband"
+      "name": "Grocery Delivery",
+      "type": "Express Service",
+      "description": "Fresh produce, dairy, bakery, and pantry essentials delivered within 2 hours.",
+      "monthly_price_usd": 4.99,
+      "category": "Grocery"
     },
     {
       "id": "PROD-006",
-      "name": "NexaStream TV",
-      "type": "IPTV Streaming",
-      "description": "IPTV service with 180+ live channels, cloud DVR (500 GB), and on-demand library of 10,000+ titles.",
-      "monthly_price_usd": 29.99,
-      "category": "IPTV"
+      "name": "VelvoCart Marketplace",
+      "type": "3rd-Party Marketplace",
+      "description": "Platform hosting thousands of verified independent third-party sellers and artisans.",
+      "monthly_price_usd": 0.0,
+      "category": "Marketplace"
     },
     {
       "id": "PROD-007",
-      "name": "NexaBundle Home+",
-      "type": "Bundle",
-      "description": "Bundled package combining NexaFiber Home 300 + NexaStream TV at a discounted rate.",
-      "monthly_price_usd": 59.99,
-      "category": "Bundle"
+      "name": "Digital Gift Cards",
+      "type": "Payment Product",
+      "description": "Instant digital gift vouchers for storewide shopping and subscription gifts.",
+      "monthly_price_usd": 0.0,
+      "category": "Gift Cards"
     },
     {
       "id": "PROD-008",
-      "name": "NexaCloud SMB",
-      "type": "Enterprise Communications",
-      "description": "Unified communications platform for SMBs including VoIP PBX, video conferencing, team messaging, and cloud storage up to 2 TB.",
-      "monthly_price_usd": 149.99,
-      "category": "Enterprise"
+      "name": "VelvoPay Digital Wallet",
+      "type": "Fintech Service",
+      "description": "Integrated digital wallet offering 1-click checkout, buyer cashback, and installment payment plans.",
+      "monthly_price_usd": 0.0,
+      "category": "Payments"
     },
     {
       "id": "PROD-009",
-      "name": "NexaFiber Enterprise",
-      "type": "Enterprise Broadband",
-      "description": "Dedicated fiber internet for businesses with SLA-backed 99.99% uptime, static IPs, and 24/7 priority support.",
-      "monthly_price_usd": 299.99,
-      "category": "Enterprise"
+      "name": "Same-Day Express Delivery",
+      "type": "Logistics Add-on",
+      "description": "Guaranteed same-day fulfillment for eligible metropolitan zip codes.",
+      "monthly_price_usd": 9.99,
+      "category": "Shipping"
     },
     {
       "id": "PROD-010",
-      "name": "NexaRoam Global Pass",
-      "type": "International Add-on",
-      "description": "International roaming add-on providing voice, SMS, and 5 GB data in 80+ countries at no extra per-usage charge.",
-      "monthly_price_usd": 24.99,
-      "category": "Add-on"
+      "name": "VelvoCart Returns Center",
+      "type": "Reverse Logistics",
+      "description": "Hassle-free return drop-off hubs located across 5,000 retail partner locations.",
+      "monthly_price_usd": 0.0,
+      "category": "Returns"
     },
     {
       "id": "PROD-011",
-      "name": "NexaShield Security Suite",
-      "type": "Digital Security Add-on",
-      "description": "Mobile and home network security suite with real-time threat detection, VPN, parental controls, and identity monitoring for up to 10 devices.",
-      "monthly_price_usd": 9.99,
-      "category": "Add-on"
+      "name": "Customer Protection Plan",
+      "type": "Extended Warranty",
+      "description": "2-year extended warranty and accidental damage coverage for electronics and appliances.",
+      "monthly_price_usd": 3.99,
+      "category": "Protection"
     },
     {
       "id": "PROD-012",
-      "name": "NexaDevice Hub",
-      "type": "Device & Equipment",
-      "description": "NexaLink-branded Wi-Fi 6E mesh router system (3-node) sold or leased to residential broadband subscribers for whole-home coverage.",
-      "monthly_price_usd": 8.99,
-      "category": "Device"
+      "name": "Bulk & Business Orders",
+      "type": "Commercial Account",
+      "description": "Wholesale pricing, tax-exempt purchasing, and dedicated account management for corporate buyers.",
+      "monthly_price_usd": 0.0,
+      "category": "B2B"
     }
   ],
   "app_meta": {
     "platform": "SupportNova",
-    "platform_version": "1.0.0",
-    "config_version": "1.0",
-    "last_updated": "2026-09-25"
+    "platform_version": "2.0.0",
+    "config_version": "2.0",
+    "last_updated": "2026-09-26"
   }
 }

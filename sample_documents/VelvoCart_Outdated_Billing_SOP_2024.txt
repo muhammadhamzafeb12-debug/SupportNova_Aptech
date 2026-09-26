@@ -1,0 +1,8 @@
+# VelvoCart Outdated Billing SOP 2024 (DEPRECATED v1.0)
+
+NOTE: THIS DOCUMENT IS OUTDATED AND DEPRECATED.
+
+1. DEPRECATED BILLING DISPUTE WINDOW
+[OUTDATED v1.0 RULE]: Billing price mismatches must be reported within 60 days of purchase.
+
+(Contradicted by Active Policy KB-DOC-1005 30-day invoice dispute window).

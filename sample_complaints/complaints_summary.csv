@@ -1,0 +1,502 @@
+Complaint ID,Complaint Number,Customer Name,Order Number,Category,Subcategory,Department,Urgency,Escalation Required,Is Ambiguous,Is Contradictory,Is Injection,Is Repeat
+CMP-ID-1077,CMP-2026-01077,Marcus Vance,VC-890170,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1494,CMP-2026-01494,Jessica Taylor,VC-841995,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1108,CMP-2026-01108,Alice Johnson,VC-363319,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1147,CMP-2026-01147,Sarah Jenkins,VC-736130,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1456,CMP-2026-01456,Sarah Jenkins,VC-303322,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1476,CMP-2026-01476,Jessica Taylor,VC-584172,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1102,CMP-2026-01102,Alice Johnson,VC-654634,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1478,CMP-2026-01478,David Chen,VC-486649,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1060,CMP-2026-01060,Marcus Vance,VC-680828,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1332,CMP-2026-01332,Jessica Taylor,VC-109853,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1443,CMP-2026-01443,Sarah Jenkins,VC-973835,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1088,CMP-2026-01088,Robert Smith,VC-723939,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1438,CMP-2026-01438,Marcus Vance,VC-416061,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1052,CMP-2026-01052,Jessica Taylor,VC-867460,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1522,CMP-2026-01522,Elena Rostova,VC-423869,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1026,CMP-2026-01026,Christopher Lee,VC-771088,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1282,CMP-2026-01282,Michael Brown,VC-221552,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1516,CMP-2026-01516,Sarah Jenkins,VC-494976,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1158,CMP-2026-01158,Robert Smith,VC-105814,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1221,CMP-2026-01221,Alice Johnson,VC-682789,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1367,CMP-2026-01367,Christopher Lee,VC-830316,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1251,CMP-2026-01251,David Chen,VC-564226,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1527,CMP-2026-01527,David Chen,VC-180913,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1218,CMP-2026-01218,Sarah Jenkins,VC-618317,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1021,CMP-2026-01021,Sarah Jenkins,VC-766563,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1463,CMP-2026-01463,Jessica Taylor,VC-285751,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1286,CMP-2026-01286,Alice Johnson,VC-896907,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1061,CMP-2026-01061,Robert Smith,VC-107540,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1329,CMP-2026-01329,Marcus Vance,VC-816318,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1174,CMP-2026-01174,Jessica Taylor,VC-668969,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1333,CMP-2026-01333,Elena Rostova,VC-673149,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1124,CMP-2026-01124,Marcus Vance,VC-593554,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1327,CMP-2026-01327,Elena Rostova,VC-931016,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1247,CMP-2026-01247,Amanda Martinez,VC-950544,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1142,CMP-2026-01142,Elena Rostova,VC-681343,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1563,CMP-2026-01563,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1548,CMP-2026-01548,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1354,CMP-2026-01354,Michael Brown,VC-807166,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1400,CMP-2026-01400,Michael Brown,VC-734836,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1515,CMP-2026-01515,Christopher Lee,VC-424620,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1434,CMP-2026-01434,David Chen,VC-216276,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1510,CMP-2026-01510,Elena Rostova,VC-795847,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1129,CMP-2026-01129,Christopher Lee,VC-984642,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1492,CMP-2026-01492,Elena Rostova,VC-629057,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1066,CMP-2026-01066,Jessica Taylor,VC-354801,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1014,CMP-2026-01014,David Chen,VC-733052,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1283,CMP-2026-01283,Christopher Lee,VC-789606,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1470,CMP-2026-01470,Jessica Taylor,VC-171603,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1390,CMP-2026-01390,Jessica Taylor,VC-214351,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1311,CMP-2026-01311,Jessica Taylor,VC-205239,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1047,CMP-2026-01047,Sarah Jenkins,VC-260263,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1037,CMP-2026-01037,Elena Rostova,VC-757924,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1188,CMP-2026-01188,Jessica Taylor,VC-321941,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1202,CMP-2026-01202,Robert Smith,VC-307963,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1453,CMP-2026-01453,Sarah Jenkins,VC-882033,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1484,CMP-2026-01484,Amanda Martinez,VC-571579,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1501,CMP-2026-01501,Amanda Martinez,VC-811875,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1399,CMP-2026-01399,David Chen,VC-656329,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1429,CMP-2026-01429,Amanda Martinez,VC-891083,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1028,CMP-2026-01028,Sarah Jenkins,VC-944151,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1122,CMP-2026-01122,Marcus Vance,VC-870763,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1293,CMP-2026-01293,Elena Rostova,VC-779172,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1244,CMP-2026-01244,Robert Smith,VC-600935,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1564,CMP-2026-01564,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1209,CMP-2026-01209,Michael Brown,VC-210665,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1020,CMP-2026-01020,Michael Brown,VC-205907,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1566,CMP-2026-01566,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1049,CMP-2026-01049,Jessica Taylor,VC-439902,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1295,CMP-2026-01295,Jessica Taylor,VC-535673,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1310,CMP-2026-01310,Christopher Lee,VC-232378,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1131,CMP-2026-01131,Alice Johnson,VC-378361,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1057,CMP-2026-01057,Sarah Jenkins,VC-518373,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1521,CMP-2026-01521,Sarah Jenkins,VC-119116,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1529,CMP-2026-01529,Christopher Lee,VC-632351,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1500,CMP-2026-01500,Sarah Jenkins,VC-912085,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1458,CMP-2026-01458,Robert Smith,VC-347745,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1304,CMP-2026-01304,Christopher Lee,VC-899929,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1171,CMP-2026-01171,Elena Rostova,VC-245095,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1331,CMP-2026-01331,Jessica Taylor,VC-366314,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1178,CMP-2026-01178,Michael Brown,VC-890075,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1431,CMP-2026-01431,Jessica Taylor,VC-544611,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1206,CMP-2026-01206,Christopher Lee,VC-464069,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1541,CMP-2026-01541,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1210,CMP-2026-01210,Jessica Taylor,VC-968962,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1364,CMP-2026-01364,Jessica Taylor,VC-419149,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1413,CMP-2026-01413,Amanda Martinez,VC-208633,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1314,CMP-2026-01314,David Chen,VC-919488,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1267,CMP-2026-01267,Michael Brown,VC-833723,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1417,CMP-2026-01417,Michael Brown,VC-946432,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1008,CMP-2026-01008,Christopher Lee,VC-835392,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1271,CMP-2026-01271,Marcus Vance,VC-195763,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1281,CMP-2026-01281,Sarah Jenkins,VC-192337,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1320,CMP-2026-01320,David Chen,VC-817644,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1106,CMP-2026-01106,Sarah Jenkins,VC-320861,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1003,CMP-2026-01003,Robert Smith,VC-872246,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1504,CMP-2026-01504,Christopher Lee,VC-199096,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1104,CMP-2026-01104,Robert Smith,VC-221035,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1019,CMP-2026-01019,David Chen,VC-338968,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1370,CMP-2026-01370,Alice Johnson,VC-393328,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1291,CMP-2026-01291,Michael Brown,VC-679077,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1010,CMP-2026-01010,Elena Rostova,VC-895667,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1402,CMP-2026-01402,Jessica Taylor,VC-550961,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1055,CMP-2026-01055,Amanda Martinez,VC-653306,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1197,CMP-2026-01197,David Chen,VC-833442,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1035,CMP-2026-01035,Elena Rostova,VC-329974,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1127,CMP-2026-01127,Robert Smith,VC-392136,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1570,CMP-2026-01570,Elena Rostova,VC-558933,Product Quality & Authenticity,Defective or Malfunctioning Product,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1227,CMP-2026-01227,Sarah Jenkins,VC-709805,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1133,CMP-2026-01133,Amanda Martinez,VC-557592,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1112,CMP-2026-01112,Christopher Lee,VC-548462,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1559,CMP-2026-01559,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1321,CMP-2026-01321,Michael Brown,VC-194769,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1547,CMP-2026-01547,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1016,CMP-2026-01016,Christopher Lee,VC-182627,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1330,CMP-2026-01330,Marcus Vance,VC-250069,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1432,CMP-2026-01432,David Chen,VC-534303,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1360,CMP-2026-01360,Sarah Jenkins,VC-688678,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1353,CMP-2026-01353,Marcus Vance,VC-247594,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1530,CMP-2026-01530,Christopher Lee,VC-975686,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1018,CMP-2026-01018,Robert Smith,VC-838797,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1134,CMP-2026-01134,Amanda Martinez,VC-503906,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1211,CMP-2026-01211,Elena Rostova,VC-556641,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1554,CMP-2026-01554,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1143,CMP-2026-01143,Michael Brown,VC-797229,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1457,CMP-2026-01457,Elena Rostova,VC-958729,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1414,CMP-2026-01414,Jessica Taylor,VC-262246,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1256,CMP-2026-01256,Elena Rostova,VC-178711,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1374,CMP-2026-01374,Michael Brown,VC-163491,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1024,CMP-2026-01024,Christopher Lee,VC-279451,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1534,CMP-2026-01534,Elena Rostova,VC-495019,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1307,CMP-2026-01307,Alice Johnson,VC-530728,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1058,CMP-2026-01058,Robert Smith,VC-573417,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1487,CMP-2026-01487,Christopher Lee,VC-598733,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1319,CMP-2026-01319,Robert Smith,VC-747453,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1078,CMP-2026-01078,Jessica Taylor,VC-609231,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1050,CMP-2026-01050,David Chen,VC-480612,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1347,CMP-2026-01347,Robert Smith,VC-237795,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1294,CMP-2026-01294,Christopher Lee,VC-406039,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1303,CMP-2026-01303,Sarah Jenkins,VC-607868,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1376,CMP-2026-01376,Amanda Martinez,VC-322409,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1442,CMP-2026-01442,Marcus Vance,VC-837852,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1338,CMP-2026-01338,David Chen,VC-702733,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1339,CMP-2026-01339,Michael Brown,VC-123005,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1051,CMP-2026-01051,Amanda Martinez,VC-352572,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1561,CMP-2026-01561,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1270,CMP-2026-01270,Amanda Martinez,VC-437978,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1337,CMP-2026-01337,Michael Brown,VC-348728,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1240,CMP-2026-01240,Elena Rostova,VC-831295,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1382,CMP-2026-01382,Elena Rostova,VC-251716,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1012,CMP-2026-01012,Sarah Jenkins,VC-900581,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1109,CMP-2026-01109,David Chen,VC-544151,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1092,CMP-2026-01092,Christopher Lee,VC-692683,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1107,CMP-2026-01107,David Chen,VC-765046,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1512,CMP-2026-01512,Michael Brown,VC-787923,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1537,CMP-2026-01537,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1552,CMP-2026-01552,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1224,CMP-2026-01224,Jessica Taylor,VC-599219,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1440,CMP-2026-01440,Jessica Taylor,VC-108105,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1335,CMP-2026-01335,David Chen,VC-544920,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1451,CMP-2026-01451,Michael Brown,VC-355135,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1059,CMP-2026-01059,Sarah Jenkins,VC-167136,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1305,CMP-2026-01305,Marcus Vance,VC-437408,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1505,CMP-2026-01505,Michael Brown,VC-811332,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1083,CMP-2026-01083,Alice Johnson,VC-328275,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1420,CMP-2026-01420,David Chen,VC-789786,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1250,CMP-2026-01250,Christopher Lee,VC-336650,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1149,CMP-2026-01149,Elena Rostova,VC-932291,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1469,CMP-2026-01469,Jessica Taylor,VC-258290,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1507,CMP-2026-01507,Amanda Martinez,VC-858889,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1243,CMP-2026-01243,Elena Rostova,VC-457256,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1340,CMP-2026-01340,Alice Johnson,VC-693419,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1375,CMP-2026-01375,Jessica Taylor,VC-228093,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1540,CMP-2026-01540,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1393,CMP-2026-01393,Alice Johnson,VC-132663,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1383,CMP-2026-01383,Elena Rostova,VC-937302,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1546,CMP-2026-01546,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1517,CMP-2026-01517,Elena Rostova,VC-952686,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1350,CMP-2026-01350,David Chen,VC-626169,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1513,CMP-2026-01513,Amanda Martinez,VC-235215,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1154,CMP-2026-01154,Amanda Martinez,VC-598216,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1114,CMP-2026-01114,Sarah Jenkins,VC-975136,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1190,CMP-2026-01190,Michael Brown,VC-972335,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1386,CMP-2026-01386,Elena Rostova,VC-116547,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1073,CMP-2026-01073,Michael Brown,VC-246991,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1241,CMP-2026-01241,Robert Smith,VC-614723,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1545,CMP-2026-01545,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1245,CMP-2026-01245,Robert Smith,VC-615633,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1068,CMP-2026-01068,Michael Brown,VC-471507,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1255,CMP-2026-01255,Marcus Vance,VC-264686,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1496,CMP-2026-01496,Amanda Martinez,VC-648141,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1391,CMP-2026-01391,Alice Johnson,VC-744986,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1064,CMP-2026-01064,Jessica Taylor,VC-392004,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1094,CMP-2026-01094,Elena Rostova,VC-515011,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1025,CMP-2026-01025,Jessica Taylor,VC-271339,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1404,CMP-2026-01404,Robert Smith,VC-865054,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1141,CMP-2026-01141,Michael Brown,VC-442027,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1544,CMP-2026-01544,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1474,CMP-2026-01474,Christopher Lee,VC-469038,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1128,CMP-2026-01128,Christopher Lee,VC-772642,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1177,CMP-2026-01177,Alice Johnson,VC-600149,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1225,CMP-2026-01225,David Chen,VC-197573,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1137,CMP-2026-01137,Marcus Vance,VC-877991,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1229,CMP-2026-01229,Sarah Jenkins,VC-677124,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1361,CMP-2026-01361,Robert Smith,VC-779112,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1377,CMP-2026-01377,Sarah Jenkins,VC-925013,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1239,CMP-2026-01239,Alice Johnson,VC-147726,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1462,CMP-2026-01462,Robert Smith,VC-897143,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1153,CMP-2026-01153,Alice Johnson,VC-254511,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1416,CMP-2026-01416,David Chen,VC-899649,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1315,CMP-2026-01315,Michael Brown,VC-826353,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1195,CMP-2026-01195,Elena Rostova,VC-350132,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1029,CMP-2026-01029,Marcus Vance,VC-169403,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1359,CMP-2026-01359,Jessica Taylor,VC-345180,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1258,CMP-2026-01258,Marcus Vance,VC-134225,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1298,CMP-2026-01298,Robert Smith,VC-243139,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1316,CMP-2026-01316,Sarah Jenkins,VC-993140,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1152,CMP-2026-01152,David Chen,VC-346277,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1036,CMP-2026-01036,Alice Johnson,VC-195325,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1428,CMP-2026-01428,Alice Johnson,VC-189083,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1461,CMP-2026-01461,Elena Rostova,VC-731661,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1287,CMP-2026-01287,Elena Rostova,VC-675898,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1556,CMP-2026-01556,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1358,CMP-2026-01358,Sarah Jenkins,VC-962367,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1465,CMP-2026-01465,Amanda Martinez,VC-896788,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1193,CMP-2026-01193,Alice Johnson,VC-171951,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1436,CMP-2026-01436,Alice Johnson,VC-423401,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1411,CMP-2026-01411,Michael Brown,VC-797660,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1196,CMP-2026-01196,Amanda Martinez,VC-219946,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1093,CMP-2026-01093,Sarah Jenkins,VC-314181,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1473,CMP-2026-01473,Alice Johnson,VC-720148,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1318,CMP-2026-01318,Jessica Taylor,VC-896290,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1230,CMP-2026-01230,David Chen,VC-575786,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1571,CMP-2026-01571,Elena Rostova,VC-145814,Product Quality & Authenticity,Defective or Malfunctioning Product,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1184,CMP-2026-01184,Alice Johnson,VC-660069,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1162,CMP-2026-01162,Amanda Martinez,VC-686075,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1464,CMP-2026-01464,Amanda Martinez,VC-586490,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1525,CMP-2026-01525,Marcus Vance,VC-301332,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1236,CMP-2026-01236,Marcus Vance,VC-205409,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1185,CMP-2026-01185,Alice Johnson,VC-691807,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1027,CMP-2026-01027,Alice Johnson,VC-440035,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1063,CMP-2026-01063,Robert Smith,VC-446479,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1300,CMP-2026-01300,Alice Johnson,VC-380150,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1372,CMP-2026-01372,Sarah Jenkins,VC-997004,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1491,CMP-2026-01491,Robert Smith,VC-849014,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1312,CMP-2026-01312,Alice Johnson,VC-579123,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1344,CMP-2026-01344,Elena Rostova,VC-892280,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1004,CMP-2026-01004,Robert Smith,VC-671858,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1538,CMP-2026-01538,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1406,CMP-2026-01406,Jessica Taylor,VC-820184,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1355,CMP-2026-01355,Michael Brown,VC-194689,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1115,CMP-2026-01115,Michael Brown,VC-255287,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1203,CMP-2026-01203,Marcus Vance,VC-970917,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1567,CMP-2026-01567,Elena Rostova,VC-948343,Product Quality & Authenticity,Defective or Malfunctioning Product,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1249,CMP-2026-01249,Amanda Martinez,VC-536390,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1296,CMP-2026-01296,Christopher Lee,VC-578975,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1471,CMP-2026-01471,David Chen,VC-563688,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1395,CMP-2026-01395,Robert Smith,VC-565108,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1357,CMP-2026-01357,David Chen,VC-805511,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1253,CMP-2026-01253,Robert Smith,VC-739244,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1485,CMP-2026-01485,Marcus Vance,VC-783501,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1394,CMP-2026-01394,Robert Smith,VC-546980,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1405,CMP-2026-01405,David Chen,VC-427704,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1475,CMP-2026-01475,David Chen,VC-177794,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1415,CMP-2026-01415,Christopher Lee,VC-467121,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1284,CMP-2026-01284,Marcus Vance,VC-156837,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1439,CMP-2026-01439,David Chen,VC-367931,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1455,CMP-2026-01455,Robert Smith,VC-763984,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1163,CMP-2026-01163,Amanda Martinez,VC-564071,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1308,CMP-2026-01308,Michael Brown,VC-595951,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1044,CMP-2026-01044,David Chen,VC-857168,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1119,CMP-2026-01119,Elena Rostova,VC-885884,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1290,CMP-2026-01290,David Chen,VC-266071,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1138,CMP-2026-01138,Sarah Jenkins,VC-173372,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1100,CMP-2026-01100,Elena Rostova,VC-398830,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1511,CMP-2026-01511,David Chen,VC-466813,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1103,CMP-2026-01103,Robert Smith,VC-413921,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1259,CMP-2026-01259,Jessica Taylor,VC-396451,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1101,CMP-2026-01101,David Chen,VC-837715,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1042,CMP-2026-01042,Sarah Jenkins,VC-772097,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1497,CMP-2026-01497,Sarah Jenkins,VC-266457,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1477,CMP-2026-01477,Alice Johnson,VC-139434,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1204,CMP-2026-01204,David Chen,VC-910004,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1136,CMP-2026-01136,Christopher Lee,VC-945687,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1165,CMP-2026-01165,Jessica Taylor,VC-879779,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1568,CMP-2026-01568,Elena Rostova,VC-273580,Product Quality & Authenticity,Defective or Malfunctioning Product,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1125,CMP-2026-01125,David Chen,VC-466643,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1260,CMP-2026-01260,David Chen,VC-344762,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1467,CMP-2026-01467,Amanda Martinez,VC-774225,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1048,CMP-2026-01048,Christopher Lee,VC-916449,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1519,CMP-2026-01519,Michael Brown,VC-197992,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1292,CMP-2026-01292,Robert Smith,VC-982277,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1116,CMP-2026-01116,Sarah Jenkins,VC-423232,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1407,CMP-2026-01407,Robert Smith,VC-972176,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1448,CMP-2026-01448,Alice Johnson,VC-524707,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1565,CMP-2026-01565,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1528,CMP-2026-01528,Robert Smith,VC-985447,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1176,CMP-2026-01176,Alice Johnson,VC-712451,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1071,CMP-2026-01071,Sarah Jenkins,VC-863587,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1285,CMP-2026-01285,Jessica Taylor,VC-752878,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1264,CMP-2026-01264,David Chen,VC-273982,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1403,CMP-2026-01403,Jessica Taylor,VC-455395,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1167,CMP-2026-01167,Christopher Lee,VC-903013,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1268,CMP-2026-01268,Jessica Taylor,VC-666211,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1082,CMP-2026-01082,Elena Rostova,VC-610311,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1444,CMP-2026-01444,Alice Johnson,VC-878086,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1220,CMP-2026-01220,Amanda Martinez,VC-393243,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1156,CMP-2026-01156,Michael Brown,VC-830180,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1573,CMP-2026-01573,Robert Smith,VC-481995,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1490,CMP-2026-01490,Sarah Jenkins,VC-950360,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1365,CMP-2026-01365,Christopher Lee,VC-346205,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1488,CMP-2026-01488,Alice Johnson,VC-258189,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1388,CMP-2026-01388,Robert Smith,VC-881886,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1379,CMP-2026-01379,Christopher Lee,VC-970127,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1231,CMP-2026-01231,Robert Smith,VC-341736,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1435,CMP-2026-01435,Jessica Taylor,VC-721946,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1472,CMP-2026-01472,David Chen,VC-935012,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1424,CMP-2026-01424,Alice Johnson,VC-876962,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1233,CMP-2026-01233,Elena Rostova,VC-899213,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1070,CMP-2026-01070,Robert Smith,VC-777568,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1380,CMP-2026-01380,Marcus Vance,VC-326441,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1032,CMP-2026-01032,Marcus Vance,VC-246413,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1454,CMP-2026-01454,Elena Rostova,VC-916964,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1198,CMP-2026-01198,Amanda Martinez,VC-735324,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1302,CMP-2026-01302,Elena Rostova,VC-613425,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1086,CMP-2026-01086,Christopher Lee,VC-627276,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1542,CMP-2026-01542,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1062,CMP-2026-01062,Marcus Vance,VC-161733,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1265,CMP-2026-01265,Amanda Martinez,VC-964278,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1173,CMP-2026-01173,Michael Brown,VC-167348,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1274,CMP-2026-01274,Jessica Taylor,VC-644173,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1065,CMP-2026-01065,Amanda Martinez,VC-238739,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1189,CMP-2026-01189,Michael Brown,VC-898207,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1200,CMP-2026-01200,Alice Johnson,VC-706794,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1398,CMP-2026-01398,Sarah Jenkins,VC-674993,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1150,CMP-2026-01150,Christopher Lee,VC-397571,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1396,CMP-2026-01396,Elena Rostova,VC-737846,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1336,CMP-2026-01336,Michael Brown,VC-308894,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1075,CMP-2026-01075,Christopher Lee,VC-947272,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1157,CMP-2026-01157,Elena Rostova,VC-355836,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1276,CMP-2026-01276,Jessica Taylor,VC-195674,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1199,CMP-2026-01199,Elena Rostova,VC-220096,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1266,CMP-2026-01266,Jessica Taylor,VC-230394,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1569,CMP-2026-01569,Elena Rostova,VC-856215,Product Quality & Authenticity,Defective or Malfunctioning Product,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1030,CMP-2026-01030,Marcus Vance,VC-429963,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1506,CMP-2026-01506,David Chen,VC-397949,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1041,CMP-2026-01041,Christopher Lee,VC-220116,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1381,CMP-2026-01381,Amanda Martinez,VC-254721,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1121,CMP-2026-01121,Sarah Jenkins,VC-288073,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1518,CMP-2026-01518,Christopher Lee,VC-802667,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1191,CMP-2026-01191,Alice Johnson,VC-593152,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1074,CMP-2026-01074,Marcus Vance,VC-585100,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1348,CMP-2026-01348,Michael Brown,VC-883790,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1368,CMP-2026-01368,Elena Rostova,VC-878325,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1551,CMP-2026-01551,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1215,CMP-2026-01215,Marcus Vance,VC-993085,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1084,CMP-2026-01084,Alice Johnson,VC-668532,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1446,CMP-2026-01446,Amanda Martinez,VC-550137,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1493,CMP-2026-01493,Marcus Vance,VC-141043,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1532,CMP-2026-01532,Amanda Martinez,VC-903531,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1179,CMP-2026-01179,Christopher Lee,VC-883826,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1213,CMP-2026-01213,Jessica Taylor,VC-912270,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1172,CMP-2026-01172,Elena Rostova,VC-827659,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1288,CMP-2026-01288,Jessica Taylor,VC-832168,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1479,CMP-2026-01479,Robert Smith,VC-180458,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1017,CMP-2026-01017,Sarah Jenkins,VC-748564,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1242,CMP-2026-01242,Jessica Taylor,VC-398151,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1135,CMP-2026-01135,Michael Brown,VC-146542,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1166,CMP-2026-01166,Marcus Vance,VC-888295,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1015,CMP-2026-01015,Christopher Lee,VC-581741,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1207,CMP-2026-01207,Robert Smith,VC-488571,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1326,CMP-2026-01326,Michael Brown,VC-656968,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1356,CMP-2026-01356,Robert Smith,VC-662636,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1280,CMP-2026-01280,Christopher Lee,VC-519904,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1539,CMP-2026-01539,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1480,CMP-2026-01480,Amanda Martinez,VC-744883,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1482,CMP-2026-01482,Amanda Martinez,VC-585188,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1531,CMP-2026-01531,Sarah Jenkins,VC-139581,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1005,CMP-2026-01005,Alice Johnson,VC-133326,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1222,CMP-2026-01222,Marcus Vance,VC-189771,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1043,CMP-2026-01043,Elena Rostova,VC-555884,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1508,CMP-2026-01508,Sarah Jenkins,VC-257677,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1363,CMP-2026-01363,Elena Rostova,VC-222343,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1182,CMP-2026-01182,Michael Brown,VC-801364,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1262,CMP-2026-01262,Marcus Vance,VC-671015,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1524,CMP-2026-01524,Jessica Taylor,VC-903373,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1317,CMP-2026-01317,Sarah Jenkins,VC-498468,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1056,CMP-2026-01056,Marcus Vance,VC-665492,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1001,CMP-2026-01001,Robert Smith,VC-770487,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1216,CMP-2026-01216,Marcus Vance,VC-572700,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1325,CMP-2026-01325,Michael Brown,VC-493049,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1223,CMP-2026-01223,Christopher Lee,VC-612311,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1140,CMP-2026-01140,David Chen,VC-631756,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1351,CMP-2026-01351,Jessica Taylor,VC-964749,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1502,CMP-2026-01502,Sarah Jenkins,VC-154909,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1410,CMP-2026-01410,Robert Smith,VC-445658,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1132,CMP-2026-01132,Sarah Jenkins,VC-555673,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1011,CMP-2026-01011,David Chen,VC-456778,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1099,CMP-2026-01099,Robert Smith,VC-465962,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1234,CMP-2026-01234,Jessica Taylor,VC-874483,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1069,CMP-2026-01069,Alice Johnson,VC-864491,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1006,CMP-2026-01006,Christopher Lee,VC-343962,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1023,CMP-2026-01023,Robert Smith,VC-835911,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1237,CMP-2026-01237,Elena Rostova,VC-478411,Account Management,Account Suspended or Restricted,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1385,CMP-2026-01385,Marcus Vance,VC-928358,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1194,CMP-2026-01194,Alice Johnson,VC-309044,Product Quality & Authenticity,Item Not as Described,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1228,CMP-2026-01228,Sarah Jenkins,VC-656711,Account Management,Unable to Login / Password Reset Error,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1575,CMP-2026-01575,Robert Smith,VC-854540,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1079,CMP-2026-01079,Elena Rostova,VC-161483,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1091,CMP-2026-01091,Michael Brown,VC-185965,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1248,CMP-2026-01248,Robert Smith,VC-360247,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1279,CMP-2026-01279,Jessica Taylor,VC-827369,Account Security & Fraud,Account Takeover Suspected,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1120,CMP-2026-01120,Elena Rostova,VC-938742,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1369,CMP-2026-01369,Jessica Taylor,VC-203831,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1533,CMP-2026-01533,Amanda Martinez,VC-237414,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1392,CMP-2026-01392,David Chen,VC-646781,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1254,CMP-2026-01254,David Chen,VC-321275,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1148,CMP-2026-01148,Marcus Vance,VC-563638,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1328,CMP-2026-01328,Amanda Martinez,VC-182804,Marketplace & Seller Operations,Fraudulent Seller Listing,Marketplace & Seller Operations,P0,True,False,False,False,False
+CMP-ID-1031,CMP-2026-01031,Jessica Taylor,VC-514850,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1466,CMP-2026-01466,Amanda Martinez,VC-570711,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1422,CMP-2026-01422,Elena Rostova,VC-106402,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1371,CMP-2026-01371,Jessica Taylor,VC-327823,Customer Service Experience,Extended Support Hold Time,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1257,CMP-2026-01257,Amanda Martinez,VC-572387,Account Management,VelvoCart Prime Renewal / Cancellation Issue,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1572,CMP-2026-01572,Robert Smith,VC-530816,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1208,CMP-2026-01208,Alice Johnson,VC-457806,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1118,CMP-2026-01118,Christopher Lee,VC-470858,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1181,CMP-2026-01181,Alice Johnson,VC-609232,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1459,CMP-2026-01459,David Chen,VC-253557,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1553,CMP-2026-01553,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1187,CMP-2026-01187,David Chen,VC-152727,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1322,CMP-2026-01322,Robert Smith,VC-764532,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1426,CMP-2026-01426,Sarah Jenkins,VC-575682,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1046,CMP-2026-01046,Christopher Lee,VC-412942,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1301,CMP-2026-01301,Amanda Martinez,VC-413058,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1097,CMP-2026-01097,Robert Smith,VC-690341,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1009,CMP-2026-01009,Amanda Martinez,VC-571029,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1345,CMP-2026-01345,Alice Johnson,VC-757937,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1397,CMP-2026-01397,Amanda Martinez,VC-388375,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1468,CMP-2026-01468,Sarah Jenkins,VC-438908,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1076,CMP-2026-01076,Christopher Lee,VC-783823,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1401,CMP-2026-01401,Christopher Lee,VC-219971,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1562,CMP-2026-01562,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1343,CMP-2026-01343,Amanda Martinez,VC-299367,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1175,CMP-2026-01175,Michael Brown,VC-316881,Product Quality & Authenticity,Defective or Malfunctioning Product,Product Quality & Vendor Assurance,P1,False,False,False,False,False
+CMP-ID-1269,CMP-2026-01269,Alice Johnson,VC-727086,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1499,CMP-2026-01499,Michael Brown,VC-506235,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,True,False,False
+CMP-ID-1085,CMP-2026-01085,Alice Johnson,VC-159942,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1186,CMP-2026-01186,Elena Rostova,VC-549433,Product Quality & Authenticity,Counterfeit / Fake Item Delivered,Product Quality & Vendor Assurance,P0,True,False,False,False,False
+CMP-ID-1033,CMP-2026-01033,David Chen,VC-665158,Order & Delivery,Wrong Item Delivered,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1523,CMP-2026-01523,Sarah Jenkins,VC-324597,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1384,CMP-2026-01384,Elena Rostova,VC-127032,Customer Service Experience,Repeated Unresolved Issue,Account Management & Customer Care,P1,True,False,False,False,False
+CMP-ID-1430,CMP-2026-01430,David Chen,VC-185544,Regulatory & Legal Compliance,Data Privacy Law Violation,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1498,CMP-2026-01498,David Chen,VC-490963,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1445,CMP-2026-01445,Robert Smith,VC-582087,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1526,CMP-2026-01526,Elena Rostova,VC-244247,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1408,CMP-2026-01408,Sarah Jenkins,VC-201255,Promotions & Pricing,Checkout Price Higher than Advertised,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1013,CMP-2026-01013,Robert Smith,VC-498382,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1323,CMP-2026-01323,David Chen,VC-827712,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1212,CMP-2026-01212,David Chen,VC-782054,Product Quality & Authenticity,Missing Accessories or Components,Product Quality & Vendor Assurance,P2,False,False,False,False,False
+CMP-ID-1495,CMP-2026-01495,Christopher Lee,VC-560767,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1535,CMP-2026-01535,Elena Rostova,VC-270128,Account Security & Fraud,Data Privacy / Security Incident Concern,Trust & Safety (Fraud & Security),P0,True,False,False,True,False
+CMP-ID-1352,CMP-2026-01352,Robert Smith,VC-455168,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1313,CMP-2026-01313,Elena Rostova,VC-529893,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1038,CMP-2026-01038,Robert Smith,VC-725380,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1481,CMP-2026-01481,Michael Brown,VC-631699,Order & Delivery,Multi-issue Complex Complaint,Order Fulfillment & Logistics,P1,True,True,False,False,False
+CMP-ID-1272,CMP-2026-01272,Alice Johnson,VC-715643,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1489,CMP-2026-01489,Robert Smith,VC-572407,Billing & Payments,Incorrect Charge on Checkout,Billing & Payment Operations,P2,False,False,True,False,False
+CMP-ID-1441,CMP-2026-01441,Elena Rostova,VC-284229,Regulatory & Legal Compliance,Statutory Consumer Rights Infringement,Compliance & Legal Affairs,P1,True,False,False,False,False
+CMP-ID-1299,CMP-2026-01299,Michael Brown,VC-928381,Account Security & Fraud,Phishing / Scam Seller Report,Trust & Safety (Fraud & Security),P1,True,False,False,False,False
+CMP-ID-1022,CMP-2026-01022,Marcus Vance,VC-472528,Order & Delivery,Lost Package in Transit,Order Fulfillment & Logistics,P1,True,False,False,False,False
+CMP-ID-1130,CMP-2026-01130,David Chen,VC-220944,Returns & Refunds,Return Request Denied,Returns & Reverse Logistics,P2,False,False,False,False,False
+CMP-ID-1146,CMP-2026-01146,Marcus Vance,VC-400850,Returns & Refunds,Return Shipping Fee Dispute,Returns & Reverse Logistics,P3,False,False,False,False,False
+CMP-ID-1095,CMP-2026-01095,Jessica Taylor,VC-414569,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1045,CMP-2026-01045,Christopher Lee,VC-287330,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1105,CMP-2026-01105,David Chen,VC-262998,Billing & Payments,Failed Payment Transaction,Billing & Payment Operations,P2,False,False,False,False,False
+CMP-ID-1460,CMP-2026-01460,Elena Rostova,VC-306854,Account Security & Fraud,Multi-issue Complex Complaint,Trust & Safety (Fraud & Security),P0,True,True,False,False,False
+CMP-ID-1324,CMP-2026-01324,Alice Johnson,VC-440131,Marketplace & Seller Operations,3rd-Party Seller Non-Response,Marketplace & Seller Operations,P2,False,False,False,False,False
+CMP-ID-1007,CMP-2026-01007,Marcus Vance,VC-688508,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1072,CMP-2026-01072,Marcus Vance,VC-300896,Billing & Payments,Duplicate Payment Deducted,Billing & Payment Operations,P1,False,False,False,False,False
+CMP-ID-1387,CMP-2026-01387,Michael Brown,VC-232915,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1574,CMP-2026-01574,Robert Smith,VC-809217,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1447,CMP-2026-01447,Michael Brown,VC-771237,Regulatory & Legal Compliance,Formal Legal Notice / Attorney Involvement,Compliance & Legal Affairs,P0,True,False,False,False,False
+CMP-ID-1002,CMP-2026-01002,Marcus Vance,VC-388389,Order & Delivery,Delayed Delivery,Order Fulfillment & Logistics,P2,False,False,False,False,False
+CMP-ID-1168,CMP-2026-01168,David Chen,VC-350867,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1252,CMP-2026-01252,Amanda Martinez,VC-420214,Account Management,Profile / Address Update Failure,Account Management & Customer Care,P3,False,False,False,False,False
+CMP-ID-1342,CMP-2026-01342,Sarah Jenkins,VC-940886,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1346,CMP-2026-01346,Amanda Martinez,VC-134985,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1139,CMP-2026-01139,Robert Smith,VC-795612,Returns & Refunds,Return Refund Processing Delay,Returns & Reverse Logistics,P1,False,False,False,False,False
+CMP-ID-1164,CMP-2026-01164,Christopher Lee,VC-547470,Returns & Refunds,Item Rejected at Return Hub,Returns & Reverse Logistics,P2,True,False,False,False,False
+CMP-ID-1576,CMP-2026-01576,Robert Smith,VC-349068,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1349,CMP-2026-01349,Christopher Lee,VC-238579,Customer Service Experience,Unprofessional Agent Conduct,Account Management & Customer Care,P2,False,False,False,False,False
+CMP-ID-1341,CMP-2026-01341,David Chen,VC-620856,Marketplace & Seller Operations,Seller Policy Violation,Marketplace & Seller Operations,P1,True,False,False,False,False
+CMP-ID-1550,CMP-2026-01550,Alice Johnson,VC-554433,Customer Service Experience,Repeated Unresolved Issue,Executive Escalations & Customer Relations,P1,True,False,False,False,True
+CMP-ID-1389,CMP-2026-01389,Sarah Jenkins,VC-915809,Promotions & Pricing,Promo Code / Discount Rejected,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1040,CMP-2026-01040,Alice Johnson,VC-680099,Order & Delivery,Item Damaged in Transit,Order Fulfillment & Logistics,P1,False,False,False,False,False
+CMP-ID-1111,CMP-2026-01111,Jessica Taylor,VC-269430,Billing & Payments,Gift Card / Voucher Application Error,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1273,CMP-2026-01273,Alice Johnson,VC-704238,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1418,CMP-2026-01418,Amanda Martinez,VC-958182,Promotions & Pricing,Misleading Deal / Flash Sale Dispute,Billing & Payment Operations,P3,False,False,False,False,False
+CMP-ID-1090,CMP-2026-01090,Amanda Martinez,VC-707040,Billing & Payments,Refund Not Processed / Delayed,Billing & Payment Operations,P1,True,False,False,False,False
+CMP-ID-1275,CMP-2026-01275,Michael Brown,VC-713762,Account Security & Fraud,Unauthorized Order / Credit Card Fraud,Trust & Safety (Fraud & Security),P0,True,False,False,False,False
+CMP-ID-1054,CMP-2026-01054,Christopher Lee,VC-598369,Order & Delivery,Delivery Address Issue,Order Fulfillment & Logistics,P2,False,False,False,False,False

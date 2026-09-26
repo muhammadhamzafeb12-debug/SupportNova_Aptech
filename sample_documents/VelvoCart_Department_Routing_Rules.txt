@@ -1,0 +1,22 @@
+# VelvoCart Department Routing Rules SOP
+
+SECTION 1: FULFILLMENT ROUTING
+Order & delivery disputes must be auto-routed to DEPT-001 (Fulfillment & Logistics).
+
+SECTION 2: PAYMENTS ROUTING
+Billing, refund, and payment gateway disputes must be auto-routed to DEPT-002 (Billing & Payments).
+
+SECTION 3: RETURNS ROUTING
+Return requests and return shipping disputes must be auto-routed to DEPT-003 (Returns & Reverse Logistics).
+
+SECTION 4: QUALITY ROUTING
+Product defect, authenticity, and counterfeit reports must be auto-routed to DEPT-004 (Product Quality).
+
+SECTION 5: SECURITY ROUTING
+Account takeover, credit card fraud, and phishing reports must be auto-routed to DEPT-006 (Trust & Safety).
+
+SECTION 6: MARKETPLACE ROUTING
+Third-party marketplace seller disputes must be auto-routed to DEPT-007 (Marketplace Operations).
+
+SECTION 7: LEGAL ROUTING
+Data privacy law complaints, attorney letters, and regulatory filings must be auto-routed to DEPT-008 (Compliance & Legal Affairs).

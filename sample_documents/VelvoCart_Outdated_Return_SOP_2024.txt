@@ -1,0 +1,8 @@
+# VelvoCart Outdated Return SOP 2024 (DEPRECATED v1.0)
+
+NOTE: THIS DOCUMENT IS OUTDATED AND DEPRECATED.
+
+1. DEPRECATED RETURN WINDOW
+[OUTDATED v1.0 RULE]: Customers may only return items within 14 calendar days of purchase date. Any return attempt past 14 days must be automatically rejected.
+
+(Contradicted by Active v2.0 Policy KB-DOC-1001 which grants a 30-day return window from delivery date).

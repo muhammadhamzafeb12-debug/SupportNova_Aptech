@@ -1,0 +1,26 @@
+{
+  "P0": {
+    "label": "Critical",
+    "response_time_hours": 2,
+    "resolution_time_hours": 12,
+    "at_risk_threshold_pct": 20
+  },
+  "P1": {
+    "label": "High",
+    "response_time_hours": 4,
+    "resolution_time_hours": 24,
+    "at_risk_threshold_pct": 20
+  },
+  "P2": {
+    "label": "Medium",
+    "response_time_hours": 8,
+    "resolution_time_hours": 72,
+    "at_risk_threshold_pct": 25
+  },
+  "P3": {
+    "label": "Low",
+    "response_time_hours": 24,
+    "resolution_time_hours": 72,
+    "at_risk_threshold_pct": 20
+  }
+}

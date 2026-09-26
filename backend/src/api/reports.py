@@ -1,7 +1,7 @@
 """
 Reports API Router
 """
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 from fastapi import APIRouter, Depends
 from backend.security.jwt_auth import require_role
 from backend.src.store import COMPLAINTS_STORE, ORGANIZATION_CONFIG
@@ -32,3 +32,42 @@ def get_reports_summary(
         "sla_met_percentage": 94.8,
         "genai_accuracy_percentage": 91.2
     }
+
+
+from backend.reports.analytics import compute_admin_kpis, calculate_category_trends, generate_report_csv, generate_report_pdf
+from fastapi import Query, Response
+
+@router.get("/kpis")
+def get_reports_kpis(current_user: dict = Depends(require_role("Manager", "Admin", "Administrator"))):
+    return compute_admin_kpis()
+
+@router.get("/trends")
+def get_reports_trends(current_user: dict = Depends(require_role("Manager", "Admin", "Administrator", "Reviewer"))):
+    return calculate_category_trends()
+
+@router.get("/export/{report_type}")
+def export_report_public(
+    report_type: str,
+    format: Optional[str] = Query("csv"),
+    current_user: dict = Depends(require_role("Manager", "Admin", "Administrator"))
+):
+    fmt = (format or "csv").lower().strip()
+    if fmt == "pdf":
+        pdf_bytes = generate_report_pdf(report_type)
+        return Response(
+            content=pdf_bytes,
+            media_type="application/pdf",
+            headers={"Content-Disposition": f'attachment; filename="supportnova_{report_type}_report.pdf"'}
+        )
+    csv_content = generate_report_csv(report_type)
+    if fmt in ["excel", "xlsx"]:
+        return Response(
+            content=csv_content.encode("utf-8"),
+            media_type="application/vnd.ms-excel",
+            headers={"Content-Disposition": f'attachment; filename="supportnova_{report_type}_report.xls"'}
+        )
+    return Response(
+        content=csv_content,
+        media_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="supportnova_{report_type}_report.csv"'}
+    )

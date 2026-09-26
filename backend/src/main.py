@@ -23,7 +23,10 @@ from backend.src.api import (
     validation,
     comparison,
     dashboards,
-    reports
+    reports,
+    reviewer,
+    sla,
+    admin_analytics,
 )
 
 enable_docs = os.getenv("ENABLE_DOCS", "true").lower() == "true"
@@ -72,6 +75,10 @@ app.include_router(validation.router)
 app.include_router(comparison.router)
 app.include_router(dashboards.router)
 app.include_router(reports.router)
+app.include_router(reviewer.router)
+app.include_router(sla.admin_router)
+app.include_router(sla.sla_router)
+app.include_router(admin_analytics.router)
 
 if __name__ == "__main__":
     import uvicorn

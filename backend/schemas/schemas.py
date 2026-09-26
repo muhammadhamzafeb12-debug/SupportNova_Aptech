@@ -84,6 +84,29 @@ class ComplaintResponse(BaseModel):
     class Config:
         from_attributes = True
 
+# Restricted Customer-Facing Complaint Response Model (PART A Requirement)
+class CustomerComplaintResponse(BaseModel):
+    id: int
+    complaint_number: str
+    customer_email: str
+    customer_name: str
+    title: str
+    category: str
+    sub_category: Optional[str] = ""
+    description: str
+    status: str
+    assigned_department: Optional[str] = ""
+    professional_response: Optional[str] = ""
+    resolution_notes: Optional[str] = ""
+    repeat_complaint_chain: Optional[List[str]] = []
+    follow_ups: Optional[List[Dict[str, Any]]] = []
+    status_timeline: Optional[List[Dict[str, Any]]] = []
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
 # Knowledge Base Schemas
 class KBDocumentCreate(BaseModel):
     title: str
@@ -148,7 +171,7 @@ class RuleMatrixItem(BaseModel):
     prohibited_actions: List[str] = []
     follow_up_required: bool = False
     is_active: bool = True
-    created_by: Optional[str] = "admin@nexalink.com"
+    created_by: Optional[str] = "admin@velvocart.com"
     created_at: Optional[Any] = None
     updated_at: Optional[Any] = None
 

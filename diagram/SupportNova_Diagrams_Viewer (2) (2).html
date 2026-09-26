@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>SupportNova (VelvoCart) — Diagrams</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+<style>
+  body { font-family: Arial, sans-serif; background: #0a0e14; color: #e6e6e6; padding: 30px; }
+  h1 { color: #8b5cf6; }
+  h2 { color: #3b82f6; border-bottom: 1px solid #232b3a; padding-bottom: 8px; margin-top: 50px; }
+  .diagram-box { background: #ffffff; border-radius: 12px; padding: 20px; margin: 20px 0; overflow-x: auto; }
+  .note { color: #94a3b8; font-size: 14px; margin-bottom: 30px; }
+</style>
+</head>
+<body>
+
+<h1>SupportNova (VelvoCart E-Commerce) — Required Diagrams</h1>
+<p class="note">Right-click any diagram below → "Save image as" (or take a screenshot) to insert into your Project Report Word/PDF document.</p>
+
+<h2>1. Data Flow Diagram (DFD)</h2>
+<div class="diagram-box">
+<pre class="mermaid">
+flowchart TD
+    Customer[Customer] -->|Submits Complaint| Intake[Complaint Intake and Validation]
+    Intake -->|Stores| ComplaintDB[(Complaints DB)]
+    Admin[Administrator] -->|Uploads Policies| KBUpload[Knowledge Base Upload]
+    KBUpload -->|Parses and Chunks| KBStore[(KB Documents and Chunks DB)]
+    Admin -->|Maintains| RuleMatrix[Rule Matrix Management]
+    RuleMatrix -->|Stores| RuleDB[(Rule Matrix DB)]
+
+    ComplaintDB -->|Triggers| Pipeline1[Pipeline 1: GenAI Analysis]
+    KBStore -->|Provides Context| Pipeline1
+    RuleDB -->|Provides Context| Pipeline1
+    Pipeline1 -->|Calls| GenAI[Anthropic GenAI API]
+    GenAI -->|Structured JSON| Pipeline1
+    Pipeline1 -->|Stores Result| AnalysisLog[(GenAI Analysis Log)]
+
+    AnalysisLog -->|Feeds| Pipeline2[Pipeline 2: Python Ground Truth Validation]
+    RuleDB -->|Validates Against| Pipeline2
+    KBStore -->|Validates Against| Pipeline2
+    Pipeline2 -->|Outcomes| Comparison[Comparison Engine]
+    Comparison -->|Verification Report| VerifyDB[(Verification Reports DB)]
+
+    VerifyDB -->|Verified| AutoResolve[Auto Proceed to Resolution]
+    VerifyDB -->|Manual Review Required| ReviewQueue[Reviewer Queue]
+    Reviewer[Reviewer] -->|Reviews and Decides| ReviewQueue
+    ReviewQueue -->|Decision plus Audit| ComplaintDB
+
+    ComplaintDB -->|Status and Response| Agent[Agent Dashboard]
+    ComplaintDB -->|Status and Response| CustomerDash[Customer Dashboard]
+    ComplaintDB -->|Metrics| AdminDash[Admin Analytics Dashboard]
+    AdminDash -->|Exports| Reports[Reports: CSV Excel PDF]
+</pre>
+</div>
+
+<h2>2. Use Case Diagram</h2>
+<div class="diagram-box">
+<pre class="mermaid">
+flowchart LR
+    subgraph Actors
+        Customer((Customer))
+        Agent((Agent))
+        Reviewer((Reviewer))
+        Manager((Manager))
+        Admin((Administrator))
+    end
+
+    subgraph SupportNova System
+        UC1[Submit Complaint]
+        UC2[Track Complaint Status]
+        UC3[View Professional Response]
+        UC4[Analyze Complaint - AI]
+        UC5[Validate Complaint - Rules]
+        UC6[Respond to Complaint]
+        UC7[View SLA Risk]
+        UC8[Review Manual Cases]
+        UC9[Approve Modify Escalate Decision]
+        UC10[Upload Knowledge Base Documents]
+        UC11[Manage Rule Matrix]
+        UC12[View Analytics Dashboard]
+        UC13[Generate Reports]
+        UC14[Configure SLA Targets]
+        UC15[Manage Users and Roles]
+    end
+
+    Customer --> UC1
+    Customer --> UC2
+    Customer --> UC3
+
+    Agent --> UC4
+    Agent --> UC6
+    Agent --> UC7
+    Agent --> UC2
+
+    Reviewer --> UC8
+    Reviewer --> UC9
+
+    Manager --> UC8
+    Manager --> UC9
+    Manager --> UC12
+    Manager --> UC14
+
+    Admin --> UC10
+    Admin --> UC11
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    Admin --> UC15
+
+    UC1 -.include.-> UC4
+    UC4 -.include.-> UC5
+</pre>
+</div>
+
+<h2>3. Activity Diagram — Complaint Resolution Lifecycle</h2>
+<div class="diagram-box">
+<pre class="mermaid">
+flowchart TD
+    Start([Customer Submits Complaint]) --> Validate{Valid and Non Duplicate?}
+    Validate -->|No| Reject[Return Validation Error]
+    Reject --> End1([End])
+    Validate -->|Yes| Preprocess[Pre-process: Sanitize and Normalize]
+    Preprocess --> DupCheck{Near Duplicate or Repeat?}
+    DupCheck -->|Yes flagged| FlagRepeat[Flag is_repeat is_near_duplicate]
+    DupCheck -->|No| Store[Store Complaint - Status New]
+    FlagRepeat --> Store
+
+    Store --> RunP1[Run Pipeline 1: GenAI Analysis]
+    RunP1 --> RetrieveKB[Retrieve Active KB Chunks plus Rule Context]
+    RetrieveKB --> CallGenAI[Call Anthropic API]
+    CallGenAI --> ValidJSON{Valid JSON Schema?}
+    ValidJSON -->|No retry available| Retry[Retry with Stricter Prompt]
+    Retry --> CallGenAI
+    ValidJSON -->|No retries exhausted| FailP1[pipeline1_status = failed]
+    FailP1 --> ManualQueue
+    ValidJSON -->|Yes| StoreP1[Store GenAI Result]
+
+    StoreP1 --> RunP2[Run Pipeline 2: Python Validation]
+    RunP2 --> RunValidators[Run 12 Deterministic Validators]
+    RunValidators --> Compare[Comparison Engine: Compute Verification Score]
+    Compare --> Decision{Escalation Required per Rules?}
+    Decision -->|Yes GenAI said No| Override[Python Overrides: Force Escalation]
+    Decision -->|Matches or No Escalation| CheckScore{Score 85 or above AND No Flags?}
+    Override --> CheckScore
+
+    CheckScore -->|Yes| Verified[Status: Verified]
+    CheckScore -->|No| ManualQueue[Route to Manual Review Queue]
+
+    ManualQueue --> ReviewerAction[Reviewer: Approve Modify Reclassify Escalate]
+    ReviewerAction --> AuditLog[Log Original plus Final Values to Audit Trail]
+    AuditLog --> Finalize[Finalize Resolution]
+
+    Verified --> Finalize
+    Finalize --> Respond[Send Professional Response to Customer]
+    Respond --> FollowUp{Follow Up Required?}
+    FollowUp -->|Yes| ScheduleFollowUp[Schedule Follow Up]
+    FollowUp -->|No| Resolved[Status: Resolved]
+    ScheduleFollowUp --> Resolved
+    Resolved --> Closed([Status: Closed])
+</pre>
+</div>
+
+<h2>4. Sequence Diagram — End-to-End Complaint Processing</h2>
+<div class="diagram-box">
+<pre class="mermaid">
+sequenceDiagram
+    actor Cust as Customer
+    participant FE as React Frontend
+    participant API as FastAPI Backend
+    participant DB as Database
+    participant KB as Knowledge Base Retriever
+    participant RM as Rule Matrix Engine
+    participant P1 as Pipeline 1 GenAI
+    participant Anthropic as Anthropic API
+    participant P2 as Pipeline 2 Validation
+    participant CE as Comparison Engine
+    actor Rev as Reviewer
+
+    Cust->>FE: Fill complaint form and submit
+    FE->>API: POST /complaints
+    API->>API: Validate plus Pre-process plus Duplicate check
+    API->>DB: Store complaint status New
+    API-->>FE: 201 Created complaint_id
+    FE-->>Cust: Show confirmation
+
+    API->>P1: analyze_complaint BackgroundTask
+    P1->>KB: retrieve_relevant_chunks query
+    KB-->>P1: Active non expired chunks
+    P1->>RM: match complaint_features
+    RM-->>P1: Candidate rule context
+    P1->>Anthropic: Send rendered prompt
+    Anthropic-->>P1: Structured JSON response
+    P1->>P1: Validate against Pydantic schema
+    alt Invalid JSON
+        P1->>Anthropic: Retry with stricter prompt
+        Anthropic-->>P1: JSON response
+    end
+    P1->>DB: Store GenAI result pipeline1_status completed
+
+    API->>P2: validate genai_result
+    P2->>RM: Independently match features no LLM call
+    RM-->>P2: Ground truth rule
+    P2->>P2: Run 12 validators
+    P2->>CE: compare_and_verify
+    CE->>CE: Compute verification_score
+    alt Escalation mismatch
+        CE->>CE: Override escalation_required True
+    end
+    CE->>DB: Store VerificationReport final_status
+
+    alt final_status Manual Review Required
+        API->>Rev: Appears in reviewer queue
+        Rev->>API: POST reviewer decision
+        API->>DB: Store reviewer decision plus audit trail
+    end
+
+    API->>DB: Update complaint status
+    FE->>API: GET complaints id
+    API-->>FE: Final response plus status
+    FE-->>Cust: Display professional response
+</pre>
+</div>
+
+<script>
+  mermaid.initialize({ startOnLoad: true, theme: 'default' });
+</script>
+
+</body>
+</html>

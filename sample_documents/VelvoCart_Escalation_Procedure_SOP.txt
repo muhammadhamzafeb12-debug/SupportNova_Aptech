@@ -1,0 +1,13 @@
+# VelvoCart Escalation Procedure SOP
+
+1. PURPOSE
+Defines operational escalation paths for high-priority customer complaints exceeding standard SLA bounds.
+
+2. ESCALATION TRIGGERS
+- Repeat complaints (3+ unresolved attempts on same order ID)
+- Safety hazard or counterfeit product report
+- Attorney letter or regulatory regulator filing (FTC/BBB)
+- Financial dispute exceeding $500
+
+3. ROUTING PROTOCOL
+Tier 1 agents must escalate eligible cases to Tier 2 Operations Managers or Executive Escalations (DEPT-009) within 15 minutes of identification.

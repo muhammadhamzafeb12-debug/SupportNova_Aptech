@@ -34,3 +34,11 @@ if "pdfplumber" not in sys.modules:
 # python-docx
 if "docx" not in sys.modules:
     sys.modules["docx"] = MagicMock()
+
+import pytest
+from backend.security.rate_limiter import reset_rate_limits
+
+@pytest.fixture(autouse=True)
+def _clear_rate_limits_before_test():
+    reset_rate_limits()
+

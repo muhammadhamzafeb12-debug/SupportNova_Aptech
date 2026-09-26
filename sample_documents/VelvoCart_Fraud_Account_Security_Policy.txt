@@ -1,0 +1,7 @@
+# VelvoCart Fraud & Account Security Policy
+
+1. UNAUTHORIZED PURCHASES
+VelvoCart maintains a zero-liability policy for verified unauthorized account activity. Orders flagged for account takeover or stolen credit card fraud are cancelled immediately with 100% fund reversal.
+
+2. ACCOUNT LOCK & IDENTITY VERIFICATION
+Accounts exhibiting suspicious login attempts or unauthorized password reset requests are locked by Trust & Safety. Unlocking requires official government photo ID verification.

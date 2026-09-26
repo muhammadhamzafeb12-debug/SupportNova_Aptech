@@ -14,16 +14,16 @@ SupportNova is an enterprise-grade AI complaint resolution intelligence platform
 
 ```
 supportnova/
-  app/                          # Streamlit presentation UI layer
-    Home.py                     # Entry point & landing page
-    pages/                      # Role-based Streamlit views
-  backend/                      # Core business logic python packages
-    complaint_processing/       # Complaint lifecycle & ingestion
+  frontend/                     # React + Next.js Enterprise Dark-Glow UI layer
+    pages/                      # App page routing
+    src/                        # Components, context, and views (Dashboards, Reviewer Queue, KB, SLA)
+  backend/                      # Core business logic Python packages
+    complaint_processing/       # State machine (validate_transition) & SLA tracking engine
     document_processing/        # PDF, DOCX, OCR text extraction
-    knowledge_base/             # FAISS / RAG indexer
-    genai_pipeline/             # Anthropic Claude complaint classification
+    knowledge_base/             # RAG indexer
+    genai_pipeline/             # LLM complaint analysis & prompt templates
     python_validation/          # Ground-truth deterministic verifiers
-    complaint_rules/            # Rule matrix execution
+    complaint_rules/            # Rule Matrix Engine
     routing_rules/              # Department auto-routing logic
     escalation_rules/           # SLA breach & executive escalation matrix
     prompt_templates/           # System & reasoning prompt templates
@@ -31,12 +31,13 @@ supportnova/
     comparison_engine/          # Dual-pipeline alignment checker
     hallucination_checks/       # Ground-truth inconsistency detection
     security/                   # Authentication & role authorization
-    database/                   # SQLAlchemy ORM models & migrations
+    database/                   # SQLAlchemy ORM models & seed database
+    src/api/                    # FastAPI routers (complaints, reviewer, sla, auth, kb)
     tests/                      # Pytest suite
-  config/                       # Domain JSON configurations
+  config/                       # Domain JSON configurations & sla_targets.json
   sample_complaints/            # Test payload datasets
   sample_documents/             # Attachment samples
-  hidden_test_ready/            # Hidden evaluation dataset
+  hidden_test_ready/            # Evaluation dataset
   documentation/                # Architecture docs & guides
   screenshots/                  # System screenshots
   reports/                      # Generated evaluation reports
