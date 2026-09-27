@@ -2,11 +2,12 @@ import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import {
   LayoutDashboard, FileText, PlusCircle, BookOpen, Grid, ShieldAlert,
-  Clock, BarChart3, Download, Terminal, History, Users, Sparkles, Sliders
+  Clock, BarChart3, Download, Terminal, History, Users, Sparkles, Sliders,
+  MessageSquare, Upload, Globe, Mail
 } from 'lucide-react';
 
-export const Sidebar = ({ activeTab, setActiveTab }) => {
-  const { user } = useAuth();
+export const Sidebar = ({ activeTab, setActiveTab, onRoleSwitched }) => {
+  const { user, switchRoleDemo } = useAuth();
   const role = user?.role || 'CUSTOMER';
 
   const menuSections = [
@@ -15,8 +16,34 @@ export const Sidebar = ({ activeTab, setActiveTab }) => {
       items: [
         { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
         { id: 'complaints', label: 'Complaints Queue', icon: FileText, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
-        { id: 'submit', label: 'Submit Complaint', icon: PlusCircle, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
         { id: 'reviews', label: 'Manual Review Queue', icon: ShieldAlert, roles: ['REVIEWER', 'MANAGER', 'ADMIN'] },
+      ]
+    },
+    {
+      title: 'CUSTOMER INTAKE',
+      items: [
+        { id: 'submit-web', label: 'Web Form Intake', icon: Globe, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
+        { id: 'submit-email', label: 'Email Intake', icon: Mail, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
+        { id: 'submit-chat', label: 'Live Chat', icon: MessageSquare, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
+        { id: 'submit-upload', label: 'Document Upload', icon: Upload, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
+      ]
+    },
+    {
+      title: 'SWITCH ROLE PROFILE',
+      items: [
+        { id: 'switch-agent', label: 'Login as Agent', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'AGENT' },
+        { id: 'switch-reviewer', label: 'Login as Reviewer', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'REVIEWER' },
+        { id: 'switch-manager', label: 'Login as Manager', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'MANAGER' },
+        { id: 'switch-admin', label: 'Login as Admin', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'ADMIN' },
+      ]
+    },
+    {
+      title: 'MANAGER OVERVIEW',
+      items: [
+        { id: 'dashboard', label: 'Agent Team Operations', icon: Users, roles: ['MANAGER'] },
+        { id: 'reviews', label: 'Reviewer Audit Queue', icon: ShieldAlert, roles: ['MANAGER'] },
+        { id: 'audit', label: 'Admin Audit Logs', icon: History, roles: ['MANAGER'] },
+        { id: 'users', label: 'Admin User Directory', icon: Users, roles: ['MANAGER'] },
       ]
     },
     {
@@ -37,9 +64,9 @@ export const Sidebar = ({ activeTab, setActiveTab }) => {
     {
       title: 'ADMINISTRATION',
       items: [
-        { id: 'users', label: 'User Management', icon: Users, roles: ['ADMIN'] },
-        { id: 'prompts', label: 'Prompt Management', icon: Terminal, roles: ['ADMIN'] },
-        { id: 'audit', label: 'Audit Log History', icon: History, roles: ['ADMIN'] },
+        { id: 'users', label: 'User Management', icon: Users, roles: ['ADMIN', 'MANAGER'] },
+        { id: 'prompts', label: 'Prompt Management', icon: Terminal, roles: ['ADMIN', 'MANAGER'] },
+        { id: 'audit', label: 'Audit Log History', icon: History, roles: ['ADMIN', 'MANAGER'] },
       ]
     }
   ];
@@ -63,17 +90,29 @@ export const Sidebar = ({ activeTab, setActiveTab }) => {
                   return (
                     <button
                       key={item.id}
-                      onClick={() => setActiveTab(item.id)}
+                      onClick={async () => {
+                        if (item.isRoleSwitch) {
+                          try {
+                            await switchRoleDemo(item.isRoleSwitch);
+                            setActiveTab('dashboard');
+                            if (onRoleSwitched) onRoleSwitched(item.isRoleSwitch);
+                          } catch (err) {
+                            console.error('Role switch failed:', err);
+                          }
+                        } else {
+                          setActiveTab(item.id);
+                        }
+                      }}
                       className={`w-full flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-200 text-left relative group ${
                         isActive
                           ? 'bg-blue-600/15 text-white border border-blue-500/30 shadow-md shadow-blue-500/10'
                           : 'text-slate-400 hover:text-white hover:bg-slate-900/80 hover:translate-x-1'
                       }`}
                     >
-                      {isActive && (
+                      {isActive && !item.isRoleSwitch && (
                         <span className="absolute left-0 top-2 bottom-2 w-1 rounded-r-full bg-blue-500 shadow-sm shadow-blue-500"></span>
                       )}
-                      <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive ? 'text-blue-400' : 'text-slate-400'}`} />
+                      <Icon className={`w-4 h-4 transition-transform duration-200 group-hover:scale-110 ${isActive && !item.isRoleSwitch ? 'text-blue-400' : 'text-slate-400'}`} />
                       <span>{item.label}</span>
                     </button>
                   );

@@ -9,7 +9,7 @@ import {
 export const LoginPage = () => {
   const { login, register, quickDemoLogin, forgotPassword, resetPassword } = useAuth();
 
-  const [activeRoleTab, setActiveRoleTab] = useState('ADMIN');
+  const [activeRoleTab, setActiveRoleTab] = useState('CUSTOMER');
   const [isRegistering, setIsRegistering] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const [showSupportModal, setShowSupportModal] = useState(false);
@@ -22,8 +22,8 @@ export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   // Form State
-  const [usernameOrEmail, setUsernameOrEmail] = useState('admin');
-  const [password, setPassword] = useState('admin123');
+  const [usernameOrEmail, setUsernameOrEmail] = useState('customer');
+  const [password, setPassword] = useState('customer123');
   const [rememberMe, setRememberMe] = useState(true);
 
   // Registration Form State
@@ -150,11 +150,7 @@ export const LoginPage = () => {
   };
 
   const rolesList = [
-    { id: 'CUSTOMER', label: 'Customer' },
-    { id: 'AGENT', label: 'Agent' },
-    { id: 'REVIEWER', label: 'Reviewer' },
-    { id: 'MANAGER', label: 'Manager' },
-    { id: 'ADMIN', label: 'Admin' }
+    { id: 'CUSTOMER', label: 'Customer Login' }
   ];
 
   return (
@@ -324,7 +320,7 @@ export const LoginPage = () => {
                   <span>Select Role Profile</span>
                   <span className="text-[10px] text-blue-400 font-mono">Demo Mode</span>
                 </div>
-                <div className="grid grid-cols-5 gap-1.5 p-1 bg-slate-900/90 rounded-xl border border-slate-800">
+                <div className="w-full p-1 bg-slate-900/90 rounded-xl border border-slate-800 flex justify-center">
                   {rolesList.map((r) => {
                     const isActive = activeRoleTab === r.id;
                     return (
@@ -332,7 +328,7 @@ export const LoginPage = () => {
                         key={r.id}
                         type="button"
                         onClick={() => handleSelectRole(r.id)}
-                        className={`py-1.5 text-[11px] font-bold rounded-lg transition-all truncate ${
+                        className={`w-full py-2 text-xs font-bold rounded-lg transition-all text-center ${
                           isActive
                             ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30 border border-blue-400/40'
                             : 'text-slate-400 hover:text-white hover:bg-slate-800/80'

@@ -1,0 +1,4 @@
+# VelvoCart Billing FAQ
+
+Q: When will my card be charged?
+A: Credit cards are authorized at checkout and charged when items enter warehouse dispatch.

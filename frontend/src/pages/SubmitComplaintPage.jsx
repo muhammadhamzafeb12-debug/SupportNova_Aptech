@@ -1,8 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, AlertTriangle, Send, Globe, Mail, MessageSquare, Upload, FileText, CheckCircle2 } from 'lucide-react';
 
-export const SubmitComplaintPage = ({ onComplaintSubmitted }) => {
-  const [channel, setChannel] = useState('WEB_FORM');
+export const SubmitComplaintPage = ({ onComplaintSubmitted, initialChannel = 'WEB_FORM' }) => {
+  const { token } = useAuth();
+  const [channel, setChannel] = useState(initialChannel);
+
+  useEffect(() => {
+    if (initialChannel) {
+      setChannel(initialChannel);
+    }
+  }, [initialChannel]);
+
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -68,9 +77,12 @@ export const SubmitComplaintPage = ({ onComplaintSubmitted }) => {
         channel: channel
       };
 
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+
       const res = await fetch('/api/complaints', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify(payload)
       });
       if (!res.ok) {
@@ -90,39 +102,17 @@ export const SubmitComplaintPage = ({ onComplaintSubmitted }) => {
     <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
       {/* Header */}
       <div className="pb-2 border-b border-slate-800">
-        <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight">
-          Submit Customer Complaint
+        <h1 className="text-2xl lg:text-3xl font-extrabold text-white tracking-tight flex items-center gap-3">
+          <span>
+            {channel === 'CHAT' ? 'Submit Customer Complaint (Live Chat Intake)' :
+             channel === 'UPLOADED_COMPLAINT' ? 'Submit Customer Complaint (Document Upload Intake)' :
+             channel === 'EMAIL' ? 'Submit Customer Complaint (Email Intake)' :
+             'Submit Customer Complaint (Web Form Intake)'}
+          </span>
         </h1>
         <p className="text-xs lg:text-sm text-slate-400 mt-1">
           Multi-channel complaint submission with real-time pre-processing, sanitization & prompt injection defense.
         </p>
-      </div>
-
-      {/* Multi-Channel Selector */}
-      <div className="bg-[#0D1322] border border-slate-800 rounded-xl p-3 grid grid-cols-2 sm:grid-cols-4 gap-2 shadow-xl">
-        {[
-          { id: 'WEB_FORM', label: 'Web Form', icon: Globe },
-          { id: 'EMAIL', label: 'Email Intake', icon: Mail },
-          { id: 'CHAT', label: 'Live Chat', icon: MessageSquare },
-          { id: 'UPLOADED_COMPLAINT', label: 'Document Upload', icon: Upload }
-        ].map((ch) => {
-          const Icon = ch.icon;
-          const isActive = channel === ch.id;
-          return (
-            <button
-              key={ch.id}
-              type="button"
-              onClick={() => setChannel(ch.id)}
-              className={`py-2.5 px-3 rounded-lg text-xs font-bold flex items-center justify-center gap-2 border transition-all ${
-                isActive
-                  ? 'bg-blue-600 text-white border-blue-500 shadow-md shadow-blue-500/20'
-                  : 'bg-slate-900 text-slate-400 border-slate-800 hover:text-white hover:bg-slate-800'
-              }`}
-            >
-              <Icon className="w-4 h-4" /> {ch.label}
-            </button>
-          );
-        })}
       </div>
 
       {/* Security Alert Banner */}

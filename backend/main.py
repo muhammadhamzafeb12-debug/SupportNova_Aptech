@@ -30,6 +30,15 @@ def on_startup():
     Base.metadata.create_all(bind=engine)
     # Seed default dataset and demo records
     seed_database()
+    # Build RAG vector index from all active policy chunks
+    from backend.database import SessionLocal
+    from backend.knowledge_base.vector_store import build_vector_index
+    db = SessionLocal()
+    try:
+        indexed = build_vector_index(db)
+        print(f"RAG Vector Index built: {indexed} chunks indexed.")
+    finally:
+        db.close()
 
 @app.get("/")
 def root():

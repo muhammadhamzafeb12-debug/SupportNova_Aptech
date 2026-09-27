@@ -103,3 +103,93 @@ def generate_100_case_comparison_report(db: Session) -> Dict[str, Any]:
         },
         "cases": evaluation_list
     }
+
+def generate_pdf_complaints_report(db: Session) -> bytes:
+    """
+    Generates a PDF executive summary report of all complaints using ReportLab.
+    """
+    from reportlab.lib.pagesizes import letter
+    from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib import colors
+
+    buffer = io.BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=letter, rightMargin=36, leftMargin=36, topMargin=36, bottomMargin=36)
+    elements = []
+
+    styles = getSampleStyleSheet()
+    title_style = ParagraphStyle(
+        'DocTitle',
+        parent=styles['Heading1'],
+        fontName='Helvetica-Bold',
+        fontSize=20,
+        textColor=colors.HexColor('#0F172A'),
+        spaceAfter=12
+    )
+    subtitle_style = ParagraphStyle(
+        'DocSubtitle',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=10,
+        textColor=colors.HexColor('#475569'),
+        spaceAfter=18
+    )
+    cell_style = ParagraphStyle(
+        'CellText',
+        parent=styles['Normal'],
+        fontName='Helvetica',
+        fontSize=8,
+        textColor=colors.HexColor('#1E293B')
+    )
+    header_cell_style = ParagraphStyle(
+        'HeaderCellText',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        textColor=colors.white
+    )
+
+    elements.append(Paragraph("SupportNova — Executive Complaints Report", title_style))
+    elements.append(Paragraph("Dual-Pipeline AI Intelligence & Ground-Truth Verification Summary", subtitle_style))
+
+    complaints = db.query(Complaint).all()
+
+    table_data = [
+        [
+            Paragraph("Ticket Code", header_cell_style),
+            Paragraph("Title", header_cell_style),
+            Paragraph("Status", header_cell_style),
+            Paragraph("Priority", header_cell_style),
+            Paragraph("GenAI Category", header_cell_style),
+            Paragraph("Verification Score", header_cell_style)
+        ]
+    ]
+
+    for c in complaints[:50]:  # Cap at top 50 for clean PDF page sizing
+        genai_cat = c.genai_analysis.category if c.genai_analysis else "N/A"
+        score = f"{c.comparison.overall_verification_score}%" if c.comparison else "N/A"
+        table_data.append([
+            Paragraph(c.complaint_code, cell_style),
+            Paragraph(c.title[:35] + ("..." if len(c.title) > 35 else ""), cell_style),
+            Paragraph(c.status, cell_style),
+            Paragraph(c.priority, cell_style),
+            Paragraph(genai_cat, cell_style),
+            Paragraph(score, cell_style)
+        ])
+
+    t = Table(table_data, colWidths=[80, 160, 70, 60, 100, 70])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#1E293B')),
+        ('ALIGN', (0, 0), (-1, -1), 'LEFT'),
+        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 6),
+        ('TOPPADDING', (0, 0), (-1, -1), 6),
+        ('GRID', (0, 0), (-1, -1), 0.5, colors.HexColor('#CBD5E1')),
+        ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.HexColor('#F8FAFC')])
+    ]))
+
+    elements.append(t)
+    doc.build(elements)
+    buffer.seek(0)
+    return buffer.getvalue()
+

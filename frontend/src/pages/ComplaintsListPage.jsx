@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { Search, Filter, Plus, ArrowRight } from 'lucide-react';
 
 export const ComplaintsListPage = ({ onSelectComplaint, onNavigate }) => {
+  const { token } = useAuth();
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -16,7 +18,9 @@ export const ComplaintsListPage = ({ onSelectComplaint, onNavigate }) => {
       setLoading(true);
       let url = `/api/complaints?search=${encodeURIComponent(search)}`;
       if (statusFilter) url += `&status_filter=${encodeURIComponent(statusFilter)}`;
-      const res = await fetch(url);
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(url, { headers });
       if (res.ok) setComplaints(await res.json());
     } catch (err) {
       console.error(err);

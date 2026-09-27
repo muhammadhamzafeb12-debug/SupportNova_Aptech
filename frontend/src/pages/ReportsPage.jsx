@@ -28,13 +28,22 @@ export const ReportsPage = () => {
             Generate executive CSV exports and inspect 100-case benchmark evaluation matrix.
           </p>
         </div>
-        <button
-          onClick={handleDownloadCSV}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-blue-500/20"
-        >
-          <Download className="w-4 h-4" />
-          <span>Export Complaints CSV</span>
-        </button>
+        <div className="flex items-center gap-2 shrink-0">
+          <button
+            onClick={() => window.open('/api/reports/csv', '_blank')}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-blue-500/20"
+          >
+            <Download className="w-4 h-4" />
+            <span>Export CSV</span>
+          </button>
+          <button
+            onClick={() => window.open('/api/reports/pdf', '_blank')}
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shadow-lg shadow-indigo-500/20"
+          >
+            <Download className="w-4 h-4" />
+            <span>Export PDF</span>
+          </button>
+        </div>
       </div>
 
       {loading || !evalData ? (

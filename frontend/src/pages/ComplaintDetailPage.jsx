@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import {
   ArrowLeft, RefreshCw, CheckCircle2, AlertTriangle, Clock,
   FileText, ShieldCheck, User, Calendar, Tag, ShieldAlert, Cpu, Scale, History, Check, ArrowRight
 } from 'lucide-react';
 
 export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
+  const { token } = useAuth();
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [reviewAction, setReviewAction] = useState('APPROVE');
   const [reviewComments, setReviewComments] = useState('');
@@ -19,10 +22,19 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
   const fetchDetails = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/complaints/${complaintId}`);
-      if (res.ok) setData(await res.json());
+      setError('');
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`/api/complaints/${complaintId}`, { headers });
+      if (res.ok) {
+        setData(await res.json());
+      } else {
+        const errData = await res.json().catch(() => ({}));
+        setError(errData.detail || `Failed to load complaint (${res.status})`);
+      }
     } catch (err) {
       console.error(err);
+      setError('Network error loading complaint details.');
     } finally {
       setLoading(false);
     }
@@ -31,7 +43,9 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
   const handleRunAnalysis = async () => {
     try {
       setAnalyzing(true);
-      const res = await fetch(`/api/complaints/${complaintId}/analyze`, { method: 'POST' });
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch(`/api/complaints/${complaintId}/analyze`, { method: 'POST', headers });
       if (res.ok) {
         await fetchDetails();
       }
@@ -46,9 +60,11 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
     e.preventDefault();
     try {
       setReviewSubmitting(true);
+      const headers = { 'Content-Type': 'application/json' };
+      if (token) headers['Authorization'] = `Bearer ${token}`;
       const res = await fetch(`/api/complaints/${complaintId}/review`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({
           reviewer_action: reviewAction,
           reviewer_comments: reviewComments
@@ -65,8 +81,23 @@ export const ComplaintDetailPage = ({ complaintId, onBack, onNavigate }) => {
     }
   };
 
-  if (loading || !data) {
+  if (loading) {
     return <div className="p-12 text-center text-slate-400 font-medium">Loading complaint details...</div>;
+  }
+
+  if (error || !data) {
+    return (
+      <div className="p-12 text-center space-y-4">
+        <AlertTriangle className="w-10 h-10 text-amber-400 mx-auto" />
+        <p className="text-sm text-rose-400 font-semibold">{error || 'Complaint data not found.'}</p>
+        <button
+          onClick={onBack}
+          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all"
+        >
+          Back to Complaints
+        </button>
+      </div>
+    );
   }
 
   const { complaint: c, genai_analysis: genai, python_validation: py_val, comparison: comp, manual_reviews: reviews, sla } = data;

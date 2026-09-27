@@ -9,6 +9,9 @@ export default {
       fontFamily: {
         sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
       },
+      spacing: {
+        '4.5': '1.125rem',
+      },
       colors: {
         app: {
           bg: '#080B12',

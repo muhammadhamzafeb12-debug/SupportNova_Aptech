@@ -17,7 +17,7 @@ from backend.schemas.schemas import (
     ForgotPasswordRequest, ResetPasswordRequest, ComplaintCreate, ComplaintOut,
     ReviewActionCreate, PolicyCreate, RuleMatrixEntry, PromptTemplateSchema, ComparisonOut,
     StandaloneValidationRequest, EmployeeProfileCreate, EmployeeProfileOut, RoleRequirementMatrixCreate, RoleRequirementMatrixOut,
-    OnboardingGenerateRequest, OnboardingPlanOut
+    OnboardingGenerateRequest, OnboardingPlanOut, GenAIResponseSchema, PythonValidationSchema
 )
 from backend.skillsprint_engine.onboarding_engine import (
     run_pipeline_1_genai, run_pipeline_2_python_validation, compute_verification_decision
@@ -28,14 +28,16 @@ from backend.auth.auth import (
 from backend.complaint_processing.preprocessor import (
     sanitize_input, detect_prompt_injection, check_duplicate_complaint
 )
-from backend.document_processing.document_processor import parse_pdf, parse_docx, parse_txt, chunk_document
+from backend.document_processing.document_processor import parse_pdf, parse_docx, parse_txt, parse_zip, chunk_document
+from backend.knowledge_base.rag_chunker import structure_based_chunk, build_rag_prompt
+from backend.knowledge_base.vector_store import build_vector_index, similarity_search
 from backend.knowledge_base.retrieval_engine import retrieve_relevant_policies
 from backend.genai_pipeline.genai_engine import run_genai_analysis
 from backend.python_validation.ground_truth_engine import evaluate_ground_truth
 from backend.complaint_rules.ground_truth_validator import run_ground_truth_validation
 from backend.comparison_engine.comparator import compare_genai_vs_python
 from backend.sla.sla_engine import create_or_update_sla, evaluate_sla_status
-from backend.reports.report_generator import generate_csv_complaints_report, generate_100_case_comparison_report
+from backend.reports.report_generator import generate_csv_complaints_report, generate_100_case_comparison_report, generate_pdf_complaints_report
 
 router = APIRouter()
 
@@ -234,7 +236,7 @@ def reset_password(req: ResetPasswordRequest, db: Session = Depends(get_db)):
 @router.get("/users", response_model=List[UserOut], tags=["Authentication & Users"])
 def list_users(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles([UserRole.ADMIN]))
+    current_user: User = Depends(require_roles([UserRole.ADMIN, UserRole.MANAGER]))
 ):
     return db.query(User).order_by(User.id.asc()).all()
 
@@ -642,70 +644,181 @@ async def upload_policy_document(
     db: Session = Depends(get_db),
     current_user: Optional[User] = Depends(get_optional_current_user)
 ):
-    # Check if uploaded file is 0 bytes / empty
-    file_bytes = await file.read()
-    if not file_bytes or len(file_bytes) == 0:
-        raise HTTPException(
-            status_code=400,
-            detail="Empty file. The uploaded file is empty and contains no data."
-        )
+    try:
+        # Check if uploaded file is 0 bytes / empty
+        file_bytes = await file.read()
+        if not file_bytes or len(file_bytes) == 0:
+            raise HTTPException(
+                status_code=400,
+                detail="Empty file. The uploaded file is empty and contains no data."
+            )
 
-    # Save file
-    os.makedirs("./data/uploads", exist_ok=True)
-    file_path = f"./data/uploads/{file.filename}"
-    with open(file_path, "wb") as buffer:
-        buffer.write(file_bytes)
+        # Save file
+        os.makedirs("./data/uploads", exist_ok=True)
+        file_path = f"./data/uploads/{file.filename}"
+        with open(file_path, "wb") as buffer:
+            buffer.write(file_bytes)
 
-    # Extract text content
-    ext = os.path.splitext(file.filename)[1].lower()
-    if ext == ".pdf":
-        pages = parse_pdf(file_path)
-        content = "\n".join([p["text"] for p in pages])
-    elif ext in [".docx", ".doc"]:
-        sections = parse_docx(file_path)
-        content = "\n".join([s["text"] for s in sections])
-    else:
-        content = parse_txt(file_path)
+        ext = os.path.splitext(file.filename)[1].lower()
+        content = ""
 
-    if not content or not content.strip():
-        raise HTTPException(
-            status_code=400,
-            detail="Empty file. The uploaded document contains no readable text."
-        )
+        if ext == ".zip":
+            # Process ZIP archive containing documents
+            zip_docs = parse_zip(file_path)
+            if zip_docs:
+                content_parts = []
+                for zd in zip_docs:
+                    content_parts.append(f"=== Document: {zd['filename']} ===\n{zd['content']}")
+                content = "\n\n".join(content_parts)
+            else:
+                raise HTTPException(
+                    status_code=400,
+                    detail="The uploaded ZIP file does not contain readable PDF, DOCX, or TXT documents."
+                )
+        elif ext == ".pdf":
+            pages = parse_pdf(file_path)
+            content = "\n".join([p["text"] for p in pages if p.get("text")])
+        elif ext in [".docx", ".doc"]:
+            sections = parse_docx(file_path)
+            content = "\n".join([s["text"] for s in sections if s.get("text")])
+        elif ext in [".txt", ".md", ".json", ".csv"]:
+            content = parse_txt(file_path)
+        else:
+            raise HTTPException(
+                status_code=400,
+                detail=f"Unsupported file format '{ext}'. Supported formats: PDF, DOCX, TXT, ZIP, MD, JSON, CSV."
+            )
 
-    doc_id = f"POL-UPL-{db.query(Policy).count() + 1:03d}"
-    policy = Policy(
-        doc_id=doc_id,
-        title=title,
-        category=category,
-        status="ACTIVE",
-        version=version,
-        content=content,
-        file_path=file_path,
-        file_type=ext.replace(".", "").upper(),
-        source_reference=f"Uploaded Document: {file.filename}"
-    )
-    db.add(policy)
-    db.flush()
+        if not content or not content.strip():
+            raise HTTPException(
+                status_code=400,
+                detail="The uploaded document contains no readable text content."
+            )
 
-    # Chunk policy
-    chunks = chunk_document(doc_id, title, content, version)
-    for c_data in chunks:
-        chunk_obj = DocumentChunk(
-            policy_id=policy.id,
+        doc_id = f"POL-UPL-{db.query(Policy).count() + 1:03d}"
+        policy = Policy(
             doc_id=doc_id,
-            section_id=c_data["section_id"],
-            heading=c_data["heading"],
-            page_number=c_data["page_number"],
+            title=title,
+            category=category,
+            status="ACTIVE",
             version=version,
-            content=c_data["content"]
+            content=content,
+            file_path=file_path,
+            file_type=ext.replace(".", "").upper(),
+            source_reference=f"Uploaded Document: {file.filename}"
         )
-        db.add(chunk_obj)
-        
-    db.commit()
-    return {"message": "Policy uploaded and chunked successfully", "doc_id": doc_id, "chunk_count": len(chunks)}
+        db.add(policy)
+        db.flush()
 
-# --- 6. RULE MATRIX MANAGEMENT ---
+        # Structure-based chunking (headings → paragraphs → sentence windows)
+        chunks = structure_based_chunk(doc_id, title, content, version, max_words=100, overlap_sentences=1)
+        if not chunks:
+            # Fallback to basic chunker if structure detection returns nothing
+            chunks = chunk_document(doc_id, title, content, version)
+
+        for c_data in chunks:
+            chunk_obj = DocumentChunk(
+                policy_id=policy.id,
+                doc_id=doc_id,
+                section_id=c_data["section_id"],
+                heading=c_data["heading"],
+                page_number=c_data["page_number"],
+                version=version,
+                content=c_data["content"]
+            )
+            db.add(chunk_obj)
+
+        db.commit()
+
+        # Rebuild RAG vector index so new document is immediately searchable
+        indexed = build_vector_index(db)
+
+        return {
+            "message": "Policy uploaded, chunked (structure-aware), and indexed successfully",
+            "doc_id": doc_id,
+            "chunk_count": len(chunks),
+            "total_indexed_chunks": indexed
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(
+            status_code=500,
+            detail=f"Upload processing failed: {str(e)}"
+        )
+
+
+# --- 6. RAG QUERY ENGINE ---
+from pydantic import BaseModel
+
+class RAGQueryRequest(BaseModel):
+    query: str
+    top_k: int = 5
+    min_score: float = 0.01
+
+@router.post("/rag/query", tags=["RAG Query Engine"])
+def rag_query(
+    req: RAGQueryRequest,
+    db: Session = Depends(get_db)
+):
+    """
+    RAG Pipeline:  Query → TF-IDF similarity search → Retrieve top-k chunks → Build LLM prompt → Return answer + sources
+    """
+    from backend.knowledge_base.vector_store import _vectorizer
+    # Auto-build index if it hasn't been built yet
+    if _vectorizer is None:
+        build_vector_index(db)
+
+    # Similarity search in vector store
+    retrieved = similarity_search(req.query, top_k=req.top_k, min_score=req.min_score)
+
+    if not retrieved:
+        return {
+            "query": req.query,
+            "answer": "No relevant policy documents found. Please upload company documents first via AI Policy Base.",
+            "sources": [],
+            "chunks_retrieved": 0,
+            "rag_prompt": None
+        }
+
+    # Build prompt for LLM
+    rag_prompt = build_rag_prompt(req.query, retrieved)
+
+    # Pass retrieved context to GenAI engine (Pipeline 1)
+    from backend.genai_pipeline.genai_engine import run_genai_analysis
+    try:
+        genai_res = run_genai_analysis("RAG-QUERY", req.query, req.query, retrieved)
+        llm_answer = genai_res.customer_response or genai_res.primary_issue or "Analysis complete — see sources."
+    except Exception as e:
+        llm_answer = f"[LLM pipeline error: {e}]. Review source documents below."
+
+    return {
+        "query": req.query,
+        "answer": llm_answer,
+        "sources": [
+            {
+                "doc_id": c["doc_id"],
+                "section_id": c["section_id"],
+                "document_title": c["document_title"],
+                "heading": c["heading"],
+                "page_number": c["page_number"],
+                "relevance_score": c["relevance_score"],
+                "content_snippet": c["content"][:300] + "..." if len(c["content"]) > 300 else c["content"]
+            }
+            for c in retrieved
+        ],
+        "chunks_retrieved": len(retrieved),
+        "rag_prompt": rag_prompt
+    }
+
+@router.post("/rag/rebuild-index", tags=["RAG Query Engine"])
+def rebuild_rag_index(db: Session = Depends(get_db)):
+    """Manually rebuild the TF-IDF vector index from all active policy chunks."""
+    count = build_vector_index(db)
+    return {"message": f"Vector index rebuilt successfully.", "total_chunks_indexed": count}
+
+# --- 7. RULE MATRIX MANAGEMENT ---
 @router.get("/rules", tags=["Knowledge Base & Policy Rules"])
 def get_rule_matrix(db: Session = Depends(get_db)):
     return db.query(RuleMatrix).all()
@@ -764,13 +877,22 @@ def download_csv_report(db: Session = Depends(get_db)):
         headers={"Content-Disposition": "attachment; filename=SupportNova_Complaints_Report.csv"}
     )
 
+@router.get("/reports/pdf", tags=["Analytics & Reports"])
+def download_pdf_report(db: Session = Depends(get_db)):
+    pdf_bytes = generate_pdf_complaints_report(db)
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": "attachment; filename=SupportNova_Complaints_Report.pdf"}
+    )
+
 @router.get("/reports/100-case-evaluation", tags=["Analytics & Reports"])
 def get_100_case_report(db: Session = Depends(get_db)):
     return generate_100_case_comparison_report(db)
 
 # --- 10. AUDIT LOGS ---
 @router.get("/audit-logs", tags=["Audit Logs"])
-def list_audit_logs(db: Session = Depends(get_db), current_user: User = Depends(require_roles([UserRole.ADMIN]))):
+def list_audit_logs(db: Session = Depends(get_db), current_user: User = Depends(require_roles([UserRole.ADMIN, UserRole.MANAGER]))):
     return db.query(AuditLog).order_by(AuditLog.timestamp.desc()).limit(100).all()
 
 # --- 11. SKILLSPRINT AI ONBOARDING & ROLE MATRIX ROUTES ---

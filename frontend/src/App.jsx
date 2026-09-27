@@ -16,13 +16,81 @@ import { ReportsPage } from './pages/ReportsPage';
 import { PromptManagementPage } from './pages/PromptManagementPage';
 import { AuditLogsPage } from './pages/AuditLogsPage';
 import { UserManagementPage } from './pages/UserManagementPage';
-import { ShieldAlert, Menu, X, LayoutDashboard, FileText, PlusCircle, Shield, BookOpen, Grid, Clock, BarChart3, Download, Users, Terminal, History } from 'lucide-react';
+import { ShieldAlert, Menu, X, LayoutDashboard, FileText, PlusCircle, Shield, BookOpen, Grid, Clock, BarChart3, Download, Users, Terminal, History, CheckCircle2, ArrowRight, Sparkles, UserCheck, ShieldCheck } from 'lucide-react';
+
+const ROLE_DETAILS = {
+  AGENT: {
+    title: "Support Agent Profile Active",
+    subtitle: "Customer Service & Complaint Resolution Operational Desk",
+    email: "agent@novacart.com",
+    badge: "TIER-1 & TIER-2 AGENT",
+    badgeColor: "bg-blue-500/10 text-blue-400 border-blue-500/20",
+    description: "As a Support Agent, you handle incoming customer tickets, analyze complaint descriptions, consult RAG policy guidelines, and resolve cases within SLA deadlines.",
+    capabilities: [
+      "View and triage customer complaint tickets",
+      "Run GenAI Policy & Ground-Truth rule analysis",
+      "Access RAG Knowledge Base and policy documents",
+      "Track response and resolution SLA deadlines"
+    ],
+    recommendedTab: "dashboard",
+    tabLabel: "Open Agent Dashboard"
+  },
+  REVIEWER: {
+    title: "Manual Reviewer & Compliance Auditor Active",
+    subtitle: "Ground-Truth Verification & Policy Oversight Desk",
+    email: "reviewer@novacart.com",
+    badge: "COMPLIANCE & AUDIT",
+    badgeColor: "bg-amber-500/10 text-amber-400 border-amber-500/20",
+    description: "As a Manual Reviewer, your primary responsibility is auditing complaints where GenAI Pipeline 1 output differed from Python Ground-Truth Pipeline 2 verification.",
+    capabilities: [
+      "Access Manual Review Queue for flagged complaints",
+      "Override or approve AI routing and priority decisions",
+      "Audit policy citations against company rule matrix",
+      "Resolve P0 Critical and P1 High escalated disputes"
+    ],
+    recommendedTab: "reviews",
+    tabLabel: "Open Manual Review Queue"
+  },
+  MANAGER: {
+    title: "Department Manager Profile Active",
+    subtitle: "Operations Leadership & System Analytics Hub",
+    email: "manager@novacart.com",
+    badge: "OPERATIONS MANAGEMENT",
+    badgeColor: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+    description: "As a Department Manager, you oversee resolution accuracy, team productivity, overall SLA compliance rates, and system verification scores.",
+    capabilities: [
+      "Monitor overall complaint volumes and agreement rates",
+      "Analyze department SLA performance and bottleneck trends",
+      "Generate and export PDF & CSV executive reports",
+      "Review 100-case GenAI vs Python evaluation reports"
+    ],
+    recommendedTab: "analytics",
+    tabLabel: "Open Manager Analytics"
+  },
+  ADMIN: {
+    title: "System Administrator Profile Active",
+    subtitle: "Enterprise Governance, User RBAC & Prompt Control",
+    email: "admin@novacart.com",
+    badge: "FULL SYSTEM ADMIN",
+    badgeColor: "bg-purple-500/10 text-purple-400 border-purple-500/20",
+    description: "As a System Administrator, you have unrestricted access to manage platform users, configure LLM system prompts, and inspect security audit logs.",
+    capabilities: [
+      "Manage system users, roles, and account statuses",
+      "Tune and update GenAI LLM prompt templates",
+      "Inspect immutable security audit log history",
+      "Full administrative access across all 12 platform modules"
+    ],
+    recommendedTab: "users",
+    tabLabel: "Open Admin Control Center"
+  }
+};
 
 const AppContent = () => {
   const { user, token, loading } = useAuth();
   const [activeTab, setActiveTab] = useState('dashboard');
   const [selectedComplaintId, setSelectedComplaintId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [switchedRoleModal, setSwitchedRoleModal] = useState(null);
 
   if (loading) {
     return (
@@ -53,7 +121,11 @@ const AppContent = () => {
     const permissions = {
       dashboard: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       complaints: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
-      submit: ['CUSTOMER', 'AGENT', 'ADMIN'],
+      submit: ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
+      'submit-web': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
+      'submit-email': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
+      'submit-chat': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
+      'submit-upload': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
       detail: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       knowledge: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       rules: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
@@ -61,9 +133,9 @@ const AppContent = () => {
       sla: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       analytics: ['MANAGER', 'ADMIN'],
       reports: ['MANAGER', 'ADMIN'],
-      prompts: ['ADMIN'],
-      users: ['ADMIN'],
-      audit: ['ADMIN']
+      prompts: ['MANAGER', 'ADMIN'],
+      users: ['MANAGER', 'ADMIN'],
+      audit: ['MANAGER', 'ADMIN']
     };
 
     return permissions[tabId] ? permissions[tabId].includes(role) : false;
@@ -94,7 +166,14 @@ const AppContent = () => {
       case 'complaints':
         return <ComplaintsListPage onSelectComplaint={handleSelectComplaint} onNavigate={setActiveTab} />;
       case 'submit':
-        return <SubmitComplaintPage onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+      case 'submit-web':
+        return <SubmitComplaintPage initialChannel="WEB_FORM" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+      case 'submit-email':
+        return <SubmitComplaintPage initialChannel="EMAIL" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+      case 'submit-chat':
+        return <SubmitComplaintPage initialChannel="CHAT" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+      case 'submit-upload':
+        return <SubmitComplaintPage initialChannel="UPLOADED_COMPLAINT" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
       case 'detail':
         return <ComplaintDetailPage complaintId={selectedComplaintId} onBack={() => setActiveTab('complaints')} onNavigate={setActiveTab} />;
       case 'knowledge':
@@ -178,11 +257,87 @@ const AppContent = () => {
       )}
 
       <div className="flex-1 flex">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Sidebar
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onRoleSwitched={(roleKey) => setSwitchedRoleModal(roleKey)}
+        />
         <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto max-w-7xl mx-auto w-full">
           {renderContent()}
         </main>
       </div>
+
+      {/* Role Profile Switched Modal */}
+      {switchedRoleModal && ROLE_DETAILS[switchedRoleModal] && (
+        <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-[#0D1322] border border-blue-500/30 rounded-2xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative">
+            <button
+              onClick={() => setSwitchedRoleModal(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white p-1 transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400">
+                <UserCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="text-base font-bold text-white">
+                    {ROLE_DETAILS[switchedRoleModal].title}
+                  </h3>
+                </div>
+                <p className="text-xs text-slate-400">
+                  {ROLE_DETAILS[switchedRoleModal].subtitle}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between p-3 rounded-xl bg-slate-900 border border-slate-800 text-xs">
+              <span className="text-slate-400 font-medium">Logged in User:</span>
+              <span className="font-mono font-bold text-blue-400">{ROLE_DETAILS[switchedRoleModal].email}</span>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded border ${ROLE_DETAILS[switchedRoleModal].badgeColor}`}>
+                {ROLE_DETAILS[switchedRoleModal].badge}
+              </span>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-xs text-slate-300 leading-relaxed">
+                {ROLE_DETAILS[switchedRoleModal].description}
+              </p>
+            </div>
+
+            <div className="space-y-2 bg-slate-900/60 p-3.5 rounded-xl border border-slate-800/80">
+              <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                Unlocked Capabilities & Modules:
+              </p>
+              <div className="space-y-1.5">
+                {ROLE_DETAILS[switchedRoleModal].capabilities.map((cap, idx) => (
+                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-200">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
+                    <span>{cap}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-3 pt-2">
+              <button
+                onClick={() => {
+                  setActiveTab(ROLE_DETAILS[switchedRoleModal].recommendedTab);
+                  setSwitchedRoleModal(null);
+                }}
+                className="w-full py-2.5 px-4 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs rounded-xl transition-all shadow-lg shadow-blue-500/25 flex items-center justify-center gap-2"
+              >
+                <span>{ROLE_DETAILS[switchedRoleModal].tabLabel}</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import {
-  FileText, ShieldCheck, AlertTriangle, CheckCircle2, TrendingUp,
+  FileText, ShieldCheck, AlertTriangle, CheckCircle2,
   ArrowRight, ShieldAlert, Clock, Plus, Search, Cpu, BarChart3, Activity, Layers, Scale, Sparkles
 } from 'lucide-react';
 
@@ -50,11 +50,13 @@ export const DashboardPage = ({ onSelectComplaint, onNavigate }) => {
     );
   }
 
-  const totalComplaints = stats?.overview?.total_complaints || 500;
-  const pendingCount = (stats?.overview?.total_complaints || 500) - (stats?.overview?.resolved || 0);
-  const underReviewCount = (stats?.overview?.escalated || 0) + (stats?.comparison_breakdown?.reviews_required || 0);
-  const resolvedCount = stats?.overview?.resolved || 0;
-  const agreementRate = stats?.overview?.agreement_rate || 96.4;
+  const totalComplaints = stats?.overview?.total_complaints ?? 0;
+  const resolvedCount = stats?.overview?.resolved ?? 0;
+  const escalatedCount = stats?.overview?.escalated ?? 0;
+  const analyzedCount = stats?.overview?.analyzed ?? 0;
+  const pendingCount = totalComplaints - resolvedCount - escalatedCount - analyzedCount;
+  const underReviewCount = escalatedCount + (stats?.comparison_breakdown?.reviews_required ?? 0);
+  const agreementRate = stats?.overview?.agreement_rate ?? 0;
 
   return (
     <div className="space-y-6 animate-fade-in">
@@ -83,78 +85,80 @@ export const DashboardPage = ({ onSelectComplaint, onNavigate }) => {
       {/* Overview Metric Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
         {/* Metric 1: Total Complaints */}
-        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Total Complaints</span>
-            <FileText className="w-4 h-4 text-blue-400" />
+        <div className="glass-card rounded-xl p-5 space-y-3 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-300 gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider truncate">Total Complaints</span>
+            <FileText className="w-4 h-4 text-blue-400 shrink-0" />
           </div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-2">
             <span className="text-2xl font-extrabold text-white tracking-tight">{totalComplaints}</span>
-            <span className="text-[11px] text-emerald-400 font-semibold flex items-center gap-0.5">
-              <TrendingUp className="w-3 h-3" /> +5.2%
-            </span>
+            {totalComplaints > 0 && (
+              <span className="text-[10px] font-semibold text-slate-400 bg-slate-800 px-2 py-0.5 rounded border border-slate-700 shrink-0">
+                DB Records
+              </span>
+            )}
           </div>
-          <p className="text-[10px] text-slate-400">Logged across all channels</p>
+          <p className="text-[10px] text-slate-400 truncate">Logged across all channels</p>
         </div>
 
         {/* Metric 2: Pending */}
-        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Pending Action</span>
-            <Clock className="w-4 h-4 text-cyan-400" />
+        <div className="glass-card rounded-xl p-5 space-y-3 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-300 gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider truncate">Pending Action</span>
+            <Clock className="w-4 h-4 text-cyan-400 shrink-0" />
           </div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-2">
             <span className="text-2xl font-extrabold text-cyan-400 tracking-tight">{pendingCount}</span>
-            <span className="text-[10px] font-semibold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
+            <span className="text-[10px] font-semibold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20 shrink-0">
               Active Queue
             </span>
           </div>
-          <p className="text-[10px] text-slate-400">Requiring agent resolution</p>
+          <p className="text-[10px] text-slate-400 truncate">Requiring agent resolution</p>
         </div>
 
         {/* Metric 3: Under Review */}
-        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Under Review</span>
-            <AlertTriangle className="w-4 h-4 text-amber-400" />
+        <div className="glass-card rounded-xl p-5 space-y-3 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-300 gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider truncate">Under Review</span>
+            <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0" />
           </div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-2">
             <span className="text-2xl font-extrabold text-amber-400 tracking-tight">{underReviewCount}</span>
-            <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+            <span className="text-[10px] font-semibold text-amber-400 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20 shrink-0">
               Flagged
             </span>
           </div>
-          <p className="text-[10px] text-slate-400">Score mismatch override</p>
+          <p className="text-[10px] text-slate-400 truncate">Score mismatch override</p>
         </div>
 
         {/* Metric 4: Resolved */}
-        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Resolved</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+        <div className="glass-card rounded-xl p-5 space-y-3 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-300 gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider truncate">Resolved</span>
+            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           </div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-2">
             <span className="text-2xl font-extrabold text-emerald-400 tracking-tight">{resolvedCount}</span>
-            <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
-              98.2% SLA
+            <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">
+              {totalComplaints > 0 ? Math.round((resolvedCount / totalComplaints) * 100) : 0}% Closed
             </span>
           </div>
-          <p className="text-[10px] text-slate-400">Verified and closed</p>
+          <p className="text-[10px] text-slate-400 truncate">Verified and closed</p>
         </div>
 
         {/* Metric 5: Verification Agreement */}
-        <div className="glass-card rounded-xl p-4.5 space-y-2.5 relative overflow-hidden group">
-          <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Verification Score</span>
-            <Scale className="w-4 h-4 text-indigo-400" />
+        <div className="glass-card rounded-xl p-5 space-y-3 relative overflow-hidden group">
+          <div className="flex items-center justify-between text-slate-300 gap-1">
+            <span className="text-[11px] font-bold uppercase tracking-wider truncate">Verification Score</span>
+            <Scale className="w-4 h-4 text-indigo-400 shrink-0" />
           </div>
-          <div className="flex items-baseline justify-between">
+          <div className="flex items-baseline justify-between gap-2">
             <span className="text-2xl font-extrabold text-indigo-400 tracking-tight">{agreementRate}%</span>
-            <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20">
+            <span className="text-[10px] font-semibold text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded border border-indigo-500/20 shrink-0">
               Match Rate
             </span>
           </div>
-          <p className="text-[10px] text-slate-400">AI vs Python Compliance</p>
+          <p className="text-[10px] text-slate-400 truncate">AI vs Python Compliance</p>
         </div>
       </div>
 
