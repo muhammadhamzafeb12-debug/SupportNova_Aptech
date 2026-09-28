@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { BarChart3, TrendingUp, PieChart, ShieldAlert } from 'lucide-react';
 
 export const AnalyticsPage = () => {
+  const { token } = useAuth();
   const [analytics, setAnalytics] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/analytics/summary')
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    fetch('/api/analytics/summary', { headers })
       .then(res => res.json())
       .then(data => { setAnalytics(data); setLoading(false); })
       .catch(err => console.error(err));
-  }, []);
+  }, [token]);
 
   if (loading || !analytics) {
     return <div className="p-12 text-center text-xs text-slate-400 font-medium">Loading analytics data...</div>;

@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { History } from 'lucide-react';
 
 export const AuditLogsPage = () => {
+  const { token } = useAuth();
   const [logs, setLogs] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/audit-logs')
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    fetch('/api/audit-logs', { headers })
       .then(res => res.json())
       .then(data => { setLogs(data); setLoading(false); })
       .catch(err => console.error(err));
-  }, []);
+  }, [token]);
 
   return (
     <div className="space-y-6 animate-fade-in">

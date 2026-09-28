@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { ShieldAlert, AlertTriangle, CheckCircle2, ArrowRight } from 'lucide-react';
 
 export const ManualReviewPage = ({ onSelectComplaint }) => {
+  const { token } = useAuth();
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchReviewQueue();
-  }, []);
+  }, [token]);
 
   const fetchReviewQueue = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/reviews');
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch('/api/reviews', { headers });
       if (res.ok) setReviews(await res.json());
     } catch (err) {
       console.error(err);

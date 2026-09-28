@@ -20,3 +20,4 @@ SupportNova utilizes a dual-pipeline architecture to process, classify, route, a
 - **PII Scrubbing:** Customer identities and credit card numbers are scrubbed prior to sending prompts to GenAI APIs.
 - **Role-Based Access Control:** Strict role segregation enforced across Customer, Agent, Reviewer, Manager, and Admin dashboards.
 - **Audit Logging:** Every AI decision and ground-truth validation is recorded in the PostgreSQL database with timestamp and confidence score.
+p

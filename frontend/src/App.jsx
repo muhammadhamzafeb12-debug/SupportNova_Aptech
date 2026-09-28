@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
@@ -6,6 +6,8 @@ import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { ComplaintsListPage } from './pages/ComplaintsListPage';
 import { SubmitComplaintPage } from './pages/SubmitComplaintPage';
+import { LiveChatPage } from './pages/LiveChatPage';
+import { EmailIntakePage } from './pages/EmailIntakePage';
 import { ComplaintDetailPage } from './pages/ComplaintDetailPage';
 import { KnowledgeBasePage } from './pages/KnowledgeBasePage';
 import { RuleMatrixPage } from './pages/RuleMatrixPage';
@@ -16,6 +18,7 @@ import { ReportsPage } from './pages/ReportsPage';
 import { PromptManagementPage } from './pages/PromptManagementPage';
 import { AuditLogsPage } from './pages/AuditLogsPage';
 import { UserManagementPage } from './pages/UserManagementPage';
+import { ReviewerDashboard } from './pages/ReviewerDashboard';
 import { ShieldAlert, Menu, X, LayoutDashboard, FileText, PlusCircle, Shield, BookOpen, Grid, Clock, BarChart3, Download, Users, Terminal, History, CheckCircle2, ArrowRight, Sparkles, UserCheck, ShieldCheck } from 'lucide-react';
 
 const ROLE_DETAILS = {
@@ -49,7 +52,7 @@ const ROLE_DETAILS = {
       "Resolve P0 Critical and P1 High escalated disputes"
     ],
     recommendedTab: "reviews",
-    tabLabel: "Open Manual Review Queue"
+    tabLabel: "Open Reviewer Dashboard"
   },
   MANAGER: {
     title: "Department Manager Profile Active",
@@ -87,10 +90,30 @@ const ROLE_DETAILS = {
 
 const AppContent = () => {
   const { user, token, loading } = useAuth();
-  const [activeTab, setActiveTab] = useState('dashboard');
+
+  // Derive default tab from role stored in localStorage so it's available on first render
+  const getDefaultTab = () => {
+    try {
+      const saved = localStorage.getItem('supportnova_user');
+      if (saved) {
+        const u = JSON.parse(saved);
+        if (u.role === 'REVIEWER') return 'reviews';
+      }
+    } catch { /* ignore */ }
+    return 'dashboard';
+  };
+
+  const [activeTab, setActiveTab] = useState(getDefaultTab);
   const [selectedComplaintId, setSelectedComplaintId] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [switchedRoleModal, setSwitchedRoleModal] = useState(null);
+
+  // When user role changes (e.g. after role switch), reset to correct default tab
+  useEffect(() => {
+    if (user?.role === 'REVIEWER' && activeTab === 'dashboard') {
+      setActiveTab('reviews');
+    }
+  }, [user?.role]);
 
   if (loading) {
     return (
@@ -120,7 +143,7 @@ const AppContent = () => {
 
     const permissions = {
       dashboard: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
-      complaints: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
+      complaints: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       submit: ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
       'submit-web': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
       'submit-email': ['CUSTOMER', 'AGENT', 'MANAGER', 'ADMIN'],
@@ -133,9 +156,9 @@ const AppContent = () => {
       sla: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'],
       analytics: ['MANAGER', 'ADMIN'],
       reports: ['MANAGER', 'ADMIN'],
-      prompts: ['MANAGER', 'ADMIN'],
-      users: ['MANAGER', 'ADMIN'],
-      audit: ['MANAGER', 'ADMIN']
+      prompts: ['ADMIN'],
+      users: ['ADMIN'],
+      audit: ['ADMIN']
     };
 
     return permissions[tabId] ? permissions[tabId].includes(role) : false;
@@ -169,9 +192,9 @@ const AppContent = () => {
       case 'submit-web':
         return <SubmitComplaintPage initialChannel="WEB_FORM" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
       case 'submit-email':
-        return <SubmitComplaintPage initialChannel="EMAIL" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+        return <EmailIntakePage onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
       case 'submit-chat':
-        return <SubmitComplaintPage initialChannel="CHAT" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
+        return <LiveChatPage onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
       case 'submit-upload':
         return <SubmitComplaintPage initialChannel="UPLOADED_COMPLAINT" onComplaintSubmitted={(id) => handleSelectComplaint(id)} />;
       case 'detail':
@@ -181,6 +204,10 @@ const AppContent = () => {
       case 'rules':
         return <RuleMatrixPage />;
       case 'reviews':
+        // Reviewers get the new full Reviewer Dashboard; Managers/Admins keep the Manual Review Queue
+        if (user?.role === 'REVIEWER') {
+          return <ReviewerDashboard />;
+        }
         return <ManualReviewPage onSelectComplaint={handleSelectComplaint} />;
       case 'sla':
         return <SLAPage />;
@@ -224,8 +251,8 @@ const AppContent = () => {
             {[
               { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
               { id: 'complaints', label: 'Complaints', icon: FileText },
-              { id: 'submit', label: 'Submit', icon: PlusCircle },
-              { id: 'reviews', label: 'Reviews', icon: Shield },
+              { id: 'submit-web', label: 'Submit Intake', icon: PlusCircle },
+              { id: 'reviews', label: 'Manual Reviews', icon: Shield },
               { id: 'knowledge', label: 'Knowledge Base', icon: BookOpen },
               { id: 'rules', label: 'Rule Matrix', icon: Grid },
               { id: 'sla', label: 'SLA Tracker', icon: Clock },
@@ -234,7 +261,7 @@ const AppContent = () => {
               { id: 'users', label: 'Users', icon: Users },
               { id: 'prompts', label: 'Prompts', icon: Terminal },
               { id: 'audit', label: 'Audit Logs', icon: History }
-            ].map((item) => {
+            ].filter((item) => canAccessTab(item.id)).map((item) => {
               const Icon = item.icon;
               return (
                 <button

@@ -3,7 +3,8 @@ import { useAuth } from '../context/AuthContext';
 import { Search, Filter, Plus, ArrowRight } from 'lucide-react';
 
 export const ComplaintsListPage = ({ onSelectComplaint, onNavigate }) => {
-  const { token } = useAuth();
+  const { user, token } = useAuth();
+  const role = user?.role || 'CUSTOMER';
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -41,13 +42,15 @@ export const ComplaintsListPage = ({ onSelectComplaint, onNavigate }) => {
             Enterprise customer complaint records, priority triage, and verification status.
           </p>
         </div>
-        <button
-          onClick={() => onNavigate('submit')}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-blue-500/20"
-        >
-          <Plus className="w-4 h-4" />
-          <span>New Complaint</span>
-        </button>
+        {role !== 'ADMIN' && (
+          <button
+            onClick={() => onNavigate('submit')}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-2 shrink-0 shadow-lg shadow-blue-500/20"
+          >
+            <Plus className="w-4 h-4" />
+            <span>New Complaint</span>
+          </button>
+        )}
       </div>
 
       {/* Toolbar & Filters */}

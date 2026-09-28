@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { Download, Table } from 'lucide-react';
 
 export const ReportsPage = () => {
+  const { token } = useAuth();
   const [evalData, setEvalData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch('/api/reports/100-case-evaluation')
+    const headers = {};
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    fetch('/api/reports/100-case-evaluation', { headers })
       .then(res => res.json())
       .then(data => { setEvalData(data); setLoading(false); })
       .catch(err => console.error(err));
-  }, []);
+  }, [token]);
 
   const handleDownloadCSV = () => {
     window.open('/api/reports/csv', '_blank');

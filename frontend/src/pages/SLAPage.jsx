@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../context/AuthContext';
 import { Clock, AlertTriangle, CheckCircle2 } from 'lucide-react';
 
 export const SLAPage = () => {
+  const { token } = useAuth();
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchComplaints();
-  }, []);
+  }, [token]);
 
   const fetchComplaints = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/complaints');
+      const headers = {};
+      if (token) headers['Authorization'] = `Bearer ${token}`;
+      const res = await fetch('/api/complaints', { headers });
       if (res.ok) setComplaints(await res.json());
     } catch (err) {
       console.error(err);

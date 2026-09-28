@@ -55,7 +55,7 @@ def seed_database(db: Session = None):
         # 2. Demo Users for RBAC
         users_data = [
             ("admin", "admin@novacart.com", "System Admin", "admin123", UserRole.ADMIN.value, None),
-            ("manager", "manager@novacart.com", "Operations Manager", "manager123", UserRole.MANAGER.value, dept_objects["Management Escalations"].id),
+            ("manager", "manager@novacart.com", "Operations Manager", "manager123", UserRole.MANAGER.value, dept_objects["Billing"].id),
             ("reviewer", "reviewer@novacart.com", "Senior Reviewer", "reviewer123", UserRole.REVIEWER.value, dept_objects["Compliance"].id),
             ("agent", "agent@novacart.com", "Support Agent", "agent123", UserRole.AGENT.value, dept_objects["Customer Relations"].id),
             ("customer", "customer@gmail.com", "John Doe Customer", "customer123", UserRole.CUSTOMER.value, None)
@@ -75,7 +75,7 @@ def seed_database(db: Session = None):
 
         # 3. Demo Customers
         customers_data = [
-            ("CUST-1001", "John Doe", "john.doe@example.com", "+1-555-0101", "REGULAR", "LOW"),
+            ("CUST-1001", "John Doe Customer", "customer@gmail.com", "+1-555-0101", "REGULAR", "LOW"),
             ("CUST-1002", "Alice Smith", "alice.smith@example.com", "+1-555-0102", "PREMIUM", "LOW"),
             ("CUST-1003", "Bob Vance", "bob.vance@example.com", "+1-555-0103", "VIP", "MEDIUM"),
             ("CUST-1004", "Acme Corp", "support@acmecorp.com", "+1-555-0104", "CORPORATE", "HIGH")
@@ -253,12 +253,18 @@ def seed_database(db: Session = None):
                 
                 is_prompt_inj = "ignore" in desc.lower()
                 
+                dept_name = tmpl[4]
+                dept_obj = dept_objects.get(dept_name) or dept_objects.get("Customer Relations")
+                agent_user = db.query(User).filter(User.role == UserRole.AGENT.value).first()
+
                 c = Complaint(
                     complaint_code=code,
                     title=title,
                     description=desc,
                     customer_id=cust.id,
                     customer_type=cust.customer_type,
+                    department_id=dept_obj.id if dept_obj else None,
+                    assigned_agent_id=agent_user.id if (agent_user and i % 2 == 0) else None,
                     product_service="NovaCart Product Line",
                     order_ref=f"ORD-{10000 + i}",
                     transaction_ref=f"TXN-{50000 + i}",

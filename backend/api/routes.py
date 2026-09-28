@@ -236,7 +236,7 @@ def reset_password(req: ResetPasswordRequest, db: Session = Depends(get_db)):
 @router.get("/users", response_model=List[UserOut], tags=["Authentication & Users"])
 def list_users(
     db: Session = Depends(get_db),
-    current_user: User = Depends(require_roles([UserRole.ADMIN, UserRole.MANAGER]))
+    current_user: User = Depends(require_roles([UserRole.ADMIN]))
 ):
     return db.query(User).order_by(User.id.asc()).all()
 
@@ -319,7 +319,19 @@ def submit_complaint(
 
     # Resolve customer
     cust_id = comp_in.customer_id
-    if not cust_id:
+    if current_user and current_user.role == UserRole.CUSTOMER.value:
+        cust = db.query(Customer).filter(Customer.email == current_user.email).first()
+        if not cust:
+            cust = Customer(
+                customer_code=f"CUST-{current_user.id:04d}",
+                name=current_user.full_name,
+                email=current_user.email,
+                customer_type=comp_in.customer_type or "REGULAR"
+            )
+            db.add(cust)
+            db.flush()
+        cust_id = cust.id
+    elif not cust_id:
         cust = db.query(Customer).filter(Customer.email == (comp_in.customer_email or "customer@gmail.com")).first()
         if cust:
             cust_id = cust.id
@@ -368,28 +380,66 @@ def list_complaints(
     status_filter: Optional[str] = None,
     category_filter: Optional[str] = None,
     search: Optional[str] = None,
+    limit: Optional[int] = None,
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     query = db.query(Complaint)
     
-    # If customer role, only return own submitted complaints
+    # Strict Role Access Control Matrix:
+    # 1. Admin: Sees ALL complaints received across the application.
+    # 2. Customer: Sees ONLY their own complaints.
+    # 3. Manager: Sees ONLY complaints of their own department.
+    # 4. Agent: Sees ONLY complaints assigned to them or their department scope.
     if current_user.role == UserRole.CUSTOMER.value:
         cust = db.query(Customer).filter(Customer.email == current_user.email).first()
-        if cust:
-            query = query.filter(Complaint.customer_id == cust.id)
-            
+        if not cust:
+            cust = Customer(
+                customer_code=f"CUST-{current_user.id:04d}",
+                name=current_user.full_name,
+                email=current_user.email,
+                customer_type="REGULAR"
+            )
+            db.add(cust)
+            db.commit()
+            db.refresh(cust)
+        query = query.filter(Complaint.customer_id == cust.id)
+
+    elif current_user.role == UserRole.MANAGER.value:
+        if current_user.department_id:
+            query = query.filter(Complaint.department_id == current_user.department_id)
+        else:
+            query = query.filter(Complaint.department_id == -1)
+
+    elif current_user.role == UserRole.AGENT.value:
+        if current_user.department_id:
+            query = query.filter(
+                (Complaint.assigned_agent_id == current_user.id) |
+                (Complaint.department_id == current_user.department_id)
+            )
+        else:
+            query = query.filter(Complaint.assigned_agent_id == current_user.id)
+
+    elif current_user.role == UserRole.REVIEWER.value:
+        if current_user.department_id:
+            query = query.filter(Complaint.department_id == current_user.department_id)
+
     if status_filter:
         query = query.filter(Complaint.status == status_filter)
     if search:
         query = query.filter((Complaint.title.contains(search)) | (Complaint.description.contains(search)) | (Complaint.complaint_code.contains(search)))
         
-    complaints = query.order_by(Complaint.id.desc()).all()
+    query = query.order_by(Complaint.id.desc())
+    if limit:
+        query = query.limit(limit)
+
+    complaints = query.all()
     
     result = []
     for c in complaints:
         comp_status = c.comparison.overall_status if c.comparison else "NOT ANALYZED"
         score = c.comparison.overall_verification_score if c.comparison else 0.0
+        dept_name = c.department.name if c.department else (c.genai_analysis.department if c.genai_analysis else "N/A")
         result.append({
             "id": c.id,
             "complaint_code": c.complaint_code,
@@ -404,7 +454,7 @@ def list_complaints(
             "urgency": c.urgency,
             "sentiment": c.sentiment,
             "category": c.genai_analysis.category if c.genai_analysis else "N/A",
-            "department": c.genai_analysis.department if c.genai_analysis else "N/A",
+            "department": dept_name,
             "comparison_status": comp_status,
             "verification_score": score,
             "is_duplicate": c.is_duplicate,
@@ -418,6 +468,20 @@ def get_complaint_details(id: int, db: Session = Depends(get_db), current_user: 
     if not c:
         raise HTTPException(status_code=404, detail="Complaint not found")
         
+    # Access Control Verification:
+    if current_user.role == UserRole.CUSTOMER.value:
+        cust = db.query(Customer).filter(Customer.email == current_user.email).first()
+        if not cust or c.customer_id != cust.id:
+            raise HTTPException(status_code=403, detail="Access denied. You can only view your own complaints.")
+
+    elif current_user.role == UserRole.MANAGER.value:
+        if current_user.department_id and c.department_id != current_user.department_id:
+            raise HTTPException(status_code=403, detail="Access denied. You can only view complaints in your department.")
+
+    elif current_user.role == UserRole.AGENT.value:
+        if c.assigned_agent_id != current_user.id and (current_user.department_id and c.department_id != current_user.department_id):
+            raise HTTPException(status_code=403, detail="Access denied. You can only view complaints assigned to your role or department.")
+
     genai = c.genai_analysis
     py_val = c.python_validation
     comp = c.comparison
@@ -830,21 +894,56 @@ def get_prompts(db: Session = Depends(get_db)):
 
 # --- 8. ANALYTICS & DASHBOARDS ---
 @router.get("/analytics/summary", tags=["Analytics & Reports"])
-def get_analytics_summary(db: Session = Depends(get_db)):
-    total = db.query(Complaint).count()
-    analyzed = db.query(Complaint).filter(Complaint.status == "ANALYZED").count()
-    escalated = db.query(Complaint).filter(Complaint.status == "ESCALATED").count()
-    resolved = db.query(Complaint).filter(Complaint.status == "RESOLVED").count()
+def get_analytics_summary(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    query = db.query(Complaint)
+
+    if current_user.role == UserRole.CUSTOMER.value:
+        cust = db.query(Customer).filter(Customer.email == current_user.email).first()
+        if cust:
+            query = query.filter(Complaint.customer_id == cust.id)
+        else:
+            query = query.filter(Complaint.customer_id == -1)
+
+    elif current_user.role == UserRole.MANAGER.value:
+        if current_user.department_id:
+            query = query.filter(Complaint.department_id == current_user.department_id)
+        else:
+            query = query.filter(Complaint.department_id == -1)
+
+    elif current_user.role == UserRole.AGENT.value:
+        if current_user.department_id:
+            query = query.filter(
+                (Complaint.assigned_agent_id == current_user.id) |
+                (Complaint.department_id == current_user.department_id)
+            )
+        else:
+            query = query.filter(Complaint.assigned_agent_id == current_user.id)
+
+    elif current_user.role == UserRole.REVIEWER.value:
+        if current_user.department_id:
+            query = query.filter(Complaint.department_id == current_user.department_id)
+
+    total = query.count()
+    analyzed = query.filter(Complaint.status == "ANALYZED").count()
+    escalated = query.filter(Complaint.status == "ESCALATED").count()
+    resolved = query.filter(Complaint.status == "RESOLVED").count()
     
-    matches = db.query(Comparison).filter(Comparison.overall_status == "MATCH").count()
-    mismatches = db.query(Comparison).filter(Comparison.overall_status == "MISMATCH").count()
-    reviews = db.query(Comparison).filter(Comparison.overall_status == "REVIEW REQUIRED").count()
+    complaint_ids = [c.id for c in query.all()]
     
-    # Priority breakdown
-    p0 = db.query(Complaint).filter(Complaint.priority.contains("P0")).count()
-    p1 = db.query(Complaint).filter(Complaint.priority.contains("P1")).count()
-    p2 = db.query(Complaint).filter(Complaint.priority.contains("P2")).count()
-    p3 = db.query(Complaint).filter(Complaint.priority.contains("P3")).count()
+    if complaint_ids:
+        matches = db.query(Comparison).filter(Comparison.complaint_id.in_(complaint_ids), Comparison.overall_status == "MATCH").count()
+        mismatches = db.query(Comparison).filter(Comparison.complaint_id.in_(complaint_ids), Comparison.overall_status == "MISMATCH").count()
+        reviews = db.query(Comparison).filter(Comparison.complaint_id.in_(complaint_ids), Comparison.overall_status == "REVIEW REQUIRED").count()
+        
+        p0 = query.filter(Complaint.priority.contains("P0")).count()
+        p1 = query.filter(Complaint.priority.contains("P1")).count()
+        p2 = query.filter(Complaint.priority.contains("P2")).count()
+        p3 = query.filter(Complaint.priority.contains("P3")).count()
+    else:
+        matches = mismatches = reviews = p0 = p1 = p2 = p3 = 0
 
     return {
         "overview": {

@@ -727,6 +727,76 @@ def submit_manual_review(complaint_id):
     finally:
         close_db(db)
 
+# --- 4b. SEND COMPLAINT TO DEPARTMENT MANAGER ---
+VALID_DEPARTMENTS = [
+    "Account Safety", "Customer Relations", "Billing", "Warranty",
+    "Logistics", "Safety", "Compliance", "Technical Support"
+]
+
+@app.route("/api/complaints/<int:complaint_id>/send-to-manager", methods=["POST"])
+def send_complaint_to_manager(complaint_id):
+    """Route a complaint exclusively to its department's manager.
+    Other department managers must NOT receive or see this complaint.
+    """
+    db = get_db()
+    try:
+        user, err = require_auth(db, [UserRole.REVIEWER, UserRole.ADMIN])
+        if err:
+            return err
+
+        c = db.query(Complaint).filter(Complaint.id == complaint_id).first()
+        if not c:
+            return jsonify({"detail": "Complaint not found"}), 404
+
+        data = request.get_json() or {}
+        department = data.get("department", "").strip()
+
+        if not department:
+            # Fall back to AI-assigned department
+            if c.genai_analysis:
+                department = c.genai_analysis.department or ""
+        if not department:
+            return jsonify({"detail": "Department is required to route this complaint."}), 400
+
+        if department not in VALID_DEPARTMENTS:
+            return jsonify({
+                "detail": f"Invalid department '{department}'. Must be one of: {', '.join(VALID_DEPARTMENTS)}"
+            }), 400
+
+        new_status = f"Sent to {department} Manager"
+        c.status = new_status
+
+        # Store routing in GenAI analysis department field if available
+        if c.genai_analysis:
+            c.genai_analysis.department = department
+
+        audit = AuditLog(
+            user_id=user.id,
+            username=user.username,
+            complaint_code=c.complaint_code,
+            action="SEND_TO_MANAGER",
+            entity_name="Complaint",
+            entity_id=str(c.id),
+            details={
+                "department": department,
+                "new_status": new_status,
+                "reviewer": user.username,
+                "routing_rule": f"Exclusively routed to {department} Manager only"
+            }
+        )
+        db.add(audit)
+        db.commit()
+
+        return jsonify({
+            "message": f"Complaint {c.complaint_code} has been sent to the {department} Manager.",
+            "complaint_code": c.complaint_code,
+            "department": department,
+            "new_status": new_status,
+            "routing": f"Only the {department} Manager will receive this complaint."
+        })
+    finally:
+        close_db(db)
+
 # --- 5. KNOWLEDGE BASE & POLICY MANAGEMENT ---
 @app.route("/api/policies", methods=["GET"])
 def list_policies():

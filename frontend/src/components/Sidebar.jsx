@@ -14,59 +14,51 @@ export const Sidebar = ({ activeTab, setActiveTab, onRoleSwitched }) => {
     {
       title: 'WORKSPACE',
       items: [
-        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
-        { id: 'complaints', label: 'Complaints Queue', icon: FileText, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
-        { id: 'reviews', label: 'Manual Review Queue', icon: ShieldAlert, roles: ['REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, roles: ['CUSTOMER', 'REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'complaints', label: 'Complaints Queue', icon: FileText, roles: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'reviews', label: 'Reviewer Dashboard', icon: ShieldAlert, roles: ['REVIEWER'], reviewerLabel: 'Reviewer Dashboard' },
+        { id: 'reviews', label: 'Manual Review Queue', icon: ShieldAlert, roles: ['MANAGER', 'ADMIN'] },
       ]
     },
     {
       title: 'CUSTOMER INTAKE',
       items: [
-        { id: 'submit-web', label: 'Web Form Intake', icon: Globe, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
-        { id: 'submit-email', label: 'Email Intake', icon: Mail, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
-        { id: 'submit-chat', label: 'Live Chat', icon: MessageSquare, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
-        { id: 'submit-upload', label: 'Document Upload', icon: Upload, roles: ['CUSTOMER', 'AGENT', 'ADMIN'] },
+        { id: 'submit-web', label: 'Web Form Intake', icon: Globe, roles: ['CUSTOMER'] },
+        { id: 'submit-email', label: 'Email Intake', icon: Mail, roles: ['CUSTOMER'] },
+        { id: 'submit-chat', label: 'Live Chat', icon: MessageSquare, roles: ['CUSTOMER'] },
+        { id: 'submit-upload', label: 'Document Upload', icon: Upload, roles: ['CUSTOMER'] },
       ]
     },
     {
       title: 'SWITCH ROLE PROFILE',
       items: [
-        { id: 'switch-agent', label: 'Login as Agent', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'AGENT' },
-        { id: 'switch-reviewer', label: 'Login as Reviewer', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'REVIEWER' },
-        { id: 'switch-manager', label: 'Login as Manager', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'MANAGER' },
-        { id: 'switch-admin', label: 'Login as Admin', icon: Users, roles: ['CUSTOMER', 'AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'], isRoleSwitch: 'ADMIN' },
-      ]
-    },
-    {
-      title: 'MANAGER OVERVIEW',
-      items: [
-        { id: 'dashboard', label: 'Agent Team Operations', icon: Users, roles: ['MANAGER'] },
-        { id: 'reviews', label: 'Reviewer Audit Queue', icon: ShieldAlert, roles: ['MANAGER'] },
-        { id: 'audit', label: 'Admin Audit Logs', icon: History, roles: ['MANAGER'] },
-        { id: 'users', label: 'Admin User Directory', icon: Users, roles: ['MANAGER'] },
+        { id: 'switch-agent', label: 'Login as Agent', icon: Users, roles: [], isRoleSwitch: 'AGENT' },
+        { id: 'switch-reviewer', label: 'Login as Reviewer', icon: Users, roles: [], isRoleSwitch: 'REVIEWER' },
+        { id: 'switch-manager', label: 'Login as Manager', icon: Users, roles: [], isRoleSwitch: 'MANAGER' },
+        { id: 'switch-admin', label: 'Login as Admin', icon: Users, roles: [], isRoleSwitch: 'ADMIN' },
       ]
     },
     {
       title: 'AI ENGINE & RULES',
       items: [
-        { id: 'knowledge', label: 'AI Policy Base', icon: BookOpen, roles: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
-        { id: 'rules', label: 'Verification Matrix', icon: Grid, roles: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'knowledge', label: 'AI Policy Base', icon: BookOpen, roles: ['REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'rules', label: 'Verification Matrix', icon: Grid, roles: ['REVIEWER', 'MANAGER', 'ADMIN'] },
       ]
     },
     {
       title: 'ANALYTICS & METRICS',
       items: [
         { id: 'analytics', label: 'Analytics & Trends', icon: BarChart3, roles: ['MANAGER', 'ADMIN'] },
-        { id: 'sla', label: 'SLA Performance', icon: Clock, roles: ['AGENT', 'REVIEWER', 'MANAGER', 'ADMIN'] },
+        { id: 'sla', label: 'SLA Performance', icon: Clock, roles: ['REVIEWER', 'MANAGER', 'ADMIN'] },
         { id: 'reports', label: 'Reports & CSV Exports', icon: Download, roles: ['MANAGER', 'ADMIN'] },
       ]
     },
     {
       title: 'ADMINISTRATION',
       items: [
-        { id: 'users', label: 'User Management', icon: Users, roles: ['ADMIN', 'MANAGER'] },
-        { id: 'prompts', label: 'Prompt Management', icon: Terminal, roles: ['ADMIN', 'MANAGER'] },
-        { id: 'audit', label: 'Audit Log History', icon: History, roles: ['ADMIN', 'MANAGER'] },
+        { id: 'users', label: 'User Management', icon: Users, roles: ['ADMIN'] },
+        { id: 'prompts', label: 'Prompt Management', icon: Terminal, roles: ['ADMIN'] },
+        { id: 'audit', label: 'Audit Log History', icon: History, roles: ['ADMIN'] },
       ]
     }
   ];
