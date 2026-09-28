@@ -1,0 +1,11 @@
+# pyproject.toml
+[project]
+name = "fastapi-vercel-backend"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+]
+
+[tool.vercel]
+entrypoint = "main:app"  # Tells Vercel to load the 'app' variable from main.py
