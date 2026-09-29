@@ -1,7 +1,9 @@
 import math
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
-from backend.models import Policy, DocumentChunk, PolicyStatus
+
+# backend
+from models import Policy, DocumentChunk, PolicyStatus
 
 # Policy Precedence Weights (SRS requirement #11)
 PRECEDENCE_WEIGHTS = {

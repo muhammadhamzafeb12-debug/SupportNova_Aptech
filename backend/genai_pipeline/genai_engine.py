@@ -4,8 +4,11 @@ import json
 import logging
 import httpx
 from typing import Dict, Any, List, Optional
-from backend.config import settings
-from backend.schemas.schemas import GenAIResponseSchema
+
+
+# backend
+from config import settings
+from schemas.schemas import GenAIResponseSchema
 
 logger = logging.getLogger(__name__)
 

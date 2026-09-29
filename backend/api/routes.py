@@ -6,39 +6,41 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form, Q
 from fastapi.responses import Response, JSONResponse
 from sqlalchemy.orm import Session
 
-from backend.database import get_db
+# har import me backend arha hai
 
-from backend.models import (
+from database import get_db
+
+from models import (
     User, Customer, Department, Category, Subcategory, RuleMatrix, Policy, DocumentChunk,
     Complaint, GenAIAnalysis, PythonValidation, Comparison, ManualReview, SLARecord,
     PromptTemplate, AuditLog, UserRole, ComplaintStatus, EmployeeProfile, RoleRequirementMatrix, OnboardingPlan
 )
-from backend.schemas.schemas import (
+from schemas.schemas import (
     Token, LoginRequest, UserCreate, UserOut, UserUpdateRole, UserUpdateStatus,
     ForgotPasswordRequest, ResetPasswordRequest, ComplaintCreate, ComplaintOut,
     ReviewActionCreate, PolicyCreate, RuleMatrixEntry, PromptTemplateSchema, ComparisonOut,
     StandaloneValidationRequest, EmployeeProfileCreate, EmployeeProfileOut, RoleRequirementMatrixCreate, RoleRequirementMatrixOut,
     OnboardingGenerateRequest, OnboardingPlanOut, GenAIResponseSchema, PythonValidationSchema
 )
-from backend.skillsprint_engine.onboarding_engine import (
+from skillsprint_engine.onboarding_engine import (
     run_pipeline_1_genai, run_pipeline_2_python_validation, compute_verification_decision
 )
-from backend.auth.auth import (
+from auth.auth import (
     verify_password, get_password_hash, create_access_token, get_current_user, get_optional_current_user, require_roles
 )
-from backend.complaint_processing.preprocessor import (
+from complaint_processing.preprocessor import (
     sanitize_input, detect_prompt_injection, check_duplicate_complaint
 )
-from backend.document_processing.document_processor import parse_pdf, parse_docx, parse_txt, parse_zip, chunk_document
-from backend.knowledge_base.rag_chunker import structure_based_chunk, build_rag_prompt
-from backend.knowledge_base.vector_store import build_vector_index, similarity_search
-from backend.knowledge_base.retrieval_engine import retrieve_relevant_policies
-from backend.genai_pipeline.genai_engine import run_genai_analysis
-from backend.python_validation.ground_truth_engine import evaluate_ground_truth
-from backend.complaint_rules.ground_truth_validator import run_ground_truth_validation
-from backend.comparison_engine.comparator import compare_genai_vs_python
-from backend.sla.sla_engine import create_or_update_sla, evaluate_sla_status
-from backend.reports.report_generator import generate_csv_complaints_report, generate_100_case_comparison_report, generate_pdf_complaints_report
+from document_processing.document_processor import parse_pdf, parse_docx, parse_txt, parse_zip, chunk_document
+from knowledge_base.rag_chunker import structure_based_chunk, build_rag_prompt
+from knowledge_base.vector_store import build_vector_index, similarity_search
+from knowledge_base.retrieval_engine import retrieve_relevant_policies
+from genai_pipeline.genai_engine import run_genai_analysis
+from python_validation.ground_truth_engine import evaluate_ground_truth
+from complaint_rules.ground_truth_validator import run_ground_truth_validation
+from comparison_engine.comparator import compare_genai_vs_python
+from sla.sla_engine import create_or_update_sla, evaluate_sla_status
+from reports.report_generator import generate_csv_complaints_report, generate_100_case_comparison_report, generate_pdf_complaints_report
 
 router = APIRouter()
 

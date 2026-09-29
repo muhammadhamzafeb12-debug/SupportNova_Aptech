@@ -4,7 +4,9 @@ Determines primary and supporting departments for multi-issue complaints.
 """
 
 from typing import List, Dict, Any, Tuple
-from backend.complaint_rules.rule_matrix import DEFAULT_DEPARTMENT_ROUTING
+
+# below is a backend import
+from complaint_rules.rule_matrix import DEFAULT_DEPARTMENT_ROUTING
 
 DEPARTMENT_KEYWORD_MAP = {
     "Safety": ["fire", "hazard", "burn", "electric shock", "injury", "poison", "explode", "smoke", "sparks"],

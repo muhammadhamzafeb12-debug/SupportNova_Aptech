@@ -2,7 +2,7 @@ import re
 import unicodedata
 from typing import List, Tuple, Optional
 from sqlalchemy.orm import Session
-from backend.models import Complaint
+from models import Complaint # backend
 
 PROMPT_INJECTION_PATTERNS = [
     r"ignore\s+(all\s+)?(previous\s+)?instructions",

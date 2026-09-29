@@ -1,7 +1,9 @@
 from datetime import datetime, timedelta, timezone
 from typing import Dict, Any, Tuple
 from sqlalchemy.orm import Session
-from backend.models import SLARecord, Complaint
+
+
+from models import SLARecord, Complaint # backend
 
 SLA_MATRIX = {
     "P0 – Critical": {"response_hours": 2, "resolution_hours": 12},

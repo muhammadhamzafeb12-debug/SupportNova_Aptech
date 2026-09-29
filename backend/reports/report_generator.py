@@ -3,7 +3,9 @@ import json
 import csv
 from typing import List, Dict, Any
 from sqlalchemy.orm import Session
-from backend.models import Complaint, GenAIAnalysis, PythonValidation, Comparison, AuditLog
+
+# below is backend
+from models import Complaint, GenAIAnalysis, PythonValidation, Comparison, AuditLog
 
 def generate_csv_complaints_report(db: Session) -> str:
     complaints = db.query(Complaint).all()

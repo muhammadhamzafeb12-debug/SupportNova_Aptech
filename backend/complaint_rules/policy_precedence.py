@@ -5,7 +5,7 @@ Validates policy applicability, section, version, outdated status, and determini
 
 from typing import Dict, Any, List, Optional, Tuple
 from sqlalchemy.orm import Session
-from backend.models import Policy, PolicyStatus
+from models import Policy, PolicyStatus # backend
 
 # Policy Rank Precedence (Lower rank number = higher precedence authority)
 POLICY_PRECEDENCE_RANK = {

@@ -9,6 +9,8 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sqlalchemy.orm import Session
 
+# below is backned line 32
+
 
 # ------------------------------------------------------------------
 # Global in-memory vectorizer (rebuilt on each server start / when
@@ -27,7 +29,7 @@ def build_vector_index(db: Session) -> int:
     """
     global _vectorizer, _chunk_matrix, _chunk_metadata
 
-    from backend.models import DocumentChunk, Policy
+    from models import DocumentChunk, Policy
 
     rows = (
         db.query(DocumentChunk, Policy)

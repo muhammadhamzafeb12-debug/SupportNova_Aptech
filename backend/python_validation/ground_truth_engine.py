@@ -5,8 +5,10 @@ Delegates to backend.complaint_rules.ground_truth_validator for deterministic va
 
 from typing import Optional
 from sqlalchemy.orm import Session
-from backend.schemas.schemas import GenAIResponseSchema, PythonValidationSchema
-from backend.complaint_rules.ground_truth_validator import run_ground_truth_validation
+
+# below is backend
+from schemas.schemas import GenAIResponseSchema, PythonValidationSchema
+from complaint_rules.ground_truth_validator import run_ground_truth_validation
 
 def evaluate_ground_truth(
     db: Session,

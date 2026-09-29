@@ -3,20 +3,25 @@ import json
 import random
 from datetime import datetime, timedelta
 from sqlalchemy.orm import Session
-from backend.database import SessionLocal, engine, Base
-from backend.models import (
+
+
+
+# below are all backned imports and also at line 195
+
+from database import SessionLocal, engine, Base
+from models import (
     User, Customer, Department, Category, Subcategory, RuleMatrix,
     Policy, DocumentChunk, Complaint, GenAIAnalysis, PythonValidation,
     Comparison, ManualReview, SLARecord, PromptTemplate, AuditLog,
     UserRole, PolicyStatus, UrgencyLevel, PriorityLevel, EscalationLevel,
     EmployeeProfile, RoleRequirementMatrix, OnboardingPlan
 )
-from backend.auth.auth import get_password_hash
-from backend.document_processing.document_processor import chunk_document
-from backend.genai_pipeline.genai_engine import run_genai_analysis
-from backend.python_validation.ground_truth_engine import evaluate_ground_truth
-from backend.comparison_engine.comparator import compare_genai_vs_python
-from backend.sla.sla_engine import create_or_update_sla
+from auth.auth import get_password_hash
+from document_processing.document_processor import chunk_document
+from genai_pipeline.genai_engine import run_genai_analysis
+from python_validation.ground_truth_engine import evaluate_ground_truth
+from comparison_engine.comparator import compare_genai_vs_python
+from sla.sla_engine import create_or_update_sla
 
 def seed_database(db: Session = None):
     close_at_end = False
@@ -187,7 +192,8 @@ def seed_database(db: Session = None):
 
         # 6. Rule Matrix (100+ Structured Rules - SRS Requirement #15)
         print("Seeding 120+ structured rules into Rule Matrix...")
-        from backend.complaint_rules.rule_matrix import RULE_MATRIX_DATA
+        # backend
+        from complaint_rules.rule_matrix import RULE_MATRIX_DATA
         for rdata in RULE_MATRIX_DATA:
             rm = RuleMatrix(
                 rule_id=rdata["rule_id"],

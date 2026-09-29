@@ -3,7 +3,9 @@ from sqlalchemy import (
     Column, Integer, String, Text, Boolean, Float, DateTime, ForeignKey, Enum as SQLEnum, JSON
 )
 from sqlalchemy.orm import relationship
-from backend.database import Base
+
+# backend
+from database import Base
 import enum
 
 def utc_now():

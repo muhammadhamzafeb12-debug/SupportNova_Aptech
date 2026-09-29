@@ -4,7 +4,7 @@ Evaluates complaints deterministically against safety, security, legal, repeat, 
 """
 
 from typing import Tuple, Optional
-from backend.models import EscalationLevel
+from models import EscalationLevel # backend
 
 def evaluate_escalation(
     complaint_title: str,

@@ -1,4 +1,5 @@
-from backend.models.models import (
+# backend
+from models.models import (
     User, Customer, Department, Category, Subcategory, RuleMatrix,
     Policy, DocumentChunk, Complaint, GenAIAnalysis, PythonValidation,
     Comparison, ManualReview, SLARecord, PromptTemplate, AuditLog,

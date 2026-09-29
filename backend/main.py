@@ -1,10 +1,12 @@
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from backend.config import settings
-from backend.database import engine, Base
-from backend.api.routes import router as api_router
-from backend.database_seed import seed_database
+
+# below are all backend and also at line 36,37
+from config import settings
+from database import engine, Base
+from api.routes import router as api_router
+from database_seed import seed_database
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -31,8 +33,8 @@ def on_startup():
     # Seed default dataset and demo records
     seed_database()
     # Build RAG vector index from all active policy chunks
-    from backend.database import SessionLocal
-    from backend.knowledge_base.vector_store import build_vector_index
+    from database import SessionLocal
+    from knowledge_base.vector_store import build_vector_index
     db = SessionLocal()
     try:
         indexed = build_vector_index(db)
@@ -51,4 +53,4 @@ def root():
     }
 
 if __name__ == "__main__":
-    uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True)

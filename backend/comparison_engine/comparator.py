@@ -4,7 +4,8 @@ Compares GenAI predictions against deterministic Python ground truth across 7 co
 """
 
 from typing import List, Dict, Any, Tuple
-from backend.schemas.schemas import GenAIResponseSchema, PythonValidationSchema, MismatchDetail
+## nichy wala import backend hai
+from schemas.schemas import GenAIResponseSchema, PythonValidationSchema, MismatchDetail
 
 def compare_genai_vs_python(
     genai_output: GenAIResponseSchema,

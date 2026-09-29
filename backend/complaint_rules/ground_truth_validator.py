@@ -8,14 +8,15 @@ import re
 from typing import Dict, Any, List, Optional
 from sqlalchemy.orm import Session
 
-from backend.models import RuleMatrix, EscalationLevel, Policy
-from backend.schemas.schemas import GenAIResponseSchema, PythonValidationSchema
-from backend.complaint_rules.rule_matrix import RULE_MATRIX_DATA
-from backend.complaint_rules.routing_rules import determine_routing
-from backend.complaint_rules.escalation_rules import evaluate_escalation
-from backend.complaint_rules.eligibility_rules import evaluate_eligibility
-from backend.complaint_rules.sla_rules import calculate_sla_deadlines
-from backend.complaint_rules.policy_precedence import validate_policy_grounding, resolve_policy_precedence
+# below are all backend
+from models import RuleMatrix, EscalationLevel, Policy
+from schemas.schemas import GenAIResponseSchema, PythonValidationSchema
+from complaint_rules.rule_matrix import RULE_MATRIX_DATA
+from complaint_rules.routing_rules import determine_routing
+from complaint_rules.escalation_rules import evaluate_escalation
+from complaint_rules.eligibility_rules import evaluate_eligibility
+from complaint_rules.sla_rules import calculate_sla_deadlines
+from complaint_rules.policy_precedence import validate_policy_grounding, resolve_policy_precedence
 
 UNSUPPORTED_PROMISE_PATTERNS = [
     r"guaranteed refund",
